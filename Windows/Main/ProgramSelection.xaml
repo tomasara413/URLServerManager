@@ -1,0 +1,40 @@
+﻿<Window x:Class="URLServerManagerModern.Windows.Main.ProgramSelection"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:datatypes="clr-namespace:URLServerManagerModern.Data.DataTypes"
+        xmlns:local="clr-namespace:URLServerManagerModern.Windows.Main"
+        xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static localization:Resources.ProgramSelection}" Height="300" Width="300">
+    <Window.Resources>
+        <DataTemplate x:Key="ProgramTemplate" DataType="{x:Type datatypes:Program}">
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding icon}"/>
+                <ScrollViewer PreviewMouseDown="SelectParent" Grid.Column="1" Margin="5,0" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding FilePath}"/>
+                </ScrollViewer>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <ListBox x:Name="SelectionList" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{StaticResource ProgramTemplate}" SelectionChanged="selectionList_SelectionChanged"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="33*"/>
+                <ColumnDefinition Width="66*"/>
+                <ColumnDefinition Width="33*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Select" Click="OpenConnection" Content="{x:Static localization:Resources.Select}" Grid.Column="1" Margin="5"/>
+        </Grid>
+    </Grid>
+</Window>

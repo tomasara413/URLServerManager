@@ -1,0 +1,50 @@
+﻿<Window x:Class="URLServerManagerModern.Windows.Settings.ProtocolAssociation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:URLServerManagerModern.Windows"
+        xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static localization:Resources.ProtocolAssociation}" Height="140" MinHeight="140" Width="260" MinWidth="240" Closed="OnWindowClosed">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="79*"/>
+            <ColumnDefinition Width="7"/>
+            <ColumnDefinition Width="154*"/>
+            <ColumnDefinition Width="7"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7"/>
+            <RowDefinition/>
+            <RowDefinition Height="7"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="7"/>
+            <RowDefinition Height="7"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="7"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center">
+            <Run Text="{x:Static localization:Resources.Protocol}"/><Run Text=":"/>
+        </TextBlock>
+        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="Protocols" SelectionChanged="OnSelectionChanged">
+            <ComboBoxItem PreviewMouseLeftButtonDown="OpenOther" Content="{x:Static localization:Resources.Other}"/>
+        </ComboBox>
+
+        <TextBlock Grid.Column="3" Grid.Row="1" TextAlignment="Center" VerticalAlignment="Center">
+            <Run Text="{x:Static localization:Resources.CmdParameters}"/><Run Text=":"/>
+        </TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="3" x:Name="Parameters" TextChanged="OnTextChanged"/>
+        <Grid Grid.Row="6" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="15*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" x:Name="OkButton" Click="SaveOrAddAssociation" Content="{x:Static localization:Resources.Ok}"/>
+            <Button Grid.Column="3" Click="CloseWindow" Content="{x:Static localization:Resources.Cancel}"/>
+        </Grid>
+    </Grid>
+</Window>

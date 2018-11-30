@@ -1,0 +1,41 @@
+﻿<Window x:Class="URLServerManagerModern.Windows.Settings.PortAssociation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:URLServerManagerModern.Windows"
+        xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static localization:Resources.PortAssociation}" MinHeight="120" MinWidth="250" Height="140" Width="350" Closed="OnWindowClosed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="115*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="195*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="Protocols" Grid.Row="1" Grid.Column="1" SelectionChanged="OnSelectionChanged">
+            <ComboBoxItem PreviewMouseLeftButtonDown="OpenOther" Content="{x:Static localization:Resources.Other}"/>
+        </ComboBox>
+        
+        <TextBox x:Name="Port" Grid.Row="1" Grid.Column="3" TextChanged="OnTextChanged" PreviewTextInput="AllowOnlyInteger" DataObject.Pasting="DoNotAllowPasting"/>
+        <Grid Grid.Column="3" Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="{x:Static localization:Resources.Ok}" x:Name="OkButton" Click="SaveOrAddAssociation"/>
+            <Button Content="{x:Static localization:Resources.Cancel}" Grid.Column="2" Click="CloseWindow"/>
+        </Grid>
+    </Grid>
+</Window>

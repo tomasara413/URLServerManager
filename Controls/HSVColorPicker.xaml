@@ -1,0 +1,193 @@
+﻿<UserControl x:Class="URLServerManagerModern.Controls.HSVColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:URLServerManagerModern.Controls"
+             xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+             xmlns:customcontrols="clr-namespace:URLServerManagerModern.Controls"
+             mc:Ignorable="d" 
+             d:DesignWidth="380" MaxWidth="380" MaxHeight="300"
+             Loaded="OnPickerLoaded" Height="210.5">
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="190*"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="2"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="82*"/>
+            <ColumnDefinition Width="2"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" Grid.Row="1" ClipToBounds="True">
+            <Border>
+                <Border.Background>
+                    <ImageBrush x:Name="ImageBox"/>
+                </Border.Background>
+            </Border>
+            <Grid x:Name="PickedDetector" Visibility="Collapsed" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="-10,-10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="2" />
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Rectangle x:Name="PickedOffset" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+                <Rectangle Grid.Row="2" Grid.Column="2" x:Name="PickedDetectorSquare"/>
+                <Rectangle Grid.Row="2" Fill="Black" Grid.ColumnSpan="2"/>
+                <Rectangle Grid.Row="1" Fill="White" Grid.ColumnSpan="2"/>
+                <Rectangle Grid.Column="2" Fill="Black" Grid.RowSpan="2"/>
+                <Rectangle Grid.Row="3" Fill="White" Grid.ColumnSpan="2"/>
+                <Rectangle Grid.Row="2" Grid.Column="3" Fill="Black" Grid.ColumnSpan="2"/>
+                <Rectangle Grid.Row="1" Grid.Column="3" Fill="White" Grid.ColumnSpan="2"/>
+                <Rectangle Grid.Row="3" Grid.Column="2" Fill="Black" Grid.RowSpan="2"/>
+                <Rectangle Grid.Row="3" Grid.Column="3" Fill="White" Grid.ColumnSpan="2"/>
+                <Rectangle Grid.Row="3" Grid.Column="3" Fill="White" Grid.RowSpan="2"/>
+                <Rectangle Grid.Row="3" Grid.Column="1" Fill="White" Grid.RowSpan="2"/>
+                <Rectangle Grid.Row="0" Grid.Column="3" Fill="White" Grid.RowSpan="2"/>
+                <Rectangle Grid.Row="0" Grid.Column="1" Fill="White" Grid.RowSpan="2"/>
+            </Grid>
+            <Button x:Name="PickColor" PreviewMouseMove="OnPalleteInteractionMove" Opacity="0"/>
+        </Grid>
+        <Grid x:Name="HuePicker" Grid.Column="3" Grid.Row="1">
+            <Border x:Name="Hues">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0" Color="#ff0000"/>
+                        <GradientStop Offset="0.16" Color="#ff00ff"/>
+                        <GradientStop Offset="0.32" Color="#0000ff"/>
+                        <GradientStop Offset="0.48" Color="#00ffff"/>
+                        <GradientStop Offset="0.65" Color="#00ff00"/>
+                        <GradientStop Offset="0.8" Color="#ffff00"/>
+                        <GradientStop Offset="1" Color="#ff0000"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <Rectangle Visibility="Visible" x:Name="HueDetector" Fill="#55000000" Height="1" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
+            <Button x:Name="PickHue" PreviewMouseMove="OnPalleteInteractionMove" Opacity="0"/>
+        </Grid>
+        <Grid Grid.Column="5" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="45*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <RadioButton Checked="OnPalleteInteraction" Grid.Row="0" IsChecked="True" GroupName="ThePicker" Content="H"/>
+            <Border Grid.Row="0" Grid.Column="1" Margin="0,1,0,1" x:Name="HBorder">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="#ff0000"/>
+                        <GradientStop Offset="0.16" Color="#ffff00"/>
+                        <GradientStop Offset="0.32" Color="#00ff00"/>
+                        <GradientStop Offset="0.48" Color="#00ffff"/>
+                        <GradientStop Offset="0.64" Color="#0000ff"/>
+                        <GradientStop Offset="0.8" Color="#ff00ff"/>
+                        <GradientStop Offset="1" Color="#ff0000"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <customcontrols:NumericUpDown ValueChanged="OnFieldChanged" x:Name="H" x:FieldModifier="private" Grid.Row="0" Grid.Column="2" FontSize="7" MinValue="0" MaxValue="360" Value="0" MaxDecimalPlaces="0"/>
+            <RadioButton Checked="OnPalleteInteraction" Grid.Row="1" GroupName="ThePicker" Content="S"/>
+            <Border Grid.Row="1" Grid.Column="1" Margin="0,1,0,1" x:Name="SBorder">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FFFFFF"/>
+                        <GradientStop Offset="1" Color="#FF0000"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <customcontrols:NumericUpDown ValueChanged="OnFieldChanged" x:Name="S" x:FieldModifier="private" Grid.Row="1" Grid.Column="2" FontSize="7" MinValue="0" MaxValue="100" Value="0" MaxDecimalPlaces="0"/>
+            <RadioButton Checked="OnPalleteInteraction" Grid.Row="2" GroupName="ThePicker" Content="V"/>
+            <Border Grid.Row="2" Grid.Column="1" Margin="0,1,0,1" x:Name="VBorder">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#000000"/>
+                        <GradientStop Offset="1" Color="#FF0000"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <customcontrols:NumericUpDown ValueChanged="OnFieldChanged" x:Name="V" x:FieldModifier="private" Grid.Row="2" Grid.Column="2" FontSize="7" MinValue="0" MaxValue="100" Value="0" MaxDecimalPlaces="0"/>
+            <RadioButton Checked="OnPalleteInteraction" Grid.Row="3" GroupName="ThePicker" Content="R"/>
+            <Border Grid.Row="3" Grid.Column="1" Margin="0,1,0,1" x:Name="RBorder">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#000000"/>
+                        <GradientStop Offset="1" Color="#FF0000"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <customcontrols:NumericUpDown ValueChanged="OnFieldChanged" x:Name="R" x:FieldModifier="private" Grid.Row="3" Grid.Column="2" FontSize="7" MinValue="0" MaxValue="255" Value="0" MaxDecimalPlaces="0"/>
+            <RadioButton Checked="OnPalleteInteraction" Grid.Row="4" GroupName="ThePicker" Content="G"/>
+            <Border Grid.Row="4" Grid.Column="1" Margin="0,1,0,1" x:Name="GBorder">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FF0000"/>
+                        <GradientStop Offset="1" Color="#FFFF00"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <customcontrols:NumericUpDown ValueChanged="OnFieldChanged" x:Name="G" x:FieldModifier="private" Grid.Row="4" Grid.Column="2" FontSize="7" MinValue="0" MaxValue="255" Value="0" MaxDecimalPlaces="0"/>
+            <RadioButton Checked="OnPalleteInteraction" Grid.Row="5" GroupName="ThePicker" Content="B"/>
+            <Border Grid.Row="5" Grid.Column="1" Margin="0,1,0,1" x:Name="BBorder">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FF0000"/>
+                        <GradientStop Offset="1" Color="#FF00FF"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <customcontrols:NumericUpDown ValueChanged="OnFieldChanged" x:Name="B" x:FieldModifier="private" Grid.Row="5" Grid.Column="2" FontSize="7" MinValue="0" MaxValue="255" Value="0" MaxDecimalPlaces="0"/>
+            <TextBlock Margin="2,0,0,0" Grid.Row="6" Grid.ColumnSpan="3">
+                    <Run Text="{x:Static localization:Resources.HTMLNotation}"/><Run Text=":"/>
+            </TextBlock>
+            <TextBox x:Name="HTML" Text="000000" KeyDown="HTMLKeyDown" LostFocus="HTMLLostFocus" PreviewTextInput="HTMLPreviewTextInput" Grid.Row="7" Grid.ColumnSpan="2" Margin="2,0,28,0"/>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="38*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="1" x:Name="CurrentColor" Fill="Black" Grid.Column="1" />
+            <TextBlock Grid.Row="1" Grid.RowSpan="2" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Margin="0,0,5,0">
+                <Run Text="{x:Static localization:Resources.CurrentColor}"/><Run Text=":"/>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

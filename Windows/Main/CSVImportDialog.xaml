@@ -1,0 +1,82 @@
+﻿<Window x:Class="URLServerManagerModern.Windows.Main.CSVImportDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:URLServerManagerModern.Windows.Main"
+        xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static localization:Resources.CSVImportDialog}" Height="350" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="266*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="{x:Static localization:Resources.CSVImportDialogMessage}" TextAlignment="Justify"/>
+        <ScrollViewer Grid.Row="3" Grid.Column="1" CanContentScroll="True">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <TextBlock VerticalAlignment="Center">
+                    <Run Text="servers.csv "/><Run Text="*" FontWeight="Bold"/>
+                </TextBlock>
+                <TextBox TextChanged="TextChanged" Grid.Row="1" Margin="0" x:Name="servers"/>
+                <Button x:Name="serversButton" Click="SelectFiles" Margin="0,5,5,5" Grid.Row="1" Width="15" Height="15" HorizontalAlignment="Right">
+                    <Button.Content>
+                        <TextBlock Text="+" Margin="-2.5,-4,0,0" TextAlignment="Center" Height="14" Width="15"/>
+                    </Button.Content>
+                </Button>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center">
+                    <Run Text="addresses.csv "/><Run Text="*" FontWeight="Bold"/>
+                </TextBlock>
+                <TextBox TextChanged="TextChanged" Grid.Row="3" Margin="0" x:Name="addresses"/>
+                <Button Click="SelectFiles" x:Name="addressesButton" Margin="0,5,5,5" Grid.Row="3" Width="15" Height="15" HorizontalAlignment="Right">
+                    <Button.Content>
+                        <TextBlock Text="+" Margin="-2.5,-4,0,0" TextAlignment="Center" Height="14" Width="15"/>
+                    </Button.Content>
+                </Button>
+                <TextBlock Text="serverContents.csv " Grid.Row="4" VerticalAlignment="Center"/>
+                <TextBox TextChanged="TextChanged" Grid.Row="5" Margin="0" x:Name="serverContents"/>
+                <Button Click="SelectFiles" x:Name="sContButton" Margin="0,5,5,5" Grid.Row="5" Width="15" Height="15" HorizontalAlignment="Right">
+                    <Button.Content>
+                        <TextBlock Text="+" Margin="-2.5,-4,0,0" TextAlignment="Center" Height="14" Width="15"/>
+                    </Button.Content>
+                </Button>
+                <TextBlock Text="defaultCategories.csv" Grid.Row="6" VerticalAlignment="Center"/>
+                <TextBox TextChanged="TextChanged" Grid.Row="7" Margin="0" x:Name="defaultCategories"/>
+                <Button Click="SelectFiles" x:Name="defaultCatButton" Margin="0,5,5,5" Grid.Row="7" Width="15" Height="15" HorizontalAlignment="Right">
+                    <Button.Content>
+                        <TextBlock Text="+" Margin="-2.5,-4,0,0" TextAlignment="Center" Height="14" Width="15"/>
+                    </Button.Content>
+                </Button>
+            </Grid>
+        </ScrollViewer>
+        <Grid Grid.Column="1" Grid.Row="4" Margin="0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="errors" Text="!" VerticalAlignment="Center" TextAlignment="Right" Margin="0,0,5,0"/>
+            <Button Click="OnImportAccepted" x:Name="ok" Grid.Column="1" Content="{x:Static localization:Resources.Ok}"/>
+            <Button Click="Cancel" Grid.Column="3" Content="{x:Static localization:Resources.Cancel}"/>
+        </Grid>
+    </Grid>
+</Window>

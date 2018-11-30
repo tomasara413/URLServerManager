@@ -1,0 +1,39 @@
+﻿<Window x:Class="URLServerManagerModern.Windows.Utility.ColorPickerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:URLServerManagerModern.Windows"
+        xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+        xmlns:controls="clr-namespace:URLServerManagerModern.Controls"
+        mc:Ignorable="d"
+        ResizeMode="CanResizeWithGrip"
+        Title="ColorPickerWindow" Height="210" Width="320">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="38*"/>
+            <ColumnDefinition Width="35*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150*"/>
+            <RowDefinition Height="29*"/>
+        </Grid.RowDefinitions>
+        <controls:HSVColorPicker x:Name="picker" Height="Auto" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5"/>
+                <RowDefinition/>
+                <RowDefinition Height="6"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="55*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="55*"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Click="ConfirmColor" Grid.Row="1" Content="{x:Static localization:Resources.Ok}"/>
+            <Button Grid.Column="3" Click="Cancel" Grid.Row="1" Content="{x:Static localization:Resources.Cancel}"/>
+        </Grid>
+    </Grid>
+</Window>

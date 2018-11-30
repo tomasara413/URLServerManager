@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AdditionalParameters" xml:space="preserve">
+    <value>Dodatečné parametry</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Aplikace</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Kategorie</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Popis</value>
+  </data>
+  <data name="EditServer" xml:space="preserve">
+    <value>Upravit server</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Konec</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Exportovat</value>
+  </data>
+  <data name="FQDN" xml:space="preserve">
+    <value>PKDJ</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Importovat</value>
+  </data>
+  <data name="NewServer" xml:space="preserve">
+    <value>Nový server</value>
+  </data>
+  <data name="NewServerStructure" xml:space="preserve">
+    <value>Nová struktura serverů</value>
+  </data>
+  <data name="OFDSelectFile" xml:space="preserve">
+    <value>Vyberte soubor se strukturou serverů</value>
+  </data>
+  <data name="OpenLocal" xml:space="preserve">
+    <value>Otevřít místní zálohu</value>
+  </data>
+  <data name="OpenRemote" xml:space="preserve">
+    <value>Otevřít vzdálenou zálohu</value>
+  </data>
+  <data name="RemoveServer" xml:space="preserve">
+    <value>Smazat server</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="SFDFileSavingProcedure" xml:space="preserve">
+    <value>Vyberte umístění a zadejte jméno souboru</value>
+  </data>
+  <data name="SQLiteDBFile" xml:space="preserve">
+    <value>Soubor databáze SQLite</value>
+  </data>
+  <data name="SyncRemote" xml:space="preserve">
+    <value>Synchronizovat místní a vzdálenou zálohu</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Nástroje</value>
+  </data>
+  <data name="XMLStructureFile" xml:space="preserve">
+    <value>Soubory se strukturou serverů ve formátu XML</value>
+  </data>
+  <data name="CategoryAssociations" xml:space="preserve">
+    <value>Asociace kategorií</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Hlavní</value>
+  </data>
+  <data name="ProtocolAssociations" xml:space="preserve">
+    <value>Asociace protokolů</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="LocalFile" xml:space="preserve">
+    <value>Cesta k místní záloze</value>
+  </data>
+  <data name="RemoteFile" xml:space="preserve">
+    <value>Cesta k vzdálené záloze</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Aplikovat</value>
+  </data>
+  <data name="FileDoesNotExist" xml:space="preserve">
+    <value>Tento soubor neexistuje</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Velikost písma</value>
+  </data>
+  <data name="FontSizeTooLarge" xml:space="preserve">
+    <value>Specifikovaná velikost písma je moc velká (je použita nejvyšší možná hodnota).</value>
+  </data>
+  <data name="FontSizeTooSmall" xml:space="preserve">
+    <value>Specifikovaná velikost písma je moc malá (je použita nejnižší možná hodnota).</value>
+  </data>
+  <data name="FontSizeNull" xml:space="preserve">
+    <value>Velikost písma není specifikovaná (je použita výchozí nebo uložená hodnota).</value>
+  </data>
+  <data name="ShowLocalModifiers" xml:space="preserve">
+    <value>Zobrazit indikátory změn</value>
+  </data>
+  <data name="ShowLocalModifiersToolTip" xml:space="preserve">
+    <value>Zobrazí modifikátory místních změn (dostupné pouze při nastavení cesty k vzdálené záloze).</value>
+  </data>
+  <data name="AllowPortAvailabilityDiagnostics" xml:space="preserve">
+    <value>Povolit zjištění dostupnosti portů</value>
+  </data>
+  <data name="Miliseconds" xml:space="preserve">
+    <value>Čas v milisekundách (ms)</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Časový limit</value>
+  </data>
+  <data name="AssociationsTip" xml:space="preserve">
+    <value>Při přidávání asociace do kolonky spouštěcí parametr vpište příkaz a proměnné ip a port nahraďte značením {ip} a {port}. Tento paramter je obyčejně ve tvaru: "&lt;příkaz/protokol&gt; &lt;IP vzdáleného uzlu&gt;:&lt;port&gt;". Příklad parametru pro program putty: -ssh {ip}:{port}</value>
+  </data>
+  <data name="Renew" xml:space="preserve">
+    <value>Čas obnovení</value>
+  </data>
+  <data name="RenewNull" xml:space="preserve">
+    <value>Hodnota času obnovení není specifikována (je použita výchozí nebo uložená hodnota).</value>
+  </data>
+  <data name="RenewTooSmall" xml:space="preserve">
+    <value>Specifikovaná hodnota času obnovení je moc malá (nejmenší možná hodnota použita).</value>
+  </data>
+  <data name="TimeoutNull" xml:space="preserve">
+    <value>Hodnota časového limut není specifikována (je použita výchozí nebo uložená hodnota).</value>
+  </data>
+  <data name="TimeoutTooSmall" xml:space="preserve">
+    <value>Specifikovaná hodnota časového limitu je moc malá (nejmenší možná hodnota použita).</value>
+  </data>
+  <data name="Protocols" xml:space="preserve">
+    <value>Protokoly</value>
+  </data>
+  <data name="PortAssociations" xml:space="preserve">
+    <value>Asociace portů</value>
+  </data>
+  <data name="ProgramAssociation" xml:space="preserve">
+    <value>Asociace Programu a Protokolu</value>
+  </data>
+  <data name="ExecutableFilePath" xml:space="preserve">
+    <value>Cesta k spustitelnému souboru</value>
+  </data>
+  <data name="Protocol" xml:space="preserve">
+    <value>Protokol</value>
+  </data>
+  <data name="CmdParameters" xml:space="preserve">
+    <value>Cmd parametry</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>jiné...</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="ExecutableFiles" xml:space="preserve">
+    <value>Spustitelné soubory</value>
+  </data>
+  <data name="PortAssociation" xml:space="preserve">
+    <value>Asociace Portu a Protokolu</value>
+  </data>
+  <data name="HTMLNotation" xml:space="preserve">
+    <value>Notace HTML</value>
+  </data>
+  <data name="CurrentColor" xml:space="preserve">
+    <value>Současná barva</value>
+  </data>
+  <data name="ProtocolAssociation" xml:space="preserve">
+    <value>Argumenty Při Spuštění Programu</value>
+  </data>
+  <data name="AddOtherProtocol" xml:space="preserve">
+    <value>Přidat jiný protokol</value>
+  </data>
+  <data name="OtherProtocolName" xml:space="preserve">
+    <value>Název protokolu</value>
+  </data>
+  <data name="BorderColor" xml:space="preserve">
+    <value>Barva ohraničení</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Barva pozadí</value>
+  </data>
+  <data name="TextColor" xml:space="preserve">
+    <value>Barva textu</value>
+  </data>
+  <data name="CategoryColorDefined" xml:space="preserve">
+    <value>Výchozí barva kategorie je již definována</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="CategoryColorAssociation" xml:space="preserve">
+    <value>Asociace kategorie a barvy</value>
+  </data>
+  <data name="Addresses" xml:space="preserve">
+    <value>Adresy</value>
+  </data>
+  <data name="AddOtherCategory" xml:space="preserve">
+    <value>Přidat další kategorii</value>
+  </data>
+  <data name="OtherCategoryName" xml:space="preserve">
+    <value>Jméno kategorie</value>
+  </data>
+  <data name="ServerWindow" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Použít</value>
+  </data>
+  <data name="IPAddress" xml:space="preserve">
+    <value>IP Adresa</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="DefaultProtocolAlreadyPresent" xml:space="preserve">
+    <value>Výchozí protokol je již přítomen. Chcete-li pokračovat v této akci, upravte přítomnou asociaci nebo ji smažte. (Porty přidané aplikací nemohou být upraveny).</value>
+  </data>
+  <data name="DuplicateProtocolEntries" xml:space="preserve">
+    <value>Byly nalezeny duplicitní záznamy, prosím zkontrolujte seznam a odstraňte neplatné záznamy. (Pouze první přítomný záznam daného protokolu bude uložen)</value>
+  </data>
+  <data name="AddressCannotBeEmpty" xml:space="preserve">
+    <value>Pole adresy nesmí být prázdné.</value>
+  </data>
+  <data name="ProtocolCannotBeEmpty" xml:space="preserve">
+    <value>Musí být zvolen platný protokol.</value>
+  </data>
+  <data name="UnableToResolveOrParse" xml:space="preserve">
+    <value>Nebylo možné dohledat nebo zparsovat zadanou adresu, prosím zkontrolujte, že byla zadána správně. (Adresa bude uložena, ale následné připojení může selhat)</value>
+  </data>
+  <data name="PortUnassociatedAndEmpty" xml:space="preserve">
+    <value>Vybraný protokol nemá asociovaný port, proto je nutné zadat číslo portu (pole port nemůže být prázdné).</value>
+  </data>
+  <data name="RemoveServerMessage" xml:space="preserve">
+    <value>Opravdu chcete smazat server?</value>
+  </data>
+  <data name="AssociateMessage" xml:space="preserve">
+    <value>Zvolený protokol k sobě ještě nemá přiřazen žádný program, chcete ho přiřadit nyní?</value>
+  </data>
+  <data name="ProgramSelection" xml:space="preserve">
+    <value>Výběr Programu</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Vybrat</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
+  <data name="NewCluster" xml:space="preserve">
+    <value>Nový cluster</value>
+  </data>
+  <data name="OpenWatcher" xml:space="preserve">
+    <value>Otevřít pozorovatele</value>
+  </data>
+  <data name="ClusterWindow" xml:space="preserve">
+    <value>Cluster</value>
+  </data>
+  <data name="VirtualizationServerWindow" xml:space="preserve">
+    <value>Virtualizační Server</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="NewVirtualizationServer" xml:space="preserve">
+    <value>Nový virtualizační server</value>
+  </data>
+  <data name="IsVirtual" xml:space="preserve">
+    <value>Je virtuální</value>
+  </data>
+  <data name="VirtualServerSwitch" xml:space="preserve">
+    <value>Za momentální situace (kdy je tento server virtualizačním serverem) musí být všechny servery uvedené v kolekci jako fyzické stroje přepnuty na virtuální. Toto se provede automaticky. Chcete s touto akcí pokračovat?</value>
+  </data>
+  <data name="VirtualServerSwitchCaption" xml:space="preserve">
+    <value>Přepnutí virtuálního serveru</value>
+  </data>
+  <data name="ElevateProcess" xml:space="preserve">
+    <value>Pro přístup do zvoleného adresáře je třeba administrátorského oprávnění. Chcete tomuto procesu zvýšit oprávnění?</value>
+  </data>
+  <data name="ElevateProcessCaption" xml:space="preserve">
+    <value>Spustit jako správce</value>
+  </data>
+  <data name="CSVStructureFile" xml:space="preserve">
+    <value>Soubory se strukturou serverů ve formátu CSV</value>
+  </data>
+  <data name="JSONStructureFile" xml:space="preserve">
+    <value>Soubory se strukturou serverů ve formátu JSON</value>
+  </data>
+  <data name="CSVImportDialog" xml:space="preserve">
+    <value>Import ze souboru typu CSV</value>
+  </data>
+  <data name="CSVImportDialogMessage" xml:space="preserve">
+    <value>Pro korektní import souborů csv jsou třeba 4 soubory, tyto soubory se po exportu z této aplikace jmenují *-servers.csv; *-addresses.csv; *-serverContents.csv a *-defaultCategories. Pokud má import proběhnout zcela úspěšně, je třeba uvést všechny soubory.
+Pole označená * je třeba vyplnit neboť se bez nich import neobejde.</value>
+  </data>
+  <data name="WatcherWindow" xml:space="preserve">
+    <value>Hlídkař</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="AddressUnreachable" xml:space="preserve">
+    <value>Adresa je nedosažitelná</value>
+  </data>
+  <data name="DNSEntryNotFound" xml:space="preserve">
+    <value>Záznam nebyl nalezen v DNS</value>
+  </data>
+  <data name="PortNotResponding" xml:space="preserve">
+    <value>Port neodpovídá</value>
+  </data>
+  <data name="Untested" xml:space="preserve">
+    <value>Netestováno</value>
+  </data>
+</root>

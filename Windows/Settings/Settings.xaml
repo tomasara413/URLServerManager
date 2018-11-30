@@ -1,0 +1,388 @@
+﻿<Window x:Class="URLServerManagerModern.Windows.Settings.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:URLServerManagerModern"
+        xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+        xmlns:datatypes="clr-namespace:URLServerManagerModern.Data.DataTypes"
+        xmlns:data="clr-namespace:URLServerManagerModern.Data"
+        xmlns:pseudo="clr-namespace:URLServerManagerModern.Data.DataTypes.Pseudo"
+        xmlns:customcontrols="clr-namespace:URLServerManagerModern.Controls"
+        mc:Ignorable="d"
+        Title="{x:Static localization:Resources.Settings}" MinHeight="500" MinWidth="700" Width="800" Height="600" WindowStartupLocation="CenterOwner" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Window.Resources>
+        <DataTemplate x:Key="AssociationTemplate" DataType="{x:Type datatypes:ProtocolArgumentAssociation}">
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding protocol}" TextAlignment="Center"/>
+                </ScrollViewer>
+                <ScrollViewer Grid.Column="1" Margin="5,0" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding cmdArguments}"/>
+                </ScrollViewer>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ProgramTemplate" DataType="{x:Type datatypes:Program}">
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Image Source="{Binding icon}"/>
+                <ScrollViewer Grid.Column="1" Margin="5,0" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding FilePath}"/>
+                </ScrollViewer>
+                <ListBox PreviewMouseLeftButtonDown="AssociationsMouseDown" Height="100" Grid.Row="0" Grid.Column="1" Margin="15,15,15,7.5" SelectionChanged="OnListBoxChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{StaticResource AssociationTemplate}" ItemsSource="{Binding associations}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PortAssociationTemplate" DataType="{x:Type pseudo:ProtocolPortAssociation}">
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding protocol}" TextAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding port}" TextAlignment="Left"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="CategoryColorAssociations" DataType="{x:Type pseudo:CategoryColorAssociation}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="1" Text="{Binding category}"/>
+                <Rectangle Grid.Column="3" Fill="{Binding fillColor}"/>
+                <Rectangle Grid.Column="5" Fill="{Binding borderColor}"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="610*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="#FFDDDDDD" Grid.RowSpan="1" Grid.ColumnSpan="2"/>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="-108,33,0,0" VerticalAlignment="Top"/>
+        <UniformGrid x:Name="SettingsSwitch" Margin="0" Grid.Row="1" Rows="3" Grid.RowSpan="1">
+            <Button Click="SwitchSettingCategory" x:Name="generalB" FontSize="16">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <EventSetter Event="Click" Handler="OpenGeneral"/>
+                    </Style>
+                </Button.Style>
+                <Button.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FFDDDDDD"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.BorderBrush>
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FFDDDDDD"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Content>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{x:Static localization:Resources.General}"/>
+                </Button.Content>
+            </Button>
+            <Button Click="SwitchSettingCategory" x:Name="protocolAssocB" FontSize="16">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <EventSetter Event="Click" Handler="OpenProtocolAssoc"/>
+                    </Style>
+                </Button.Style>
+                <Button.Content>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{x:Static localization:Resources.Protocols}"/>
+                </Button.Content>
+            </Button>
+            <Button Click="SwitchSettingCategory" x:Name="categoryAssocB" FontSize="16">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <EventSetter Event="Click" Handler="OpenCategoryAssoc"/>
+                    </Style>
+                </Button.Style>
+                <Button.Content>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{x:Static localization:Resources.CategoryAssociations}"/>
+                </Button.Content>
+            </Button>
+        </UniformGrid>
+        <TextBlock x:Name="categoryTitle" Text="{x:Static localization:Resources.General}" FontSize="16" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid x:Name="SettingsWindowsWrapper">
+                <Grid x:Name="GeneralGrid" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock x:Name="localFileErrors" TextAlignment="Center" Grid.Column="1" Grid.Row="1" FontSize="16" Text="!" Visibility="Collapsed"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" FontSize="16" VerticalAlignment="Center">
+                        <Run Text="{x:Static localization:Resources.LocalFile}"/><Run Text=":"/>
+                    </TextBlock >
+                    <Grid Grid.Column="4" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox TextChanged="CheckFileExistence" x:Name="localFileInput" Margin="0,4,0,4" Grid.Column="0"/>
+                        <Button Click="OpenFileDialog" x:Name="addLocal" Content="+" Grid.Column="1" Height="Auto" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="4" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <TextBlock x:Name="remoteFileErrors" TextAlignment="Center" Grid.Column="1" Grid.Row="2" FontSize="16" Text="!" Visibility="Collapsed"/>
+                    <TextBlock Grid.Column="2" Grid.Row="2" FontSize="16" VerticalAlignment="Center">
+                        <Run Text="{x:Static localization:Resources.RemoteFile}"/><Run Text=":"/>
+                    </TextBlock>
+                    <Grid Grid.Column="4" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox TextChanged="CheckFileExistence" x:Name="remoteFileInput" Margin="0,4,0,4" Grid.Column="0"/>
+                        <Button Click="OpenFileDialog" x:Name="addRemote" Content="+" Grid.Column="1" Height="Auto" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="4" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <TextBlock x:Name="fontSizeErrors" TextAlignment="Center" Grid.Column="1" Grid.Row="3" FontSize="16" Text="!" Visibility="Collapsed"/>
+                    <TextBlock Grid.Column="2" Grid.Row="3" FontSize="16" VerticalAlignment="Center">
+                        <Run Text="{x:Static localization:Resources.FontSize}"/><Run Text=":"/>
+                    </TextBlock>
+                    <Grid Grid.Column="4" Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox PreviewTextInput="AllowOnlyNumbers" DataObject.Pasting="DoNotAllowPasting" TextChanged="TestFontSizeBounds" x:Name="fontSize" Margin="0,4,0,4" Grid.Column="0"/>
+                    </Grid>
+
+                    <TextBlock Grid.Column="2" Grid.Row="4" FontSize="16" VerticalAlignment="Center">
+                        <Run Text="{x:Static localization:Resources.ShowLocalModifiers}"/><Run Text=":"/>
+                    </TextBlock>
+                    <CheckBox x:Name="showLocalModifiers" ToolTip="{x:Static localization:Resources.ShowLocalModifiersToolTip}" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-1,4,0,4">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+
+                    <TextBlock Grid.Column="2" Grid.Row="5" FontSize="16" VerticalAlignment="Center">
+                        <Run Text="{x:Static localization:Resources.AllowPortAvailabilityDiagnostics}"/><Run Text=":"/>
+                    </TextBlock>
+                    <CheckBox x:Name="allowPortDiagnostics" IsChecked="True" Grid.Column="4" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-1,4,0,4" Click="OnCheckboxChange">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.33" ScaleY="1.33"/>
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+
+                    <TextBlock x:Name="availabilityCheckErrors" TextAlignment="Center" Grid.Column="1" Grid.Row="6" FontSize="16" Text="!" Visibility="Collapsed"/>
+                    <Grid Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="1" FontSize="16" VerticalAlignment="Center">
+                            <Run Text="{x:Static localization:Resources.Renew}"/><Run Text=":"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="2" ToolTip="{x:Static localization:Resources.Miliseconds}" PreviewTextInput="AllowOnlyInteger" DataObject.Pasting="DoNotAllowPasting" TextChanged="TestAllSettings" x:Name="diagnosticsRenew" Margin="4"/>
+                        <TextBlock Grid.Column="3" FontSize="16" VerticalAlignment="Center">
+                            <Run Text=", "/><Run Text="{x:Static localization:Resources.Timeout}"/><Run Text=":"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="4" ToolTip="{x:Static localization:Resources.Miliseconds}" PreviewTextInput="AllowOnlyInteger" DataObject.Pasting="DoNotAllowPasting" TextChanged="TestAllSettings" x:Name="diagnosticsTimeout" Margin="4"/>
+                    </Grid>
+                    <TextBlock FontSize="16" Grid.Row="7" Grid.Column="2" VerticalAlignment="Center">
+                        <Run Text="{x:Static localization:Resources.Language}"/><Run Text=":"/>
+                    </TextBlock>
+                    <ComboBox x:Name="AvailableLanguages" Grid.Row="7" Grid.Column="4" SelectionChanged="OnLanguageChanged" Margin="0,4,4,4" MaxDropDownHeight="250"/>
+                </Grid>
+                <Grid x:Name="ProtocolAssociationGrid" Visibility="Collapsed">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="245*"/>
+                                    <RowDefinition Height="20*"/>
+                                    <RowDefinition Height="230*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200*"/>
+                                    <ColumnDefinition Width="360*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="15,15,15,0" VerticalAlignment="Top" FontSize="16">
+                                    <Run Text="{x:Static localization:Resources.ProtocolAssociations}"/><Run Text=":"/>
+                                </TextBlock>
+                                <ListBox PreviewMouseLeftButtonDown="AssociationsMouseDown" MinHeight="200" x:Name="ProgramBox" Grid.Row="0" Grid.Column="1" Margin="15,15,15,7.5" SelectionChanged="OnListBoxChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{StaticResource ProgramTemplate}"/>
+                                <Grid Grid.Column="1" Grid.Row="1" Margin="15,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Click="AddOrModifyProgramAssociation" Content="+" VerticalContentAlignment="Center" Margin="0,0,0,0.5"/>
+                                    <Button Grid.Column="2" Click="RemoveProgramAssociation"  x:Name="RemoveAssociationButton" Content="-" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0.5"/>
+                                    <Button Grid.Column="4" Click="AddOrModifyProgramAssociation" x:Name="EditAssociationButton" Content="I.I" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0.5"/>
+                                </Grid>
+                                <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="{x:Static localization:Resources.AssociationsTip}" Margin="15,7.5,15,15"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="245*"/>
+                                    <RowDefinition Height="20*"/>
+                                    <RowDefinition Height="230*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200*"/>
+                                    <ColumnDefinition Width="360*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="15,15,15,0" VerticalAlignment="Top" FontSize="16">
+                                    <Run Text="{x:Static localization:Resources.PortAssociations}"/><Run Text=":"/>
+                                </TextBlock>
+                                <Grid Grid.Column="1" Grid.Row="1" Margin="15,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Click="AddOrModifyPortAssociation"  Content="+" VerticalContentAlignment="Center" Margin="0,0,0,0.5"/>
+                                    <Button Grid.Column="2" x:Name="RemovePortAssociationButton" Click="RemovePortAssociation" Content="-" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0.5"/>
+                                    <Button Grid.Column="4" x:Name="EditPortAssociationButton" Click="AddOrModifyPortAssociation" Content="I.I" VerticalContentAlignment="Center" IsEnabled="False" Margin="0,0,0,0.5"/>
+                                </Grid>
+                                <ListBox PreviewMouseLeftButtonDown="AssociationsMouseDown" MinHeight="200" x:Name="PortAssociationsBox" Grid.Row="0" Grid.Column="1" Margin="15,15,15,7.5" SelectionChanged="OnListBoxChanged" ItemTemplate="{StaticResource PortAssociationTemplate}"/>
+                            </Grid>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                <Grid x:Name="CategoryAssociationGrid" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" x:Name="DefaultColorCategoryAssignment" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserSortColumns="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="2*" IsReadOnly="True" Header="{x:Static localization:Resources.Category}" Binding="{Binding category}"/>
+                            <DataGridTemplateColumn Width="*" Header="{x:Static localization:Resources.BorderColor}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Rectangle Fill="{Binding borderColor}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="*" Header="{x:Static localization:Resources.BackgroundColor}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Rectangle Fill="{Binding fillColor}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="*" Header="{x:Static localization:Resources.TextColor}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Rectangle Fill="{Binding textColor}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Row="1" Margin="0,5,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="17"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="addDCC" Click="AddOrModifyDefaultCategoryColor" Grid.Column="1">
+                            <TextBlock Text="+" Height="19" Width="21" TextAlignment="Center"/>
+                        </Button>
+                        <Button x:Name="removeDCC" Click="RemoveDefaultCategoryColor" Grid.Column="3">
+                            <TextBlock Text="-" Height="19" Width="21" TextAlignment="Center"/>
+                        </Button>
+                        <Button x:Name="modifyDCC" Click="AddOrModifyDefaultCategoryColor" Grid.Column="5">
+                            <TextBlock Text="|-|" Height="19" Width="21" TextAlignment="Center"/>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <Rectangle Fill="#FFDDDDDD" Grid.RowSpan="1" Grid.Row="2"/>
+        <Grid Grid.Column="1" Margin="0" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200*"/>
+                <ColumnDefinition Width="130*"/>
+                <ColumnDefinition Width="130*"/>
+                <ColumnDefinition Width="130*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="cancel" Click="CancelSettings" Content="{x:Static localization:Resources.Cancel}" Grid.Column="3" Margin="5"/>
+            <Button x:Name="apply" Click="SaveSettings" Content="{x:Static localization:Resources.Apply}" Grid.Column="2" Margin="5"/>
+            <Button x:Name="ok" Click="SaveAndCloseSettings" Content="{x:Static localization:Resources.Ok}" Grid.Column="1" Margin="5"/>
+        </Grid>
+    </Grid>
+</Window>

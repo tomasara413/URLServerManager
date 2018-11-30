@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AdditionalParameters" xml:space="preserve">
+    <value>Additional paramaters</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="EditServer" xml:space="preserve">
+    <value>Edit server</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="FQDN" xml:space="preserve">
+    <value>FQDN</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="NewServer" xml:space="preserve">
+    <value>New server</value>
+  </data>
+  <data name="NewServerStructure" xml:space="preserve">
+    <value>New server structure</value>
+  </data>
+  <data name="OFDSelectFile" xml:space="preserve">
+    <value>Choose a file with servers structure</value>
+  </data>
+  <data name="OpenLocal" xml:space="preserve">
+    <value>Open local structure</value>
+  </data>
+  <data name="OpenRemote" xml:space="preserve">
+    <value>Open remote structure</value>
+  </data>
+  <data name="RemoveServer" xml:space="preserve">
+    <value>Delete server</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SFDFileSavingProcedure" xml:space="preserve">
+    <value>Choose a destination and a file name</value>
+  </data>
+  <data name="SQLiteDBFile" xml:space="preserve">
+    <value>SQLite database file</value>
+  </data>
+  <data name="SyncRemote" xml:space="preserve">
+    <value>Synchronize local with remote</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="XMLStructureFile" xml:space="preserve">
+    <value>XML structure file</value>
+  </data>
+  <data name="CategoryAssociations" xml:space="preserve">
+    <value>Category Associations</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="ProtocolAssociations" xml:space="preserve">
+    <value>Protocol associations</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="LocalFile" xml:space="preserve">
+    <value>Path to local file</value>
+  </data>
+  <data name="RemoteFile" xml:space="preserve">
+    <value>Path to remote file</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="FileDoesNotExist" xml:space="preserve">
+    <value>This file does not exist</value>
+  </data>
+  <data name="FontSize" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="FontSizeTooLarge" xml:space="preserve">
+    <value>Specified font size is too large (the largest value is used).</value>
+  </data>
+  <data name="FontSizeTooSmall" xml:space="preserve">
+    <value>Specified font size is too small (the lowest value is used).</value>
+  </data>
+  <data name="FontSizeNull" xml:space="preserve">
+    <value>Font size is not specified (the default or saved value is used).</value>
+  </data>
+  <data name="ShowLocalModifiers" xml:space="preserve">
+    <value>Show modification indicators</value>
+  </data>
+  <data name="ShowLocalModifiersToolTip" xml:space="preserve">
+    <value>Shows local modification indicators (available only with remote server file set).</value>
+  </data>
+  <data name="AllowPortAvailabilityDiagnostics" xml:space="preserve">
+    <value>Allow diagnostics of port availability</value>
+  </data>
+  <data name="AssociationsTip" xml:space="preserve">
+    <value>While adding an association, write the startup argument into input field and replace the ip and port variable with {ip} and {port}. This is commonly in this form: "&lt;command/protocol&gt; &lt;remote IP endpoint&gt;:&lt;port&gt;". An example for a program Putty: -ssh {ip}:{port}</value>
+  </data>
+  <data name="Miliseconds" xml:space="preserve">
+    <value>Time in miliseconds (ms)</value>
+  </data>
+  <data name="Renew" xml:space="preserve">
+    <value>Renew time</value>
+  </data>
+  <data name="RenewNull" xml:space="preserve">
+    <value>Renew value is not specified (the default or saved value is used).</value>
+  </data>
+  <data name="RenewTooSmall" xml:space="preserve">
+    <value>Specified renew is too small (the lowest value is used).</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Timeout</value>
+  </data>
+  <data name="TimeoutNull" xml:space="preserve">
+    <value>Timeout value is not specified (the default or saved value is used).</value>
+  </data>
+  <data name="TimeoutTooSmall" xml:space="preserve">
+    <value>Specified timeout value is too small (the lowest value is used).</value>
+  </data>
+  <data name="Protocols" xml:space="preserve">
+    <value>Protocols</value>
+  </data>
+  <data name="PortAssociations" xml:space="preserve">
+    <value>Port asscociations</value>
+  </data>
+  <data name="ProgramAssociation" xml:space="preserve">
+    <value>Program Association</value>
+  </data>
+  <data name="ExecutableFilePath" xml:space="preserve">
+    <value>Path to executable file</value>
+  </data>
+  <data name="Protocol" xml:space="preserve">
+    <value>Protocol</value>
+  </data>
+  <data name="CmdParameters" xml:space="preserve">
+    <value>Cmd parameters</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>other...</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ExecutableFiles" xml:space="preserve">
+    <value>Executable files</value>
+  </data>
+  <data name="PortAssociation" xml:space="preserve">
+    <value>Protocol to Port Association</value>
+  </data>
+  <data name="HTMLNotation" xml:space="preserve">
+    <value>HTML notation</value>
+  </data>
+  <data name="CurrentColor" xml:space="preserve">
+    <value>Current color</value>
+  </data>
+  <data name="ProtocolAssociation" xml:space="preserve">
+    <value>Program's Start Arguments</value>
+  </data>
+  <data name="AddOtherProtocol" xml:space="preserve">
+    <value>Add other protocol</value>
+  </data>
+  <data name="OtherProtocolName" xml:space="preserve">
+    <value>Name of the protocol</value>
+  </data>
+  <data name="BorderColor" xml:space="preserve">
+    <value>Border color</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="TextColor" xml:space="preserve">
+    <value>Text color</value>
+  </data>
+  <data name="CategoryColorDefined" xml:space="preserve">
+    <value>Default category color is already defined.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="CategoryColorAssociation" xml:space="preserve">
+    <value>Category and color association</value>
+  </data>
+  <data name="Addresses" xml:space="preserve">
+    <value>Addresses</value>
+  </data>
+  <data name="AddOtherCategory" xml:space="preserve">
+    <value>Add other category</value>
+  </data>
+  <data name="OtherCategoryName" xml:space="preserve">
+    <value>Name of the category</value>
+  </data>
+  <data name="ServerWindow" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Use" xml:space="preserve">
+    <value>Use</value>
+  </data>
+  <data name="IPAddress" xml:space="preserve">
+    <value>IP Address</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="DefaultProtocolAlreadyPresent" xml:space="preserve">
+    <value>Default protocol is already present. To proceed with this action edit the association or delete it. (Ports added by the application cannot be changed).</value>
+  </data>
+  <data name="DuplicateProtocolEntries" xml:space="preserve">
+    <value>Duplicate entries have been found inside the list, please check for duplicates and remove all the invalid ones. (Only the first entry of one protocol will be saved)</value>
+  </data>
+  <data name="ProtocolCannotBeEmpty" xml:space="preserve">
+    <value>Protocol cannot be empty.</value>
+  </data>
+  <data name="AddressCannotBeEmpty" xml:space="preserve">
+    <value>Address field cannot be empty.</value>
+  </data>
+  <data name="UnableToResolveOrParse" xml:space="preserve">
+    <value>Unable to resolve or parse the specified address. Please, check if the address has been entered correctly. (The address will be saved, but the connection might fail)</value>
+  </data>
+  <data name="PortUnassociatedAndEmpty" xml:space="preserve">
+    <value>Selected protocol has no associated port with it, therefor it is necessary to enter port number (port cannot be empty).</value>
+  </data>
+  <data name="RemoveServerMessage" xml:space="preserve">
+    <value>Are you sure you want to remove the server?</value>
+  </data>
+  <data name="AssociateMessage" xml:space="preserve">
+    <value>You have not yet associated this protocol to program, would you like to do it now?</value>
+  </data>
+  <data name="ProgramSelection" xml:space="preserve">
+    <value>Program Selection</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="NewCluster" xml:space="preserve">
+    <value>New cluster</value>
+  </data>
+  <data name="OpenWatcher" xml:space="preserve">
+    <value>Open watcher</value>
+  </data>
+  <data name="ClusterWindow" xml:space="preserve">
+    <value>Cluster</value>
+  </data>
+  <data name="VirtualizationServerWindow" xml:space="preserve">
+    <value>Virtualization Server</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="NewVirtualizationServer" xml:space="preserve">
+    <value>New virtualization server</value>
+  </data>
+  <data name="IsVirtual" xml:space="preserve">
+    <value>Is virtual</value>
+  </data>
+  <data name="VirtualServerSwitch" xml:space="preserve">
+    <value>Under current settings (this server being a virtualization server) all servers in collection currently listed as physical machines need to be virtual. This will be handled automatically. Do you wish to proceed with this action?</value>
+  </data>
+  <data name="VirtualServerSwitchCaption" xml:space="preserve">
+    <value>Virtual server switch</value>
+  </data>
+  <data name="ElevateProcess" xml:space="preserve">
+    <value>To access this directory, you need to launch this application as an administrator. Do you want to elevate this process?</value>
+  </data>
+  <data name="ElevateProcessCaption" xml:space="preserve">
+    <value>Elevate process</value>
+  </data>
+  <data name="CSVStructureFile" xml:space="preserve">
+    <value>CSV structure file</value>
+  </data>
+  <data name="JSONStructureFile" xml:space="preserve">
+    <value>JSON structure file</value>
+  </data>
+  <data name="CSVImportDialog" xml:space="preserve">
+    <value>Import from CSV file</value>
+  </data>
+  <data name="CSVImportDialogMessage" xml:space="preserve">
+    <value>For a valid import from csv files thre are 4 files required, after an export from this application these files are called: *-servers.csv; *-addresses.csv; *-serverContents.csv and *-defaultCategories. If the import is to be proceed with without any issues, all required files need to be specified.
+Fileds marked with * have to be filled in otherwise the import cannot proceed.</value>
+  </data>
+  <data name="WatcherWindow" xml:space="preserve">
+    <value>Watcher</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="AddressUnreachable" xml:space="preserve">
+    <value>Address unreachable</value>
+  </data>
+  <data name="DNSEntryNotFound" xml:space="preserve">
+    <value>DNS Entry not found</value>
+  </data>
+  <data name="PortNotResponding" xml:space="preserve">
+    <value>Port not responding</value>
+  </data>
+  <data name="Untested" xml:space="preserve">
+    <value>Untested</value>
+  </data>
+</root>
