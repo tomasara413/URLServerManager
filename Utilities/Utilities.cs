@@ -26,20 +26,6 @@ namespace URLServerManagerModern.Utilities
 {
     public static class Utilities
     {
-        private static MainWindow _mainWindow;
-        public static MainWindow mainWindow
-        {
-            get
-            {
-                return _mainWindow;
-            }
-            set
-            {
-                if (_mainWindow == null)
-                    _mainWindow = value;
-            }
-        }
-
         public static void LoadOrCreateConfig()
         {
             try
@@ -280,7 +266,6 @@ namespace URLServerManagerModern.Utilities
 
                 using (StreamWriter writer = new StreamWriter(DataHolder.configFile, false, Encoding.UTF8))
                     writer.Write(string.Join("," + Environment.NewLine, properties));
-                //LoadXML(20,0);
             }
             catch (Exception e)
             {
@@ -353,7 +338,7 @@ namespace URLServerManagerModern.Utilities
         }
 
 
-        public static async void ImportAsync(string filePath)
+        public static async Task ImportAsync(string filePath)
         {
             Task t = null;
             switch (Path.GetExtension(filePath)?.ToLower())
@@ -411,7 +396,7 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
-        public static async void ExportAsync()
+        public static async Task ExportAsync()
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = Properties.Resources.XMLStructureFile + "|*.xml|" + Properties.Resources.JSONStructureFile + "|*.json|" + Properties.Resources.CSVStructureFile + "|*.csv";
@@ -439,10 +424,10 @@ namespace URLServerManagerModern.Utilities
         }
 
 
-        public static void ConvertToDB(string filePath)
+        public static async Task ConvertToDB(string filePath)
         {
             CreateDatabase(GetPropertyValue("localfile"));
-            ImportAsync(filePath);
+            await ImportAsync(filePath);
         }
 
         private static TaskQueue queue = new TaskQueue();
@@ -514,7 +499,7 @@ namespace URLServerManagerModern.Utilities
             return new SQLiteConnection("Data Source=" + filePath + ";Version=3;foreign keys=true;");
         }
 
-        public static List<PseudoEntity> LoadServers(long offset, long limit)
+        public static List<PseudoEntity> LoadServers(long offset, long limit = DataHolder.LIMIT, string select = null, bool readInDepth = true)
         {
             List<PseudoEntity> servers = new List<PseudoEntity>();
             using (SQLiteConnection c = EstablishDatabaseConnection(GetPropertyValue("localfile")))
@@ -524,7 +509,7 @@ namespace URLServerManagerModern.Utilities
                 {
                     SQLiteCommand cmd = new SQLiteCommand(c);
 
-                    cmd.CommandText = "SELECT * FROM servers LEFT JOIN pseudoServers ON rowid = pseudoServers.ServerID ORDER BY FQDN ASC LIMIT " + limit + " OFFSET " + offset;
+                    cmd.CommandText = "SELECT * FROM servers LEFT JOIN pseudoServers ON rowid = pseudoServers.ServerID " + (select == null ? "" : select + " ") + "ORDER BY FQDN ASC LIMIT " + limit + " OFFSET " + offset;
                     c.Open();
                     SQLiteDataReader reader = cmd.ExecuteReader();
 
@@ -532,7 +517,7 @@ namespace URLServerManagerModern.Utilities
                     {
                         
                         while (reader.Read())
-                            servers.Add(ReadPseudoEntity(c, reader));
+                            servers.Add(ReadPseudoEntity(c, reader, readInDepth));
                     }
 
                     reader.Close();
@@ -541,12 +526,19 @@ namespace URLServerManagerModern.Utilities
             return servers;
         }
 
-        public static async Task<List<PseudoEntity>> LoadServersAsync(long offset, long limit = DataHolder.LIMIT)
+        public static async Task<List<PseudoEntity>> LoadServersAsync(long offset, long limit = DataHolder.LIMIT, string select = null, bool readInDepth = true)
         {
-            return await Task.Run(() => LoadServers(offset, limit));
+            return await Task.Run(() => LoadServers(offset, limit, select, readInDepth));
         }
 
-        private static PseudoEntity ReadPseudoEntity(SQLiteConnection c, SQLiteDataReader reader)
+
+        /**
+         * <summary>
+         * Reads pseudo entity using provided connection and reader
+         * </summary>
+         * <param name="readInDepth">Sets whether to read all the servers in wrapper entities</param>
+         **/
+        private static PseudoEntity ReadPseudoEntity(SQLiteConnection c, SQLiteDataReader reader, bool readInDepth = true)
         {
             EntityType type = EntityType.Server;
             PseudoEntity s;
@@ -598,7 +590,7 @@ namespace URLServerManagerModern.Utilities
             r2.Close();
 
 
-            if ((int)type > 1)
+            if ((int)type > 1 && readInDepth)
             {
                 //This could cause a catastrophe if there is one huge nested entity
                 cmd2 = new SQLiteCommand("SELECT * FROM serverContents INNER JOIN servers ON serverContents.ServerID = servers.rowid INNER JOIN pseudoServers ON serverContents.ServerID = pseudoServers.ServerID WHERE serverContents.ParentServerID = " + s.server.rowID, c);
@@ -637,12 +629,12 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
-        public static async void LoadCategoryColorsAsync()
+        public static async Task LoadCategoryColorsAsync()
         {
             await Task.Run(() => LoadCategoryColors());
         }
 
-        public static void RefreshAllDynamicResources()
+        public static void RefreshAllDynamicResources(MainWindow mainWindow)
         {
             mainWindow.Resources["fontSize"] = DataHolder.fontSize;
         }
@@ -681,7 +673,7 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
-        public static async void SaveDefaultCategoriesAsync(List<CategoryColorAssociation> currentList)
+        public static async Task SaveDefaultCategoriesAsync(List<CategoryColorAssociation> currentList)
         {
             await queue.Enqueue(() => Task.Run(() => SaveDefaultCategories(currentList.DeepCopy())));
         }
@@ -840,7 +832,7 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
-        public static async void SavePseudoEntityAsync(PseudoEntity e, List<ProtocolAddress> removed, List<PseudoEntity> removedEntities)
+        public static async Task SavePseudoEntityAsync(PseudoEntity e, List<ProtocolAddress> removed, List<PseudoEntity> removedEntities)
         {
             await queue.Enqueue(() => Task.Run(() => SavePseudoEntity(e.DeepCopy(), removed, removedEntities)));
         }
@@ -862,7 +854,7 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
-        public static async void RemovePseudoEntityAsync(PseudoEntity e)
+        public static async Task RemovePseudoEntityAsync(PseudoEntity e)
         {
             await queue.Enqueue(() => Task.Run(() => RemovePseudoEntity(e)));
         }

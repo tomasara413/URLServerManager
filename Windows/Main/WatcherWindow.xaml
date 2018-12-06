@@ -75,7 +75,7 @@
        
     </Window.Resources>
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer ScrollChanged="ScrollChanged" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="wrapper" ItemTemplate="{StaticResource server}"/>
         </ScrollViewer>
 

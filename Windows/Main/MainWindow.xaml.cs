@@ -21,12 +21,11 @@ namespace URLServerManagerModern.Windows.Main
         private List<PseudoEntity> servers = new List<PseudoEntity>();
         public MainWindow()
         {
-            Utilities.Utilities.mainWindow = this;
             Utilities.Utilities.LoadOrCreateConfig();
 
             InitializeComponent();
 
-            Utilities.Utilities.RefreshAllDynamicResources();
+            Utilities.Utilities.RefreshAllDynamicResources(this);
 
             OnLocalServerFileChanged();
 
@@ -131,10 +130,9 @@ namespace URLServerManagerModern.Windows.Main
                     {
                         //Debug.WriteLine(Path.GetDirectoryName(ofdFileName) + "; " + Path.GetFileNameWithoutExtension(ofdFileName));
                         Utilities.Utilities.SetPropertyValue("localfile", "\"" + Path.GetDirectoryName(ofdFileName) + "\\" + Path.GetFileNameWithoutExtension(ofdFileName) + ".db" + "\"");
-                        Utilities.Utilities.ConvertToDB(ofdFileName);
+                        await Utilities.Utilities.ConvertToDB(ofdFileName);
                     }
                     Utilities.Utilities.SaveSettings();
-                    SetServersContent(await Utilities.Utilities.LoadServersAsync(servers.Count, DataHolder.LIMIT));
                 }
                 else
                 {
@@ -147,7 +145,7 @@ namespace URLServerManagerModern.Windows.Main
                         if (Utilities.Utilities.GetPropertyValue("localfile") != null)
                         {
                             if (Path.GetExtension(ofdFileName) != ".db")
-                                Utilities.Utilities.ImportAsync(ofdFileName);
+                                await Utilities.Utilities.ImportAsync(ofdFileName);
                         }
                     }
                 }
@@ -163,9 +161,9 @@ namespace URLServerManagerModern.Windows.Main
             OnLocalServerFileChanged();
         }
 
-        private void ExportServerStructure(object sender, RoutedEventArgs e)
+        private async void ExportServerStructure(object sender, RoutedEventArgs e)
         {
-            Utilities.Utilities.ExportAsync();
+            await Utilities.Utilities.ExportAsync();
         }
 
         private async void OnLocalServerFileChanged()
@@ -176,7 +174,7 @@ namespace URLServerManagerModern.Windows.Main
             {
                 mainServerWrapper.ItemsSource = servers = await Utilities.Utilities.LoadServersAsync(0, DataHolder.LIMIT);
 
-                endOfContent = servers.Count < DataHolder.LIMIT;
+                endOfContent = servers.Count % DataHolder.LIMIT != 0;
                 mainServerWrapper.Items.Refresh();
             }
         }
@@ -242,6 +240,7 @@ namespace URLServerManagerModern.Windows.Main
         private void OnSettingsClosed(object sender, EventArgs e)
         {
             s = null;
+            Utilities.Utilities.RefreshAllDynamicResources(this);
             (sender as Window).Closed -= OnSettingsClosed;
         }
 
@@ -295,7 +294,7 @@ namespace URLServerManagerModern.Windows.Main
         {
             mainServerWrapper.Items.Refresh();
 
-            Utilities.Utilities.SavePseudoEntityAsync(s, removed, null);
+            Utilities.Utilities.SavePseudoEntityAsync(s, removed, null).ConfigureAwait(false);
         }
 
         public void OnServerAdded(PseudoServer s, List<ProtocolAddress> removed)
@@ -309,7 +308,7 @@ namespace URLServerManagerModern.Windows.Main
         {
             mainServerWrapper.Items.Refresh();
 
-            Utilities.Utilities.SavePseudoEntityAsync(s, removed, removedEntities);
+            Utilities.Utilities.SavePseudoEntityAsync(s, removed, removedEntities).ConfigureAwait(false);
         }
 
         public void OnWrapperAdded(PseudoWrappingEntity s, List<ProtocolAddress> removed, List<PseudoEntity> removedEntities)
@@ -328,7 +327,7 @@ namespace URLServerManagerModern.Windows.Main
                     PseudoEntity s = fe.DataContext as PseudoEntity;
                     servers.Remove(s);
                     if (s.server.rowID >= 0)
-                        Utilities.Utilities.RemovePseudoEntityAsync(s);
+                        Utilities.Utilities.RemovePseudoEntityAsync(s).ConfigureAwait(false);
                 }
             }
             mainServerWrapper.Items.Refresh();

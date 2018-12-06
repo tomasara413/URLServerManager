@@ -457,15 +457,15 @@ namespace URLServerManagerModern.Windows.Settings
                 Utilities.Utilities.SetPropertyValue("portassociations", "");
 
             Utilities.Utilities.SaveSettings();
-            //We need to deep copy in case we tamper with data inside the list while being saved
-            Utilities.Utilities.SaveDefaultCategoriesAsync(DefaultColorCategoryAssignment.ItemsSource as List<CategoryColorAssociation>);
+            //We need a deep copy in case we tamper with data inside the list while being saved
+            Utilities.Utilities.SaveDefaultCategoriesAsync(DefaultColorCategoryAssignment.ItemsSource as List<CategoryColorAssociation>).ConfigureAwait(false);
 
             LoadCategoryColors();
 
             DataHolder.programs = ProgramBox.ItemsSource as List<Program>;
             DataHolder.protocolToPort = (PortAssociationsBox.ItemsSource as List<ProtocolPortAssociation>).ToDictionary(x => x.protocol, y => y.port);
 
-            Utilities.Utilities.RefreshAllDynamicResources();
+            //Utilities.Utilities.RefreshAllDynamicResources();
         }
 
         private void SaveAndCloseSettings(object sender, RoutedEventArgs e)
