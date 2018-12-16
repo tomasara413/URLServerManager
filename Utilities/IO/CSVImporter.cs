@@ -71,7 +71,7 @@ namespace URLServerManagerModern.Utilities.IO
                     while ((entry = cr2.ReadEntry()).Length > 0)
                     {
                         if ((pa = ReadAddress(entry)) != null)
-                            addressInsert.Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("', '").Append(SecurityElement.Escape(pa.address)).Append("', ").Append(pa.port).Append(", '").Append(SecurityElement.Escape(pa.parameters)).Append("', (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(savedIDToTempRowID[pa.rowID]).Append(" LIMIT 1)),");
+                            addressInsert.Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("', '").Append(SecurityElement.Escape(pa.hostname)).Append("', ").Append(pa.port).Append(", '").Append(SecurityElement.Escape(pa.parameters)).Append("', (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(savedIDToTempRowID[pa.rowID]).Append(" LIMIT 1)),");
                     }
                 }
 

@@ -91,7 +91,7 @@ namespace URLServerManagerModern.Utilities.IO
                                 xw.WriteAttributeString("port", pa.port.ToString());
 
                                 xw.WriteStartElement("EndPoint");
-                                xw.WriteValue(pa.address);
+                                xw.WriteValue(pa.hostname);
                                 xw.WriteEndElement();
 
                                 xw.WriteStartElement("AdditionalCMDParameters");

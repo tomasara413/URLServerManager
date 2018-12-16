@@ -50,7 +50,7 @@ namespace URLServerManagerModern.Windows.Main
                     Protocols.Items.Insert(Protocols.Items.Count - 1, edited.protocol);
                 Protocols.SelectedItem = edited.protocol;
 
-                Address.Text = edited.address;
+                Address.Text = edited.hostname;
                 Port.Text = edited.port.ToString();
                 if(!string.IsNullOrEmpty(edited.parameters))
                     AdditionalParameters.Text = edited.parameters.ToString();
@@ -66,7 +66,7 @@ namespace URLServerManagerModern.Windows.Main
                 edited = new ProtocolAddress();
 
             edited.protocol = Protocols.SelectedItem.ToString();
-            edited.address = Address.Text.Trim();
+            edited.hostname = Address.Text.Trim();
             if (!string.IsNullOrEmpty(Port.Text))
                 edited.port = int.Parse(Port.Text);
             else
@@ -130,7 +130,7 @@ namespace URLServerManagerModern.Windows.Main
         private void AllowOnlyPositiveInteger(object sender, TextCompositionEventArgs e)
         {
             int i;
-            e.Handled = !int.TryParse((sender as TextBox).Text + e.Text, out i) && i > 0;
+            e.Handled = !int.TryParse((sender as TextBox).Text + e.Text, out i) && i <= 0;
         }
 
         private void AddressTextChanged(object sender, TextChangedEventArgs e)
@@ -180,11 +180,37 @@ namespace URLServerManagerModern.Windows.Main
                 {
                     IPAddress ipa;
                     IdnMapping idnm = new IdnMapping();
-                    if (!IPAddress.TryParse(address, out ipa) && !Utilities.Utilities.ResolveHostname(idnm.GetAscii(address), 60))
+                    if (!IPAddress.TryParse(address, out ipa))
                     {
-                        ErrorsTooltip.ToolTip += Environment.NewLine + Properties.Resources.UnableToResolveOrParse;
-                        ErrorsTooltip.Visibility = Visibility.Visible;
+                        if (!Utilities.Utilities.ResolveHostname(idnm.GetAscii(address), 60))
+                        {
+                            ErrorsTooltip.ToolTip += Environment.NewLine + Properties.Resources.UnableToResolveOrParse;
+                            ErrorsTooltip.Visibility = Visibility.Visible;
+                        }
                     }
+                    else
+                    {
+                        if (ipa.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            if (ipa.GetAddressBytes()[0] == 0)
+                            {
+                                atLeastOneError = true;
+                                ErrorsTooltip.ToolTip += Environment.NewLine + Properties.Resources.NotValidSourceAddress;
+                                ErrorsTooltip.Visibility = Visibility.Visible;
+                            }
+                        }
+                        else if (ipa.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                        {
+                            byte[] bytes = ipa.GetAddressBytes();
+                            if (bytes.Count(x => x > 1) == 0)
+                            {
+                                atLeastOneError = true;
+                                ErrorsTooltip.ToolTip += Environment.NewLine + Properties.Resources.NotValidSourceAddress;
+                                ErrorsTooltip.Visibility = Visibility.Visible;
+                            }
+                        }
+                    }
+
                 }
                 catch (ArgumentException e)
                 {

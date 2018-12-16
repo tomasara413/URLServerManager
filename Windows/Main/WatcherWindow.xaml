@@ -17,9 +17,10 @@
                     <ColumnDefinition Width="100*"/>
                     <ColumnDefinition Width="60*"/>
                     <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                    <TextBlock TextAlignment="Center" Text="{Binding address}"/>
+                    <TextBlock TextAlignment="Center" Text="{Binding hostname}"/>
                 </ScrollViewer>
                 <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                     <TextBlock TextAlignment="Center" Text="{Binding port}"/>
@@ -27,6 +28,11 @@
                 <ScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                     <TextBlock TextAlignment="Center" Text="{Binding status, Converter={StaticResource statusConverter}}"/>
                 </ScrollViewer>
+                <Button Margin="5,0" VerticalAlignment="Center" Grid.Column="3" Height="15" Click="TestManually">
+                    <Button.Content>
+                        <TextBlock FontSize="10" Text="{x:Static localization:Resources.TForTest}"/>
+                    </Button.Content>
+                </Button>
             </Grid>
         </DataTemplate>
 
@@ -61,6 +67,7 @@
                         <ColumnDefinition Width="100*"/>
                         <ColumnDefinition Width="60*"/>
                         <ColumnDefinition Width="60*"/>
+                        <ColumnDefinition Width="20"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock TextAlignment="Center" Text="{x:Static localization:Resources.Address}"/>
                     <TextBlock Grid.Column="1" TextAlignment="Center" Text="{x:Static localization:Resources.Port}"/>

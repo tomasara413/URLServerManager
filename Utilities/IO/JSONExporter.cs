@@ -90,7 +90,7 @@ namespace URLServerManagerModern.Utilities.IO
                                 jw.WriteValue(pa.port);
 
                                 jw.WritePropertyName("EndPoint");
-                                jw.WriteValue(pa.address);
+                                jw.WriteValue(pa.hostname);
 
                                 jw.WritePropertyName("AdditionalCMDParameters");
                                 jw.WriteValue(pa.parameters);

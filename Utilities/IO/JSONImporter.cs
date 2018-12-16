@@ -72,7 +72,7 @@ namespace URLServerManagerModern.Utilities.IO
                                 for (int i = 0; i < pe.server.protocolAddresses.Count; i++)
                                 {
                                     pa = pe.server.protocolAddresses[i];
-                                    addressInsert.Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("', '").Append(SecurityElement.Escape(pa.address)).Append("', ").Append(pa.port).Append(", '").Append(SecurityElement.Escape(pa.parameters)).Append("', (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(tempRowID).Append(" LIMIT 1)),");
+                                    addressInsert.Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("', '").Append(SecurityElement.Escape(pa.hostname)).Append("', ").Append(pa.port).Append(", '").Append(SecurityElement.Escape(pa.parameters)).Append("', (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(tempRowID).Append(" LIMIT 1)),");
                                 }
 
                                 savedIDToTempRowID.Add(pe.server.rowID, tempRowID);
@@ -251,7 +251,7 @@ namespace URLServerManagerModern.Utilities.IO
                                                 a.protocol = jt.ReadAsString();
                                                 break;
                                             case "endpoint":
-                                                a.address = jt.ReadAsString();
+                                                a.hostname = jt.ReadAsString();
                                                 break;
                                             case "additionalcmdparameters":
                                                 a.parameters = jt.ReadAsString();

@@ -42,7 +42,7 @@ namespace URLServerManagerModern.Windows.Main
         private void OpenConnection(object sender, RoutedEventArgs e)
         {
             Program p = SelectionList.SelectedItem as Program;
-            string args = p.associations.Where(x => x.protocol == pa.protocol).First().cmdArguments.Replace("{address}", pa.address).Replace("{port}", pa.port.ToString());
+            string args = p.associations.Where(x => x.protocol == pa.protocol).First().cmdArguments.Replace("{address}", pa.hostname).Replace("{port}", pa.port.ToString());
 
             Hide();
 

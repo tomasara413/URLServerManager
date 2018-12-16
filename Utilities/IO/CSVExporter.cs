@@ -49,7 +49,7 @@ namespace URLServerManagerModern.Utilities.IO
                             {
                                 pa = entity.server.protocolAddresses[j];
 
-                                addresses.WriteEntry(pa.protocol, pa.address, pa.port, pa.parameters, entity.server.rowID);
+                                addresses.WriteEntry(pa.protocol, pa.hostname, pa.port, pa.parameters, entity.server.rowID);
                             }
 
                             PseudoWrappingEntity pwe;

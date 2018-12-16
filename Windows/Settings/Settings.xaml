@@ -11,7 +11,7 @@
         xmlns:pseudo="clr-namespace:URLServerManagerModern.Data.DataTypes.Pseudo"
         xmlns:customcontrols="clr-namespace:URLServerManagerModern.Controls"
         mc:Ignorable="d"
-        Title="{x:Static localization:Resources.Settings}" MinHeight="500" MinWidth="700" Width="800" Height="600" WindowStartupLocation="CenterOwner" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+        Title="{x:Static localization:Resources.Settings}" MinHeight="500" MinWidth="700" Width="800" Height="600" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
     <Window.Resources>
         <DataTemplate x:Key="AssociationTemplate" DataType="{x:Type datatypes:ProtocolArgumentAssociation}">
             <Grid Margin="0,5">

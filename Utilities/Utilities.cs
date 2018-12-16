@@ -21,6 +21,7 @@ using System.Security.Permissions;
 using System.ComponentModel;
 using System.Security;
 using URLServerManagerModern.Utilities.IO;
+using System.Collections.ObjectModel;
 
 namespace URLServerManagerModern.Utilities
 {
@@ -443,6 +444,8 @@ namespace URLServerManagerModern.Utilities
                     File.Delete(filePath);
                 }
                 SQLiteConnection.CreateFile(filePath);
+                cachedServers.Clear();
+                cachedAddresses.Clear();
 
                 using (SQLiteConnection c = EstablishDatabaseConnection(filePath))
                 {
@@ -532,6 +535,10 @@ namespace URLServerManagerModern.Utilities
         }
 
 
+        static Dictionary<long, PseudoEntity> cachedServers = new Dictionary<long, PseudoEntity>();
+
+        //In theory this implementation does not need cahing since different servers will have different addresses rendering this cache useless
+        static Dictionary<long, ProtocolAddress> cachedAddresses = new Dictionary<long, ProtocolAddress>();
         /**
          * <summary>
          * Reads pseudo entity using provided connection and reader
@@ -559,6 +566,14 @@ namespace URLServerManagerModern.Utilities
 
             s.server.rowID = (long)reader["rowid"];
 
+            lock (cachedServers)
+            {
+                if (cachedServers.ContainsKey(s.server.rowID))
+                    return cachedServers[s.server.rowID];
+                else
+                    cachedServers.Add(s.server.rowID, s);
+            }
+
             s.server.fqdn = new SecurityElement("unescape",(string)reader["FQDN"]).Text;
             s.server.category = new SecurityElement("unescape",(string)reader["Category"]).Text;
             s.server.desc = new SecurityElement("unescape",(string)reader["Desc"]).Text;
@@ -583,9 +598,20 @@ namespace URLServerManagerModern.Utilities
 
             while (r2.Read())
             {
-                ProtocolAddress pa = s.server.AddIP(new SecurityElement("unescape",(string)r2["Protocol"]).Text, new SecurityElement("unescape",(string)r2["Address"]).Text, (int)((long)r2["Port"]));
-                pa.parameters = new SecurityElement("unescape",(string)r2["AdditionalCMDParameters"]).Text;
+                ProtocolAddress pa = new ProtocolAddress(new SecurityElement("unescape", (string)r2["Protocol"]).Text, new SecurityElement("unescape", (string)r2["Address"]).Text, (int)((long)r2["Port"]));
                 pa.rowID = (long)r2["rowid"];
+
+                lock (cachedAddresses)
+                {
+                    if (cachedAddresses.ContainsKey(pa.rowID))
+                        s.server.protocolAddresses.Add(cachedAddresses[pa.rowID]);
+                    else
+                    {
+                        cachedAddresses.Add(pa.rowID, pa);
+                        s.server.protocolAddresses.Add(pa);
+                        pa.parameters = new SecurityElement("unescape", (string)r2["AdditionalCMDParameters"]).Text;
+                    }
+                }
             }
             r2.Close();
 
@@ -681,7 +707,6 @@ namespace URLServerManagerModern.Utilities
         //TODO: Sweep down the code where there could be invalid custom colors when the user is too 'intelligent'
         public static void SavePseudoEntity(PseudoEntity e, List<ProtocolAddress> removed, List<PseudoEntity> removedEntities)
         {
-            //throw new NotImplementedException("Saving to the database is not implemented yet");
             using (SQLiteConnection c = EstablishDatabaseConnection(GetPropertyValue("localfile")))
             {
                 if (c != null)
@@ -701,14 +726,14 @@ namespace URLServerManagerModern.Utilities
                             pa = e.server.protocolAddresses[i];
                             if (pa.rowID < 0)
                             {
-                                b.Append("INSERT INTO addresses (Protocol, Address, Port, AdditionalCMDParameters, ServerID) VALUES ").Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("','").Append(SecurityElement.Escape(pa.address)).Append("','").Append(pa.port).Append("','").Append(SecurityElement.Escape(pa.parameters)).Append("',").Append(e.server.rowID).Append(");");
+                                b.Append("INSERT INTO addresses (Protocol, Address, Port, AdditionalCMDParameters, ServerID) VALUES ").Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("','").Append(SecurityElement.Escape(pa.hostname)).Append("','").Append(pa.port).Append("','").Append(SecurityElement.Escape(pa.parameters)).Append("',").Append(e.server.rowID).Append(");");
 
                                 cmd.CommandText = b.ToString();
                                 b.Clear();
                                 cmd.ExecuteNonQuery();
 
                                 cmd = new SQLiteCommand(c);
-                                b.Append("SELECT rowid FROM addresses WHERE ServerID = '").Append(e.server.rowID).Append("' ORDER BY rowid DESC LIMIT 1;");
+                                b.Append("SELECT last_insert_rowid() as rowid FROM addresses;");
 
                                 cmd.CommandText = b.ToString();
                                 b.Clear();
@@ -721,7 +746,7 @@ namespace URLServerManagerModern.Utilities
                             }
                             else
                             {
-                                b.Append("UPDATE addresses SET Protocol = '").Append(SecurityElement.Escape(pa.protocol)).Append("', Address = '").Append(SecurityElement.Escape(pa.address)).Append("', Port = '").Append(pa.port).Append("', AdditionalCMDParameters = '").Append(SecurityElement.Escape(pa.parameters)).Append("' WHERE ServerID = ").Append(e.server.rowID).Append(";");
+                                b.Append("UPDATE addresses SET Protocol = '").Append(SecurityElement.Escape(pa.protocol)).Append("', Address = '").Append(SecurityElement.Escape(pa.hostname)).Append("', Port = '").Append(pa.port).Append("', AdditionalCMDParameters = '").Append(SecurityElement.Escape(pa.parameters)).Append("' WHERE rowid = ").Append(pa.rowID).Append(";");
                                 cmd.CommandText = b.ToString();
                                 b.Clear();
                                 cmd.ExecuteNonQuery();
@@ -751,7 +776,7 @@ namespace URLServerManagerModern.Utilities
 
                         if (removed != null)
                             for (int i = 0; i < removed.Count; i++)
-                                b.Append("DELETE FROM addresses WHERE rowid = ").Append(removed[i].rowID).Append(" AND ServerID = ").Append(e.server.rowID).Append(";");
+                                b.Append("DELETE FROM addresses WHERE rowid = ").Append(removed[i].rowID).Append(";");
 
                         if (removedEntities != null)
                             for (int i = 0; i < removed.Count; i++)
@@ -770,7 +795,7 @@ namespace URLServerManagerModern.Utilities
 
                         cmd = new SQLiteCommand(c);
                         //b.Append("SELECT rowid FROM servers WHERE FQDN = '").Append(s.server.fqdn).Append("' AND Category = '").Append(s.server.category).Append("' AND Desc = '").Append(s.server.desc).Append("' ORDER BY rowid DESC LIMIT 1;");
-                        b.Append("SELECT rowid FROM servers ORDER BY rowid DESC LIMIT 1;");
+                        b.Append("SELECT last_insert_rowid() AS rowid FROM servers;");
 
                         cmd.CommandText = b.ToString();
                         b.Clear();
@@ -786,14 +811,14 @@ namespace URLServerManagerModern.Utilities
                         for (int i = 0; i < e.server.protocolAddresses.Count; i++)
                         {
                             pa = e.server.protocolAddresses[i];
-                            b.Append("INSERT INTO addresses (Protocol, Address, Port, AdditionalCMDParameters, ServerID) VALUES ").Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("','").Append(SecurityElement.Escape(pa.address)).Append("','").Append(pa.port).Append("','").Append(SecurityElement.Escape(pa.parameters)).Append("',").Append(e.server.rowID).Append(");");
+                            b.Append("INSERT INTO addresses (Protocol, Address, Port, AdditionalCMDParameters, ServerID) VALUES ").Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("','").Append(SecurityElement.Escape(pa.hostname)).Append("','").Append(pa.port).Append("','").Append(SecurityElement.Escape(pa.parameters)).Append("',").Append(e.server.rowID).Append(");");
 
                             cmd.CommandText = b.ToString();
                             b.Clear();
                             cmd.ExecuteNonQuery();
 
                             cmd = new SQLiteCommand(c);
-                            b.Append("SELECT rowid FROM addresses WHERE ServerID = '").Append(e.server.rowID).Append("' ORDER BY rowid DESC LIMIT 1;");
+                            b.Append("SELECT last_insert_rowid() AS rowid FROM addresses;");
 
                             cmd.CommandText = b.ToString();
                             b.Clear();
@@ -1011,7 +1036,7 @@ namespace URLServerManagerModern.Utilities
             ProtocolAddress pa;
             foreach (ProtocolAddress p in sourceList)
             {
-                pa = new ProtocolAddress(p.protocol, p.address, p.port);
+                pa = new ProtocolAddress(p.protocol, p.hostname, p.port);
                 pa.parameters = p.parameters;
                 pa.rowID = p.rowID;
                 lpa.Add(pa);
@@ -1077,6 +1102,12 @@ namespace URLServerManagerModern.Utilities
             }
 
             return output;
+        }
+
+        public static void AddRange<T>(this ObservableCollection<T> oc, List<T> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+                oc.Add(list[i]);
         }
     }
 }

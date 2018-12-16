@@ -13,12 +13,16 @@ using System.IO;
 using System.Windows.Controls;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Globalization;
+using System.Text;
+using System.Collections.ObjectModel;
+using URLServerManagerModern.Utilities;
 
 namespace URLServerManagerModern.Windows.Main
 {
     public partial class MainWindow : Window
     {
-        private List<PseudoEntity> servers = new List<PseudoEntity>();
+        private ObservableCollection<PseudoEntity> servers = new ObservableCollection<PseudoEntity>();
         public MainWindow()
         {
             Utilities.Utilities.LoadOrCreateConfig();
@@ -26,6 +30,7 @@ namespace URLServerManagerModern.Windows.Main
             InitializeComponent();
 
             Utilities.Utilities.RefreshAllDynamicResources(this);
+            mainServerWrapper.ItemsSource = servers;
 
             OnLocalServerFileChanged();
 
@@ -38,8 +43,6 @@ namespace URLServerManagerModern.Windows.Main
             {
                 servers.Clear();
                 servers.AddRange(content);
-                mainServerWrapper.ItemsSource = servers;
-                mainServerWrapper.Items.Refresh();
             }
         }
 
@@ -54,7 +57,6 @@ namespace URLServerManagerModern.Windows.Main
             if (servers == null || servers.Count == 0)
                 return;
             this.servers.AddRange(servers);
-            mainServerWrapper.Items.Refresh();
         }
 
         private void FormKeyListener(object sender, KeyEventArgs e)
@@ -69,10 +71,20 @@ namespace URLServerManagerModern.Windows.Main
                     case Key.N:
                         NewServerStructure(null, null);
                         break;
+                    case Key.F:
+                        if(findEntity.IsEnabled)
+                            FindEntity(null, null);
+                        break;
                 }
             }
         }
 
+        private void FindEntity(object sender, RoutedEventArgs e)
+        {
+            findPanel.Visibility = Visibility.Visible;
+        }
+
+        IdnMapping idnm = new IdnMapping();
         private void OpenConnection(object sender, RoutedEventArgs e)
         {
             ProtocolAddress pa = (ProtocolAddress)(sender as FrameworkElement).DataContext;
@@ -88,7 +100,7 @@ namespace URLServerManagerModern.Windows.Main
                 }
                 else
                 {
-                    string args = programs[0].associations.Where(x => x.protocol == pa.protocol).First().cmdArguments.Replace("{address}", pa.address).Replace("{port}", pa.port.ToString());
+                    string args = programs[0].associations.Where(x => x.protocol == pa.protocol).First().cmdArguments.Replace("{address}", idnm.GetAscii(pa.hostname)).Replace("{port}", pa.port.ToString());
 
                     Task t = new Task(() =>
                     {
@@ -168,14 +180,13 @@ namespace URLServerManagerModern.Windows.Main
 
         private async void OnLocalServerFileChanged()
         {
-            import.IsEnabled = export.IsEnabled = editSubmenu.IsEnabled = toolSubMenu.IsEnabled = File.Exists(Utilities.Utilities.GetPropertyValue("localfile"));
+            findEntity.IsEnabled = import.IsEnabled = export.IsEnabled = editSubmenu.IsEnabled = toolSubMenu.IsEnabled = File.Exists(Utilities.Utilities.GetPropertyValue("localfile"));
             servers.Clear();
             if (import.IsEnabled)
             {
-                mainServerWrapper.ItemsSource = servers = await Utilities.Utilities.LoadServersAsync(0, DataHolder.LIMIT);
+                servers.AddRange(await Utilities.Utilities.LoadServersAsync(0, DataHolder.LIMIT));
 
                 endOfContent = servers.Count % DataHolder.LIMIT != 0;
-                mainServerWrapper.Items.Refresh();
             }
         }
 
@@ -362,6 +373,52 @@ namespace URLServerManagerModern.Windows.Main
 
         private bool fetchingData = false, endOfContent = false;
         List<PseudoEntity> loadedServers;
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            findPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private async void OnChecked(object sender, RoutedEventArgs e)
+        {
+            if (findPanel.IsVisible)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("WHERE ");
+                if ((bool)RBSR1.IsChecked)
+                    sb.Append("FQDN");
+                else if ((bool)RBSR2.IsChecked)
+                    sb.Append("Address");
+                else if ((bool)RBSR3.IsChecked)
+                    sb.Append("Description");
+                else if ((bool)RBSR4.IsChecked)
+                    sb.Append("Category");
+
+                if ((bool)matchExactly.IsChecked)
+                    sb.Append(" = '");
+                else
+                    sb.Append(" LIKE '%");
+
+                sb.Append(findSearchBar.Text.Trim());
+
+                if (!(bool)matchExactly.IsChecked)
+                    sb.Append("%");
+
+                sb.Append("'");
+
+                List<PseudoEntity> pes = await Utilities.Utilities.LoadServersAsync(0, DataHolder.LIMIT, sb.ToString());
+                servers.Clear();
+                servers.AddRange(pes);
+
+                //This is really slow method, we need somthing faster
+            }
+        }
+
+        private void findSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnChecked(sender, null);
+        }
+
         private async void ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (!endOfContent && !fetchingData && e.VerticalChange > 0 && e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)

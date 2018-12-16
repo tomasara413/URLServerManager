@@ -194,8 +194,8 @@ namespace URLServerManagerModern.Windows.Main
         {
             (Addresses.ItemsSource as List<ProtocolAddress>).Add(pa);
             IPAddress ip;
-            if (string.IsNullOrEmpty(FQDN.Text) && !IPAddress.TryParse(pa.address, out ip))
-                FQDN.Text = pa.address;
+            if (string.IsNullOrEmpty(FQDN.Text) && !IPAddress.TryParse(pa.hostname, out ip))
+                FQDN.Text = pa.hostname;
             CheckProperties();
             Addresses.Items.Refresh();
         }

@@ -80,7 +80,7 @@ namespace URLServerManagerModern.Utilities.IO
                                 for (int i = 0; i < pe.server.protocolAddresses.Count; i++)
                                 {
                                     pa = pe.server.protocolAddresses[i];
-                                    addressInsert.Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("', '").Append(SecurityElement.Escape(pa.address)).Append("', ").Append(pa.port).Append(", '").Append(SecurityElement.Escape(pa.parameters)).Append("', (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(tempRowID).Append(" LIMIT 1)),");
+                                    addressInsert.Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("', '").Append(SecurityElement.Escape(pa.hostname)).Append("', ").Append(pa.port).Append(", '").Append(SecurityElement.Escape(pa.parameters)).Append("', (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(tempRowID).Append(" LIMIT 1)),");
                                 }
 
                                 savedIDToTempRowID.Add(pe.server.rowID, tempRowID);
@@ -269,17 +269,17 @@ namespace URLServerManagerModern.Utilities.IO
                                                                     case "ipv4endpoint":
                                                                     case "ipendpoint":
                                                                         string[] ip = xr.ReadElementContentAsString().Split(':');
-                                                                        a.address = ip[0];
+                                                                        a.hostname = ip[0];
                                                                         a.port = int.Parse(ip[1]);
                                                                         break;
                                                                     case "ipv6endpoint":
                                                                         ip = xr.ReadElementContentAsString().Split(']');
-                                                                        a.address = ip[0];
+                                                                        a.hostname = ip[0];
                                                                         a.port = int.Parse(ip[1]);
                                                                         break;
                                                                     //new
                                                                     case "endpoint":
-                                                                        a.address = xr.ReadElementContentAsString();
+                                                                        a.hostname = xr.ReadElementContentAsString();
                                                                         break;
                                                                     case "additionalcmdparameters":
                                                                         a.parameters = xr.ReadElementContentAsString();
