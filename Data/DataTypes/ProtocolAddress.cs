@@ -1,4 +1,6 @@
-﻿namespace URLServerManagerModern.Data.DataTypes
+﻿using System.ComponentModel;
+
+namespace URLServerManagerModern.Data.DataTypes
 {
     public enum Status
     {
@@ -9,23 +11,27 @@
         PortNotResponding = 4
     }
 
-    public class ProtocolAddress
+    public class ProtocolAddress : INotifyPropertyChanged
     {
         public long rowID = -1;
-        public string address { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string hostname { get; set; }
         public int port { get; set; }
         public string protocol { get; set; }
         public string parameters { get; set; }
-        public Status status { get; set; }
+        private Status _status;
+        public Status status { get { return _status; } set { _status = value; OnPropertyChanged("status"); } }
 
         public ProtocolAddress()
         {
             status = Status.Untested;
         }
 
-        public ProtocolAddress(string protocol, string address, int port) : this()
+        public ProtocolAddress(string protocol, string hostname, int port) : this()
         {
-            this.address = address;
+            this.hostname = hostname;
             this.port = port;
             this.protocol = protocol;
         }
@@ -38,12 +44,17 @@
         public override bool Equals(object obj)
         {
             ProtocolAddress a = obj as ProtocolAddress;
-            return a != null && address == a.address && port == a.port && protocol == a.protocol && parameters == a.parameters;
+            return a != null && hostname == a.hostname && port == a.port && protocol == a.protocol && parameters == a.parameters;
         }
 
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
