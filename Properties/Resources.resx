@@ -439,4 +439,19 @@ Fileds marked with * have to be filled in otherwise the import cannot proceed.</
   <data name="Untested" xml:space="preserve">
     <value>Untested</value>
   </data>
+  <data name="NotValidDestinationAddress" xml:space="preserve">
+    <value>This address is not a valid source address.</value>
+  </data>
+  <data name="FindHeader" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="TForTest" xml:space="preserve">
+    <value>T</value>
+  </data>
+  <data name="SearchFor" xml:space="preserve">
+    <value>Search for</value>
+  </data>
+  <data name="MatchExactly" xml:space="preserve">
+    <value>Match exactly</value>
+  </data>
 </root>

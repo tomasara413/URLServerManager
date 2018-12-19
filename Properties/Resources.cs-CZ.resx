@@ -439,4 +439,19 @@ Pole označená * je třeba vyplnit neboť se bez nich import neobejde.</value>
   <data name="Untested" xml:space="preserve">
     <value>Netestováno</value>
   </data>
+  <data name="NotValidDestinationAddress" xml:space="preserve">
+    <value>Tato adresa není validní koncová adresa.</value>
+  </data>
+  <data name="FindHeader" xml:space="preserve">
+    <value>Najít</value>
+  </data>
+  <data name="TForTest" xml:space="preserve">
+    <value>T</value>
+  </data>
+  <data name="MatchExactly" xml:space="preserve">
+    <value>Přesná shoda</value>
+  </data>
+  <data name="SearchFor" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
 </root>

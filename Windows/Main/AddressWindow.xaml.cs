@@ -195,7 +195,7 @@ namespace URLServerManagerModern.Windows.Main
                             if (ipa.GetAddressBytes()[0] == 0)
                             {
                                 atLeastOneError = true;
-                                ErrorsTooltip.ToolTip += Environment.NewLine + Properties.Resources.NotValidSourceAddress;
+                                ErrorsTooltip.ToolTip += Environment.NewLine + Properties.Resources.NotValidDestinationAddress;
                                 ErrorsTooltip.Visibility = Visibility.Visible;
                             }
                         }
@@ -205,7 +205,7 @@ namespace URLServerManagerModern.Windows.Main
                             if (bytes.Count(x => x > 1) == 0)
                             {
                                 atLeastOneError = true;
-                                ErrorsTooltip.ToolTip += Environment.NewLine + Properties.Resources.NotValidSourceAddress;
+                                ErrorsTooltip.ToolTip += Environment.NewLine + Properties.Resources.NotValidDestinationAddress;
                                 ErrorsTooltip.Visibility = Visibility.Visible;
                             }
                         }

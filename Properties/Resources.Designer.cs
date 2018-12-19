@@ -422,6 +422,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find.
+        /// </summary>
+        public static string FindHeader {
+            get {
+                return ResourceManager.GetString("FindHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Font size.
         /// </summary>
         public static string FontSize {
@@ -539,6 +548,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Match exactly.
+        /// </summary>
+        public static string MatchExactly {
+            get {
+                return ResourceManager.GetString("MatchExactly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time in miliseconds (ms).
         /// </summary>
         public static string Miliseconds {
@@ -580,6 +598,15 @@ namespace URLServerManagerModern.Properties {
         public static string NewVirtualizationServer {
             get {
                 return ResourceManager.GetString("NewVirtualizationServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This address is not a valid source address..
+        /// </summary>
+        public static string NotValidDestinationAddress {
+            get {
+                return ResourceManager.GetString("NotValidDestinationAddress", resourceCulture);
             }
         }
         
@@ -827,6 +854,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search for.
+        /// </summary>
+        public static string SearchFor {
+            get {
+                return ResourceManager.GetString("SearchFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string Select {
@@ -913,6 +949,15 @@ namespace URLServerManagerModern.Properties {
         public static string TextColor {
             get {
                 return ResourceManager.GetString("TextColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to T.
+        /// </summary>
+        public static string TForTest {
+            get {
+                return ResourceManager.GetString("TForTest", resourceCulture);
             }
         }
         

@@ -406,9 +406,27 @@ namespace URLServerManagerModern.Windows.Main
 
                 sb.Append("'");
 
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
                 List<PseudoEntity> pes = await Utilities.Utilities.LoadServersAsync(0, DataHolder.LIMIT, sb.ToString());
+                sw.Stop();
+                //Takes ~00:00:00.0040741
+                Debug.WriteLine("Awaiting took: {0}", new string[] { sw.Elapsed.ToString()});
+                sw.Restart();
                 servers.Clear();
+                sw.Stop();
+                //Takes ~00:00:00.3113976
+                Debug.WriteLine("Clearing took: {0}", new string[]{ sw.Elapsed.ToString()});
+                sw.Restart();
+                //Takes ~00:00:00.0004950
                 servers.AddRange(pes);
+                sw.Stop();
+                Debug.WriteLine("Adding took: {0}", new string[] { sw.Elapsed.ToString() });
+                /* if this all uses a list<PseudoEntity> this method takes ~00:00:00.3116434
+                sw.Restart();
+                mainServerWrapper.Items.Refresh();
+                sw.Stop();
+                Debug.WriteLine("Refreshing took: {0}", new string[] { sw.Elapsed.ToString() });*/
 
                 //This is really slow method, we need somthing faster
             }

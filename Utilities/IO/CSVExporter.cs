@@ -18,11 +18,7 @@ namespace URLServerManagerModern.Utilities.IO
     {
         internal CSVExporter() { }
 
-        /**
-         * <summary>
-         * Exports the database into the csv files, creates following files: (servers.csv (servers + pseudoServers), addresses.csv, severContents.csv and defaultCategories.csv)
-         * </summary>
-         **/
+
         internal void Export(string filePath)
         {
             try
