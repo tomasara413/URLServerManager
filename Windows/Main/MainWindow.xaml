@@ -182,7 +182,7 @@
                         </ScrollViewer.Style>
                         <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" IsHitTestVisible="False" Text="{Binding server.desc, TargetNullValue={x:Static system:String.Empty}}"/>
                     </ScrollViewer>
-                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" x:Name="addresses" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="addresses" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <ItemsControl x:Name="addressTempl" ItemsSource="{Binding server.protocolAddresses}" ItemTemplate="{StaticResource addressTemplate}" />
                     </ScrollViewer>
                 </Grid>
@@ -286,7 +286,7 @@
                         </ScrollViewer.Style>
                         <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" IsHitTestVisible="False" Text="{Binding server.desc, TargetNullValue={x:Static system:String.Empty}}"/>
                     </ScrollViewer>
-                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" x:Name="addresses" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="addresses" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <ScrollViewer.Style>
                             <Style TargetType="ScrollViewer">
                                 <Style.Triggers>
@@ -301,7 +301,7 @@
                         </ScrollViewer.Style>
                         <ItemsControl x:Name="addressTempl" ItemsSource="{Binding server.protocolAddresses}" ItemTemplate="{StaticResource addressTemplate}" />
                     </ScrollViewer>
-                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="6" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" x:Name="servers" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="6" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="servers" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <ItemsControl x:Name="serverTempl" ItemsPanel="{StaticResource elementWrap}" ItemsSource="{Binding computersInCluster}" ItemTemplateSelector="{StaticResource pseudoTemplateSelector}" />
                     </ScrollViewer>
                 </Grid>
@@ -365,7 +365,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock VerticalAlignment="Top" Margin="0,0,5,0">
+                    <TextBlock VerticalAlignment="Top" Margin="0,1,5,0">
                         <Run Text="{x:Static localization:Resources.SearchFor}"/><Run Text=":"/>
                     </TextBlock>
                     <CheckBox x:Name="matchExactly" Grid.Row="1" Margin="0,2.5,0,0" Click="OnChecked">
@@ -374,12 +374,12 @@
                         </CheckBox.Content>
                     </CheckBox>
                 </Grid>
-                <StackPanel Grid.Column="3" VerticalAlignment="Center" Orientation="Vertical" Margin="5,8,0,5">
-                    <RadioButton GroupName="searchRadio"  Content="{x:Static localization:Resources.FQDN}" x:Name="RBSR1" IsChecked="True" Checked="OnChecked"/>
-                    <RadioButton GroupName="searchRadio" Content="{x:Static localization:Resources.Address}" x:Name="RBSR2" Checked="OnChecked"/>
-                    <RadioButton GroupName="searchRadio" Content="{x:Static localization:Resources.Description}" x:Name="RBSR3" Checked="OnChecked"/>
-                    <RadioButton GroupName="searchRadio" Content="{x:Static localization:Resources.Category}" x:Name="RBSR4" Checked="OnChecked"/>
-                </StackPanel>
+                <ComboBox Grid.Column="3" VerticalAlignment="Top" SelectionChanged="ComboBox_SelectionChanged" Margin="5,2.5,0,5" MinWidth="70" HorizontalAlignment="Left">
+                    <ComboBoxItem Content="{x:Static localization:Resources.FQDN}" x:Name="RBSR1" IsSelected="True"/>
+                    <ComboBoxItem Content="{x:Static localization:Resources.Address}" x:Name="RBSR2" />
+                    <ComboBoxItem Content="{x:Static localization:Resources.Description}" x:Name="RBSR3" />
+                    <ComboBoxItem Content="{x:Static localization:Resources.Category}" x:Name="RBSR4" />
+                </ComboBox>
                 <Button Grid.Column="4" Margin="5,0,0,0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click" Content="×"/>
             </Grid>
         </DockPanel>

@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Text;
 using System.Collections.ObjectModel;
 using URLServerManagerModern.Utilities;
+using System.Threading;
 
 namespace URLServerManagerModern.Windows.Main
 {
@@ -35,7 +36,10 @@ namespace URLServerManagerModern.Windows.Main
             OnLocalServerFileChanged();
 
             Utilities.Utilities.LoadCategoryColors();
+
+            autoTest = new Timer(new TimerCallback(Utilities.Utilities.TestAllAddresses), null, 0, 1);
         }
+        public static Timer autoTest;
 
         public void SetServersContent(List<PseudoEntity> content)
         {
@@ -89,7 +93,7 @@ namespace URLServerManagerModern.Windows.Main
         {
             ProtocolAddress pa = (ProtocolAddress)(sender as FrameworkElement).DataContext;
             
-            Program[] programs = DataHolder.programs.Where(x => x.associations.Where(y => y.protocol == pa.protocol).Count() > 0).ToArray();
+            Program[] programs = DataHolder.programs.Where(x => x.associations.FirstOrDefault(y => y.protocol == pa.protocol) != null).ToArray();
             if (programs.Length > 0)
             {
                 if (programs.Length > 1)
@@ -385,13 +389,13 @@ namespace URLServerManagerModern.Windows.Main
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("WHERE ");
-                if ((bool)RBSR1.IsChecked)
+                if (RBSR1.IsSelected)
                     sb.Append("FQDN");
-                else if ((bool)RBSR2.IsChecked)
+                else if (RBSR2.IsSelected)
                     sb.Append("Address");
-                else if ((bool)RBSR3.IsChecked)
+                else if (RBSR3.IsSelected)
                     sb.Append("Description");
-                else if ((bool)RBSR4.IsChecked)
+                else if (RBSR4.IsSelected)
                     sb.Append("Category");
 
                 if ((bool)matchExactly.IsChecked)
@@ -433,6 +437,11 @@ namespace URLServerManagerModern.Windows.Main
         }
 
         private void findSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnChecked(sender, null);
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             OnChecked(sender, null);
         }

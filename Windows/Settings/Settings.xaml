@@ -123,6 +123,7 @@
                     <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{x:Static localization:Resources.General}"/>
                 </Button.Content>
             </Button>
+            <!--TODO: Remove left border-->
             <Button Click="SwitchSettingCategory" x:Name="protocolAssocB" FontSize="16">
                 <Button.Style>
                     <Style TargetType="Button">
@@ -207,6 +208,7 @@
                         <TextBox PreviewTextInput="AllowOnlyNumbers" DataObject.Pasting="DoNotAllowPasting" TextChanged="TestFontSizeBounds" x:Name="fontSize" Margin="0,4,0,4" Grid.Column="0"/>
                     </Grid>
 
+                    <!--Disable if remote file is not used-->
                     <TextBlock Grid.Column="2" Grid.Row="4" FontSize="16" VerticalAlignment="Center">
                         <Run Text="{x:Static localization:Resources.ShowLocalModifiers}"/><Run Text=":"/>
                     </TextBlock>
@@ -230,20 +232,25 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*" MaxWidth="250"/>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="26"/>
+                            <RowDefinition Height="Auto" MinHeight="27"/>
+                        </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Column="1" FontSize="16" VerticalAlignment="Center">
+                        <TextBlock Grid.Column="1" FontSize="16" VerticalAlignment="Top" Margin="0,2,0,0" HorizontalAlignment="Right">
                             <Run Text="{x:Static localization:Resources.Renew}"/><Run Text=":"/>
                         </TextBlock>
                         <TextBox Grid.Column="2" ToolTip="{x:Static localization:Resources.Miliseconds}" PreviewTextInput="AllowOnlyInteger" DataObject.Pasting="DoNotAllowPasting" TextChanged="TestAllSettings" x:Name="diagnosticsRenew" Margin="4"/>
-                        <TextBlock Grid.Column="3" FontSize="16" VerticalAlignment="Center">
-                            <Run Text=", "/><Run Text="{x:Static localization:Resources.Timeout}"/><Run Text=":"/>
+                        <TextBlock Grid.Column="3" FontSize="16" VerticalAlignment="Center" Text="{x:Static localization:Resources.Ms}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="16" VerticalAlignment="Top" Margin="0,1,0,0" HorizontalAlignment="Right">
+                            <Run Text="{x:Static localization:Resources.Timeout}"/><Run Text=":"/>
                         </TextBlock>
-                        <TextBox Grid.Column="4" ToolTip="{x:Static localization:Resources.Miliseconds}" PreviewTextInput="AllowOnlyInteger" DataObject.Pasting="DoNotAllowPasting" TextChanged="TestAllSettings" x:Name="diagnosticsTimeout" Margin="4"/>
+                        <TextBox Grid.Column="2" Grid.Row="1" ToolTip="{x:Static localization:Resources.Miliseconds}" PreviewTextInput="AllowOnlyInteger" DataObject.Pasting="DoNotAllowPasting" TextChanged="TestAllSettings" x:Name="diagnosticsTimeout" Margin="4"/>
+                        <TextBlock FontSize="16" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2" Text="{x:Static localization:Resources.Ms}"/>
                     </Grid>
                     <TextBlock FontSize="16" Grid.Row="7" Grid.Column="2" VerticalAlignment="Center">
                         <Run Text="{x:Static localization:Resources.Language}"/><Run Text=":"/>

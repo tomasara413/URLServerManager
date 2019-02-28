@@ -533,7 +533,8 @@ namespace URLServerManagerModern.Windows.Main
 
             return suitableList;
         }
-
+        
+        //TODO: Switch to newer c# to use is instead of as, possibly move to PWE class
         private bool IsPotentiallyInfinitelyRecursive(PseudoEntity pe, long rowid)
         {
             PseudoWrappingEntity pwe;

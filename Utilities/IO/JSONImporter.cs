@@ -63,7 +63,7 @@ namespace URLServerManagerModern.Utilities.IO
                                 if (tempRowID == 0)
                                 {
                                     pseudoServerInsert.Append("INSERT INTO pseudoServers ('ModificationDetector', 'CustomBackgroundColor', 'CustomBorderColor', 'CustomTextColor', 'ServerID') VALUES ");
-                                    addressInsert.Append("INSERT INTO addresses ('Protocol', 'Address', 'Port', 'AdditionalCMDParameters', 'ServerID') VALUES ");
+                                    addressInsert.Append("INSERT INTO addresses ('Protocol', 'TCP', 'Address', 'Port', 'AdditionalCMDParameters', 'ServerID') VALUES ");
                                 }
                                 command.Append("INSERT INTO servers (FQDN, Category, Desc, Type) VALUES ").Append("('").Append(SecurityElement.Escape(pe.server.fqdn)).Append("','").Append(SecurityElement.Escape(pe.server.category)).Append("','").Append(SecurityElement.Escape(pe.server.desc)).Append("',").Append((int)pe.type).Append(");");
                                 command.Append("INSERT INTO rowids (tempRowID, realRowID) VALUES ").Append("(").Append(tempRowID).Append(",(SELECT last_insert_rowid()));");
@@ -72,7 +72,7 @@ namespace URLServerManagerModern.Utilities.IO
                                 for (int i = 0; i < pe.server.protocolAddresses.Count; i++)
                                 {
                                     pa = pe.server.protocolAddresses[i];
-                                    addressInsert.Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("', '").Append(SecurityElement.Escape(pa.hostname)).Append("', ").Append(pa.port).Append(", '").Append(SecurityElement.Escape(pa.parameters)).Append("', (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(tempRowID).Append(" LIMIT 1)),");
+                                    addressInsert.Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("',").Append(pa.isTCP ? "1" : "0").Append(", '").Append(SecurityElement.Escape(pa.hostname)).Append("', ").Append(pa.port).Append(", '").Append(SecurityElement.Escape(pa.parameters)).Append("', (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(tempRowID).Append(" LIMIT 1)),");
                                 }
 
                                 savedIDToTempRowID.Add(pe.server.rowID, tempRowID);
@@ -245,7 +245,10 @@ namespace URLServerManagerModern.Utilities.IO
                                         switch (jt.Value?.ToString().ToLower())
                                         {
                                             case "port":
-                                                a.port = int.Parse(jt.ReadAsString());
+                                                a.port = (int)jt.ReadAsInt32();
+                                                break;
+                                            case "istcp":
+                                                a.isTCP = (bool)jt.ReadAsBoolean();
                                                 break;
                                             case "protocol":
                                                 a.protocol = jt.ReadAsString();

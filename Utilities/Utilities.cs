@@ -27,6 +27,7 @@ namespace URLServerManagerModern.Utilities
 {
     public static class Utilities
     {
+        #region Config File Parsing
         public static void LoadOrCreateConfig()
         {
             try
@@ -187,6 +188,8 @@ namespace URLServerManagerModern.Utilities
 
             return returnString.ToArray();
         }
+        #endregion
+
 
         public static string GetPropertyValue(string propertyName)
         {
@@ -203,31 +206,42 @@ namespace URLServerManagerModern.Utilities
                 DataHolder.configProperties[propertyName] = propertyValue;
         }
 
-        public static bool DoesProtocolHaveAssociation(string protocol)
+
+        public static void ShowElevationDialog()
         {
-            foreach (Program p in DataHolder.programs)
+            if (MessageBox.Show(Properties.Resources.ElevateProcess, Properties.Resources.ElevateProcessCaption, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                for (int i = 0; i < p.associations.Count; i++)
-                {
-                    if (p.associations[i].protocol == protocol)
-                        return true;
-                }
+                if (ElevateProcess(Process.GetCurrentProcess()) != null)
+                    Application.Current.Shutdown();
             }
-            return false;
         }
 
-        public static Program GetAssociation(string protocol)
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        public static Process ElevateProcess(Process source)
         {
-            foreach (Program p in DataHolder.programs)
+            Process target = new Process();
+            target.StartInfo = source.StartInfo;
+            target.StartInfo.FileName = source.MainModule.FileName;
+            target.StartInfo.WorkingDirectory = Path.GetDirectoryName(source.MainModule.FileName);
+
+            //Required for UAC to work
+            target.StartInfo.UseShellExecute = true;
+            target.StartInfo.Verb = "runas";
+
+            try
             {
-                for (int i = 0; i < p.associations.Count; i++)
-                {
-                    if (p.associations[i].protocol == protocol)
-                        return p;
-                }
+                if (!target.Start())
+                    return null;
             }
-            return null;
+            catch (Win32Exception e)
+            {
+                //Cancelled
+                if (e.NativeErrorCode == 1223)
+                    return null;
+            }
+            return target;
         }
+
 
         public static void Log(string errortype, string e)
         {
@@ -275,6 +289,7 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
+
         public static string OpenServerStructure(bool import)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -301,6 +316,7 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
+
         private static XMLImporter xmli = new XMLImporter();
         private static JSONImporter jsoni = new JSONImporter();
         private static CSVImporter csvi = new CSVImporter();
@@ -308,11 +324,10 @@ namespace URLServerManagerModern.Utilities
         private static void OnImportClosed(object s, EventArgs e)
         {
             cid.Closed -= OnImportClosed;
-            iscCidClosed = true;
+            cid = null;
         }
 
         static CSVImportDialog cid;
-        static bool iscCidClosed = true;
         public static void Import(string filePath)
         {
             switch (Path.GetExtension(filePath)?.ToLower())
@@ -324,20 +339,18 @@ namespace URLServerManagerModern.Utilities
                     jsoni.Import(filePath);
                     break;
                 case ".csv":
-                    if (iscCidClosed)
+                    if (cid == null)
                     {
                         cid = new CSVImportDialog(csvi, queue, filePath);
                         cid.Closed += OnImportClosed;
                         cid.ShowActivated = true;
                         cid.Show();
-                        iscCidClosed = false;
                     }
                     else
                         cid.Activate();
                     break;
             }
         }
-
 
         public static async Task ImportAsync(string filePath)
         {
@@ -351,13 +364,12 @@ namespace URLServerManagerModern.Utilities
                     t = queue.Enqueue(() => Task.Run(() => jsoni.Import(filePath)));
                     break;
                 case ".csv":
-                    if (iscCidClosed)
+                    if (cid == null)
                     {
                         cid = new CSVImportDialog(csvi, queue, filePath);
                         cid.Closed += OnImportClosed;
                         cid.ShowActivated = true;
                         cid.Show();
-                        iscCidClosed = false;
                     }
                     else
                         cid.Activate();
@@ -449,7 +461,7 @@ namespace URLServerManagerModern.Utilities
 
                 using (SQLiteConnection c = EstablishDatabaseConnection(filePath))
                 {
-                    string table = "CREATE TABLE IF NOT EXISTS servers (rowid INTEGER PRIMARY KEY, Type INTEGER DEFAULT 0, FQDN TEXT, Category TEXT, Desc TEXT); CREATE TABLE IF NOT EXISTS addresses (Protocol TEXT, Address TEXT NOT NULL, Port INTEGER NOT NULL, AdditionalCMDParameters TEXT, ServerID INTEGER NOT NULL, FOREIGN KEY (ServerID) REFERENCES servers(rowid) ON DELETE CASCADE); CREATE TABLE IF NOT EXISTS pseudoServers (ModificationDetector INTEGER, CustomBackgroundColor TEXT, CustomBorderColor TEXT, CustomTextColor TEXT, ServerID INTEGER NOT NULL, FOREIGN KEY (ServerID) REFERENCES servers(rowid) ON DELETE CASCADE); CREATE TABLE IF NOT EXISTS serverContents (ServerID INTEGER NOT NULL, ParentServerID INTEGER NOT NULL, PRIMARY KEY(ParentServerID, ServerID), FOREIGN KEY (ServerID) REFERENCES servers(rowid) ON DELETE CASCADE, FOREIGN KEY (ParentServerID) REFERENCES servers(rowid) ON DELETE CASCADE); CREATE TABLE IF NOT EXISTS defaultCategories (Category TEXT NOT NULL UNIQUE, CustomBackgroundColor TEXT, CustomBorderColor TEXT, CustomTextColor TEXT, PRIMARY KEY(Category)) WITHOUT ROWID;";
+                    string table = "CREATE TABLE IF NOT EXISTS servers (rowid INTEGER PRIMARY KEY, Type INTEGER DEFAULT 0, FQDN TEXT, Category TEXT, Desc TEXT); CREATE TABLE IF NOT EXISTS addresses (Protocol TEXT, TCP INTEGER NOT NULL DEFAULT 1, Address TEXT NOT NULL, Port INTEGER NOT NULL, AdditionalCMDParameters TEXT, ServerID INTEGER NOT NULL, FOREIGN KEY (ServerID) REFERENCES servers(rowid) ON DELETE CASCADE); CREATE TABLE IF NOT EXISTS pseudoServers (ModificationDetector INTEGER, CustomBackgroundColor TEXT, CustomBorderColor TEXT, CustomTextColor TEXT, ServerID INTEGER NOT NULL, FOREIGN KEY (ServerID) REFERENCES servers(rowid) ON DELETE CASCADE); CREATE TABLE IF NOT EXISTS serverContents (ServerID INTEGER NOT NULL, ParentServerID INTEGER NOT NULL, PRIMARY KEY(ParentServerID, ServerID), FOREIGN KEY (ServerID) REFERENCES servers(rowid) ON DELETE CASCADE, FOREIGN KEY (ParentServerID) REFERENCES servers(rowid) ON DELETE CASCADE); CREATE TABLE IF NOT EXISTS defaultCategories (Category TEXT NOT NULL UNIQUE, CustomBackgroundColor TEXT, CustomBorderColor TEXT, CustomTextColor TEXT, PRIMARY KEY(Category)) WITHOUT ROWID;";
                     c.Open();
                     SQLiteCommand cmd = new SQLiteCommand(table, c);
                     cmd.ExecuteNonQuery();
@@ -460,39 +472,38 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
-        public static void ShowElevationDialog()
+
+        private static bool addressTestFinished = true, shouldTestingOccur = false;
+        private static DateTime finishedAt;
+        private static int renewTimeout;
+        private static object lockOBJ = new object();
+        public static void TestAllAddresses(object o)
         {
-            if (MessageBox.Show(Properties.Resources.ElevateProcess, Properties.Resources.ElevateProcessCaption, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            lock (lockOBJ)
             {
-                if (ElevateProcess(Process.GetCurrentProcess()) != null)
-                    Application.Current.Shutdown();
-            }
-        }
+                if (addressTestFinished &&
+                    bool.TryParse(GetPropertyValue("allowportavailabilitydiagnostics"), out shouldTestingOccur) && shouldTestingOccur && 
+                    int.TryParse(GetPropertyValue("portavailabilityrenew"), out renewTimeout) && DateTime.Now > finishedAt.AddMilliseconds(renewTimeout))
+                {
+                    addressTestFinished = false;
+                    ProtocolAddress[] protocolAddresses = cachedAddresses.Values.ToArray().DeepCopy();
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public static Process ElevateProcess(Process source)
-        {
-            Process target = new Process();
-            target.StartInfo = source.StartInfo;
-            target.StartInfo.FileName = source.MainModule.FileName;
-            target.StartInfo.WorkingDirectory = Path.GetDirectoryName(source.MainModule.FileName);
+                    ProtocolAddress protocolAddress;
+                    int timeout;
+                    for (int i = 0; i < protocolAddresses.Length; i++)
+                    {
+                        protocolAddress = protocolAddresses[i];
+                        if (protocolAddress.isTCP)
+                        {
+                            timeout = int.Parse(GetPropertyValue("portavailabilitytimeout"));
+                            cachedAddresses[protocolAddress.rowID].status = WatcherWindow.GetStatus(protocolAddress, timeout, 2 * timeout);
+                        }
+                    };
 
-            //Required for UAC to work
-            target.StartInfo.UseShellExecute = true;
-            target.StartInfo.Verb = "runas";
-
-            try
-            {
-                if (!target.Start())
-                    return null;
+                    addressTestFinished = true;
+                    finishedAt = DateTime.Now;
+                }
             }
-            catch (Win32Exception e)
-            {
-                //Cancelled
-                if (e.NativeErrorCode == 1223)
-                    return null;
-            }
-            return target;
         }
 
         public static SQLiteConnection EstablishDatabaseConnection(string filePath)
@@ -533,7 +544,6 @@ namespace URLServerManagerModern.Utilities
         {
             return await Task.Run(() => LoadServers(offset, limit, select, readInDepth));
         }
-
 
         static Dictionary<long, PseudoEntity> cachedServers = new Dictionary<long, PseudoEntity>();
 
@@ -591,7 +601,7 @@ namespace URLServerManagerModern.Utilities
             s.usesText = color != null && !string.IsNullOrEmpty(color) && !string.IsNullOrWhiteSpace(color);
             s.customTextColor = s.usesText ? color : hasDefaultCategory ? DataHolder.categoryColors[s.server.category].textColor : "#000000";
 
-            SQLiteCommand cmd2 = new SQLiteCommand("SELECT Protocol, Address, Port, AdditionalCMDParameters, rowid FROM addresses WHERE ServerID = " + s.server.rowID, c);
+            SQLiteCommand cmd2 = new SQLiteCommand("SELECT Protocol, TCP, Address, Port, AdditionalCMDParameters, rowid FROM addresses WHERE ServerID = " + s.server.rowID, c);
             SQLiteDataReader r2 = cmd2.ExecuteReader();
 
             
@@ -600,6 +610,7 @@ namespace URLServerManagerModern.Utilities
             {
                 ProtocolAddress pa = new ProtocolAddress(new SecurityElement("unescape", (string)r2["Protocol"]).Text, new SecurityElement("unescape", (string)r2["Address"]).Text, (int)((long)r2["Port"]));
                 pa.rowID = (long)r2["rowid"];
+                pa.isTCP = (long)r2["TCP"] == 1;
 
                 lock (cachedAddresses)
                 {
@@ -658,11 +669,6 @@ namespace URLServerManagerModern.Utilities
         public static async Task LoadCategoryColorsAsync()
         {
             await Task.Run(() => LoadCategoryColors());
-        }
-
-        public static void RefreshAllDynamicResources(MainWindow mainWindow)
-        {
-            mainWindow.Resources["fontSize"] = DataHolder.fontSize;
         }
 
         public static void SaveDefaultCategories(List<CategoryColorAssociation> currentList)
@@ -726,7 +732,7 @@ namespace URLServerManagerModern.Utilities
                             pa = e.server.protocolAddresses[i];
                             if (pa.rowID < 0)
                             {
-                                b.Append("INSERT INTO addresses (Protocol, Address, Port, AdditionalCMDParameters, ServerID) VALUES ").Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("','").Append(SecurityElement.Escape(pa.hostname)).Append("','").Append(pa.port).Append("','").Append(SecurityElement.Escape(pa.parameters)).Append("',").Append(e.server.rowID).Append(");");
+                                b.Append("INSERT INTO addresses (Protocol, TCP, Address, Port, AdditionalCMDParameters, ServerID) VALUES ").Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("',").Append(pa.isTCP ? "1" : "0").Append(",'").Append(SecurityElement.Escape(pa.hostname)).Append("',").Append(pa.port).Append(",'").Append(SecurityElement.Escape(pa.parameters)).Append("',").Append(e.server.rowID).Append(");");
 
                                 cmd.CommandText = b.ToString();
                                 b.Clear();
@@ -746,7 +752,7 @@ namespace URLServerManagerModern.Utilities
                             }
                             else
                             {
-                                b.Append("UPDATE addresses SET Protocol = '").Append(SecurityElement.Escape(pa.protocol)).Append("', Address = '").Append(SecurityElement.Escape(pa.hostname)).Append("', Port = '").Append(pa.port).Append("', AdditionalCMDParameters = '").Append(SecurityElement.Escape(pa.parameters)).Append("' WHERE rowid = ").Append(pa.rowID).Append(";");
+                                b.Append("UPDATE addresses SET Protocol = '").Append(SecurityElement.Escape(pa.protocol)).Append("', TCP = ").Append(pa.isTCP ? "1" : "0").Append(", Address = '").Append(SecurityElement.Escape(pa.hostname)).Append("', Port = ").Append(pa.port).Append(", AdditionalCMDParameters = '").Append(SecurityElement.Escape(pa.parameters)).Append("' WHERE rowid = ").Append(pa.rowID).Append(";");
                                 cmd.CommandText = b.ToString();
                                 b.Clear();
                                 cmd.ExecuteNonQuery();
@@ -811,7 +817,7 @@ namespace URLServerManagerModern.Utilities
                         for (int i = 0; i < e.server.protocolAddresses.Count; i++)
                         {
                             pa = e.server.protocolAddresses[i];
-                            b.Append("INSERT INTO addresses (Protocol, Address, Port, AdditionalCMDParameters, ServerID) VALUES ").Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("','").Append(SecurityElement.Escape(pa.hostname)).Append("','").Append(pa.port).Append("','").Append(SecurityElement.Escape(pa.parameters)).Append("',").Append(e.server.rowID).Append(");");
+                            b.Append("INSERT INTO addresses (Protocol, TCP, Address, Port, AdditionalCMDParameters, ServerID) VALUES ").Append("('").Append(SecurityElement.Escape(pa.protocol)).Append("',").Append(pa.isTCP ? "1" : "0").Append(",'").Append(SecurityElement.Escape(pa.hostname)).Append("',").Append(pa.port).Append(",'").Append(SecurityElement.Escape(pa.parameters)).Append("',").Append(e.server.rowID).Append(");");
 
                             cmd.CommandText = b.ToString();
                             b.Clear();
@@ -1029,6 +1035,14 @@ namespace URLServerManagerModern.Utilities
             return await Task.Run(() => GatherProtocols());
         }
 
+
+        public static void RefreshAllDynamicResources(MainWindow mainWindow)
+        {
+            mainWindow.Resources["fontSize"] = DataHolder.fontSize;
+        }
+
+        #region Extension Methods
+
         public static List<ProtocolAddress> DeepCopy(this List<ProtocolAddress> sourceList)
         {
             List<ProtocolAddress> lpa = new List<ProtocolAddress>();
@@ -1039,7 +1053,27 @@ namespace URLServerManagerModern.Utilities
                 pa = new ProtocolAddress(p.protocol, p.hostname, p.port);
                 pa.parameters = p.parameters;
                 pa.rowID = p.rowID;
+                pa.isTCP = p.isTCP;
                 lpa.Add(pa);
+            }
+
+            return lpa;
+        }
+
+        public static ProtocolAddress[] DeepCopy(this ProtocolAddress[] sourceList)
+        {
+            ProtocolAddress[] lpa = new ProtocolAddress[sourceList.Length];
+
+            ProtocolAddress pa;
+            int i = 0;
+            foreach (ProtocolAddress p in sourceList)
+            {
+                pa = new ProtocolAddress(p.protocol, p.hostname, p.port);
+                pa.parameters = p.parameters;
+                pa.rowID = p.rowID;
+                pa.isTCP = p.isTCP;
+                lpa[i] = pa;
+                i++;
             }
 
             return lpa;
@@ -1104,10 +1138,12 @@ namespace URLServerManagerModern.Utilities
             return output;
         }
 
+        
         public static void AddRange<T>(this ObservableCollection<T> oc, List<T> list)
         {
             for (int i = 0; i < list.Count; i++)
                 oc.Add(list[i]);
         }
+        #endregion
     }
 }

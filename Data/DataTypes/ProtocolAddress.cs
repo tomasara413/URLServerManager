@@ -17,6 +17,7 @@ namespace URLServerManagerModern.Data.DataTypes
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public bool isTCP { get; set; }
         public string hostname { get; set; }
         public int port { get; set; }
         public string protocol { get; set; }
@@ -27,6 +28,7 @@ namespace URLServerManagerModern.Data.DataTypes
         public ProtocolAddress()
         {
             status = Status.Untested;
+            isTCP = true;
         }
 
         public ProtocolAddress(string protocol, string hostname, int port) : this()
@@ -44,7 +46,7 @@ namespace URLServerManagerModern.Data.DataTypes
         public override bool Equals(object obj)
         {
             ProtocolAddress a = obj as ProtocolAddress;
-            return a != null && hostname == a.hostname && port == a.port && protocol == a.protocol && parameters == a.parameters;
+            return a != null && hostname == a.hostname && port == a.port && protocol == a.protocol && parameters == a.parameters && isTCP == a.isTCP;
         }
 
         public override int GetHashCode()

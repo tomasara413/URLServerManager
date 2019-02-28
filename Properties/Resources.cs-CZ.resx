@@ -454,4 +454,13 @@ Pole označená * je třeba vyplnit neboť se bez nich import neobejde.</value>
   <data name="SearchFor" xml:space="preserve">
     <value>Hledat</value>
   </data>
+  <data name="Ms" xml:space="preserve">
+    <value>ms</value>
+  </data>
+  <data name="TCP" xml:space="preserve">
+    <value>TCP</value>
+  </data>
+  <data name="UDP" xml:space="preserve">
+    <value>UDP</value>
+  </data>
 </root>

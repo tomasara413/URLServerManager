@@ -88,6 +88,7 @@ namespace URLServerManagerModern.Utilities.IO
                                 pa = entity.server.protocolAddresses[j];
                                 xw.WriteStartElement("Address");
                                 xw.WriteAttributeString("protocol", pa.protocol);
+                                xw.WriteAttributeString("isTCP", pa.isTCP.ToString());
                                 xw.WriteAttributeString("port", pa.port.ToString());
 
                                 xw.WriteStartElement("EndPoint");

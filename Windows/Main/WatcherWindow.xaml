@@ -29,6 +29,15 @@
                     <TextBlock TextAlignment="Center" Text="{Binding status, Converter={StaticResource statusConverter}}"/>
                 </ScrollViewer>
                 <Button Margin="5,0" VerticalAlignment="Center" Grid.Column="3" Height="15" Click="TestManually">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding isTCP}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                     <Button.Content>
                         <TextBlock FontSize="10" Text="{x:Static localization:Resources.TForTest}"/>
                     </Button.Content>
@@ -39,8 +48,8 @@
         <DataTemplate x:Key="server" DataType="datatypes:Server">
             <Grid Margin="10,10,10,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="80*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>

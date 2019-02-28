@@ -36,8 +36,7 @@ namespace URLServerManagerModern.Data
         public static List<Program> programs = new List<Program>();
         public static Dictionary<string, string> configProperties = new Dictionary<string, string>();
         public static Dictionary<string, CategoryColorAssociation> categoryColors = new Dictionary<string, CategoryColorAssociation>();
-        public static int InitialProtocolToPortPoolSize { get { return initialProtcolToPortPool; } }
-        private static int initialProtcolToPortPool;
+        public static int InitialProtocolToPortPoolSize { get; private set; }
 
         public static void InitializeBasicProtocolDictionary()
         {
@@ -47,7 +46,7 @@ namespace URLServerManagerModern.Data
             protocolToPort.Add("rdp", 3389);
             protocolToPort.Add("http", 80);
             protocolToPort.Add("https", 443);
-            initialProtcolToPortPool = protocolToPort.Count;
+            InitialProtocolToPortPoolSize = protocolToPort.Count;
         }
 
         public static void InitializeBasicAssociationsList()
@@ -61,9 +60,9 @@ namespace URLServerManagerModern.Data
             configProperties.Add("remotefile", null);
             configProperties.Add("fontsize", "8.5");
             configProperties.Add("showmodificationindicators", "false");
-            configProperties.Add("allowportavailabilitydiagnostics", "true");
-            configProperties.Add("portavailabilitytimeout", "30000");
-            configProperties.Add("portavailabilityrenew", "200000");
+            configProperties.Add("allowportavailabilitydiagnostics", "false");
+            configProperties.Add("portavailabilitytimeout", "8000"); //in ms = 8sec
+            configProperties.Add("portavailabilityrenew", "1800000"); //in ms = 20min
             configProperties.Add("associations", null);
             configProperties.Add("portassociations", null);
             configProperties.Add("language", null);

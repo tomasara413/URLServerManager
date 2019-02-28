@@ -56,14 +56,24 @@
         </Grid>
         <Grid Grid.Column="1" Grid.Row="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="34*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Grid.Column="2" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Margin="0,1">
                 <Run Text="{x:Static localization:Resources.AdditionalParameters}"/><Run Text=":"/>
             </TextBlock>
-            <TextBox x:Name="AdditionalParameters" MaxLines="1" AcceptsTab="False" AcceptsReturn="False" Grid.Column="2" Margin="0,5"/>
+            <TextBox x:Name="AdditionalParameters" MaxLines="1" AcceptsTab="False" AcceptsReturn="False" Grid.Column="4" Margin="0,5"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <RadioButton x:Name="TCPRadio" VerticalAlignment="Center" IsChecked="True" GroupName="TCPGroup" Content="{x:Static localization:Resources.TCP}"/>
+                <RadioButton x:Name="UDPRadio" VerticalAlignment="Center" GroupName="TCPGroup" Grid.Row="1" Content="{x:Static localization:Resources.UDP}"/>
+            </Grid>
         </Grid>
         <Grid Grid.Row="6" Grid.Column="1">
             <Grid.ColumnDefinitions>

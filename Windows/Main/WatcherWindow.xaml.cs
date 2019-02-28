@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using URLServerManagerModern.Data.DataTypes;
 using URLServerManagerModern.Data.DataTypes.Pseudo;
+using URLServerManagerModern.Utilities;
 
 namespace URLServerManagerModern.Windows.Main
 {
@@ -67,7 +68,7 @@ namespace URLServerManagerModern.Windows.Main
             fe.IsEnabled = true;
         }
 
-        IdnMapping idnm = new IdnMapping();
+        static IdnMapping idnm = new IdnMapping();
         Dictionary<ServerAddressPair, Task<Status>> tasks = new Dictionary<ServerAddressPair, Task<Status>>();
         private Task<Status> GetStatusAsync(ServerAddressPair pair)
         {
@@ -86,13 +87,13 @@ namespace URLServerManagerModern.Windows.Main
             return t;
         }
 
-        private Status GetStatus(ProtocolAddress pa)
+        public static Status GetStatus(ProtocolAddress pa, int sendTimeout = 60, int recieveTimeout = 120)
         {
             Status result = Status.AddressUnreachable;
 
             TcpClient client = new TcpClient();
-            client.SendTimeout = 60;
-            client.ReceiveTimeout = 120;
+            client.SendTimeout = sendTimeout;
+            client.ReceiveTimeout = recieveTimeout;
 
             Ping pinger = new Ping();
             try

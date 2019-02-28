@@ -454,4 +454,13 @@ Fileds marked with * have to be filled in otherwise the import cannot proceed.</
   <data name="MatchExactly" xml:space="preserve">
     <value>Match exactly</value>
   </data>
+  <data name="Ms" xml:space="preserve">
+    <value>ms</value>
+  </data>
+  <data name="TCP" xml:space="preserve">
+    <value>TCP</value>
+  </data>
+  <data name="UDP" xml:space="preserve">
+    <value>UDP</value>
+  </data>
 </root>

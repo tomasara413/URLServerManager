@@ -51,6 +51,7 @@ namespace URLServerManagerModern.Windows.Main
                 Protocols.SelectedItem = edited.protocol;
 
                 Address.Text = edited.hostname;
+                UDPRadio.IsChecked = !(TCPRadio.IsChecked = edited.isTCP);
                 Port.Text = edited.port.ToString();
                 if(!string.IsNullOrEmpty(edited.parameters))
                     AdditionalParameters.Text = edited.parameters.ToString();
@@ -67,6 +68,7 @@ namespace URLServerManagerModern.Windows.Main
 
             edited.protocol = Protocols.SelectedItem.ToString();
             edited.hostname = Address.Text.Trim();
+            edited.isTCP = (bool)TCPRadio.IsChecked;
             if (!string.IsNullOrEmpty(Port.Text))
                 edited.port = int.Parse(Port.Text);
             else

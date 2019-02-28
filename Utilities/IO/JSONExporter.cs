@@ -86,6 +86,10 @@ namespace URLServerManagerModern.Utilities.IO
                                 jw.WriteStartObject();
                                 jw.WritePropertyName("protocol");
                                 jw.WriteValue(pa.protocol);
+
+                                jw.WritePropertyName("isTCP");
+                                jw.WriteValue(pa.isTCP);
+
                                 jw.WritePropertyName("port");
                                 jw.WriteValue(pa.port);
 
