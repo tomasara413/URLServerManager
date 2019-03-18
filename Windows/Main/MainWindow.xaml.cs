@@ -38,6 +38,7 @@ namespace URLServerManagerModern.Windows.Main
             Utilities.Utilities.LoadCategoryColors();
 
             autoTest = new Timer(new TimerCallback(Utilities.Utilities.TestAllAddresses), null, 0, 1);
+            //Utilities.Utilities.SynchronizeWithServer("root", "", "URLManagerDatabase", "127.0.0.1");
         }
         public static Timer autoTest;
 
@@ -53,7 +54,7 @@ namespace URLServerManagerModern.Windows.Main
         public void AddPseudoEntity(PseudoEntity s)
         {
             servers.Add(s);
-            mainServerWrapper.Items.Refresh();
+            //mainServerWrapper.Items.Refresh();
         }
 
         public void AddListOfPseudoEntities(List<PseudoEntity> servers)
@@ -141,28 +142,21 @@ namespace URLServerManagerModern.Windows.Main
                 {
 
                     if (Path.GetExtension(ofdFileName) == ".db")
-                        Utilities.Utilities.SetPropertyValue("localfile", "\"" + ofdFileName + "\"");
+                        Utilities.Utilities.SetPropertyValue("locallocation", "\"" + ofdFileName + "\"");
                     else
                     {
                         //Debug.WriteLine(Path.GetDirectoryName(ofdFileName) + "; " + Path.GetFileNameWithoutExtension(ofdFileName));
-                        Utilities.Utilities.SetPropertyValue("localfile", "\"" + Path.GetDirectoryName(ofdFileName) + "\\" + Path.GetFileNameWithoutExtension(ofdFileName) + ".db" + "\"");
+                        Utilities.Utilities.SetPropertyValue("locallocation", "\"" + Path.GetDirectoryName(ofdFileName) + "\\" + Path.GetFileNameWithoutExtension(ofdFileName) + ".db" + "\"");
                         await Utilities.Utilities.ConvertToDB(ofdFileName);
                     }
                     Utilities.Utilities.SaveSettings();
                 }
                 else
                 {
-                    if ((sender as FrameworkElement).Name == "remote")
+                    if (Utilities.Utilities.GetPropertyValue("locallocation") != null)
                     {
-
-                    }
-                    else
-                    {
-                        if (Utilities.Utilities.GetPropertyValue("localfile") != null)
-                        {
-                            if (Path.GetExtension(ofdFileName) != ".db")
-                                await Utilities.Utilities.ImportAsync(ofdFileName);
-                        }
+                        if (Path.GetExtension(ofdFileName) != ".db")
+                            await Utilities.Utilities.ImportAsync(ofdFileName);
                     }
                 }
 
@@ -184,7 +178,7 @@ namespace URLServerManagerModern.Windows.Main
 
         private async void OnLocalServerFileChanged()
         {
-            findEntity.IsEnabled = import.IsEnabled = export.IsEnabled = editSubmenu.IsEnabled = toolSubMenu.IsEnabled = File.Exists(Utilities.Utilities.GetPropertyValue("localfile"));
+            upSrvButt.IsEnabled = findEntity.IsEnabled = import.IsEnabled = export.IsEnabled = editSubmenu.IsEnabled = toolSubMenu.IsEnabled = File.Exists(Utilities.Utilities.GetPropertyValue("locallocation"));
             servers.Clear();
             if (import.IsEnabled)
             {
@@ -195,7 +189,6 @@ namespace URLServerManagerModern.Windows.Main
         }
 
         
-        private FrameworkElement previousBG;
         private HashSet<FrameworkElement> selectedBackgrounds = new HashSet<FrameworkElement>();
 
         private void SelectServer(object sender, RoutedEventArgs e)
@@ -226,7 +219,7 @@ namespace URLServerManagerModern.Windows.Main
                             selectedBackgrounds.Add(t);
                     }
 
-                    previousBG = t;
+                    DetailsView.DataContext = selectedBackgrounds.Contains(t) ? t.DataContext : null;
                     break;
                 }
             }
@@ -308,7 +301,6 @@ namespace URLServerManagerModern.Windows.Main
         public void OnServerModified(PseudoServer s, List<ProtocolAddress> removed)
         {
             mainServerWrapper.Items.Refresh();
-
             Utilities.Utilities.SavePseudoEntityAsync(s, removed, null).ConfigureAwait(false);
         }
 
@@ -345,7 +337,7 @@ namespace URLServerManagerModern.Windows.Main
                         Utilities.Utilities.RemovePseudoEntityAsync(s).ConfigureAwait(false);
                 }
             }
-            mainServerWrapper.Items.Refresh();
+            //mainServerWrapper.Items.Refresh();
         }
 
         private void SelectParent(object sender, MouseButtonEventArgs e)
@@ -394,7 +386,7 @@ namespace URLServerManagerModern.Windows.Main
                 else if (RBSR2.IsSelected)
                     sb.Append("Address");
                 else if (RBSR3.IsSelected)
-                    sb.Append("Description");
+                    sb.Append("Desc");
                 else if (RBSR4.IsSelected)
                     sb.Append("Category");
 
@@ -410,22 +402,26 @@ namespace URLServerManagerModern.Windows.Main
 
                 sb.Append("'");
 
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
-                List<PseudoEntity> pes = await Utilities.Utilities.LoadServersAsync(0, DataHolder.LIMIT, sb.ToString());
-                sw.Stop();
+                /*Stopwatch sw = new Stopwatch();
+                sw.Start();*/
+                List<PseudoEntity> pes;
+                if (!RBSR2.IsSelected)
+                    pes = await Utilities.Utilities.LoadServersAsync(0, DataHolder.LIMIT, sb.ToString());
+                else
+                    pes = await Utilities.Utilities.ReverseAddressLookupAsync(0, DataHolder.LIMIT, sb.ToString());
+                /*sw.Stop();
                 //Takes ~00:00:00.0040741
                 Debug.WriteLine("Awaiting took: {0}", new string[] { sw.Elapsed.ToString()});
-                sw.Restart();
+                sw.Restart();*/
                 servers.Clear();
-                sw.Stop();
+                /*sw.Stop();
                 //Takes ~00:00:00.3113976
                 Debug.WriteLine("Clearing took: {0}", new string[]{ sw.Elapsed.ToString()});
                 sw.Restart();
-                //Takes ~00:00:00.0004950
+                //Takes ~00:00:00.0004950*/
                 servers.AddRange(pes);
-                sw.Stop();
-                Debug.WriteLine("Adding took: {0}", new string[] { sw.Elapsed.ToString() });
+                /*sw.Stop();
+                Debug.WriteLine("Adding took: {0}", new string[] { sw.Elapsed.ToString() });*/
                 /* if this all uses a list<PseudoEntity> this method takes ~00:00:00.3116434
                 sw.Restart();
                 mainServerWrapper.Items.Refresh();
@@ -446,6 +442,26 @@ namespace URLServerManagerModern.Windows.Main
             OnChecked(sender, null);
         }
 
+        SynchronizationConnectionWindow syncw = null;
+        private void BeginSynchronizationProcess(object sender, RoutedEventArgs e)
+        {
+            if (syncw == null)
+            {
+                syncw = new SynchronizationConnectionWindow();
+                syncw.Closed += SyncWindowClosed;
+                syncw.Show();
+                
+            }
+
+            syncw.Activate();
+        }
+
+        private void SyncWindowClosed(object sender, EventArgs e)
+        {
+            (sender as Window).Closed -= SyncWindowClosed;
+            syncw = null;
+        }
+
         private async void ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (!endOfContent && !fetchingData && e.VerticalChange > 0 && e.VerticalOffset + e.ViewportHeight == e.ExtentHeight)
@@ -455,10 +471,10 @@ namespace URLServerManagerModern.Windows.Main
                 fetchingData = false;
 
                 if (loadedServers.Count > 0)
-                {
+                //{
                     servers.AddRange(loadedServers);
-                    mainServerWrapper.Items.Refresh();
-                }
+                    /*mainServerWrapper.Items.Refresh();
+                }*/
 
                 endOfContent = loadedServers.Count < DataHolder.LIMIT;
             }

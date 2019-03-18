@@ -195,10 +195,10 @@
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
-  <data name="LocalFile" xml:space="preserve">
+  <data name="LocalLocation" xml:space="preserve">
     <value>Cesta k místní záloze</value>
   </data>
-  <data name="RemoteFile" xml:space="preserve">
+  <data name="RemoteLocation" xml:space="preserve">
     <value>Cesta k vzdálené záloze</value>
   </data>
   <data name="Apply" xml:space="preserve">
@@ -379,7 +379,7 @@
     <value>Nový cluster</value>
   </data>
   <data name="OpenWatcher" xml:space="preserve">
-    <value>Otevřít pozorovatele</value>
+    <value>Otevřít Hlídkaře</value>
   </data>
   <data name="ClusterWindow" xml:space="preserve">
     <value>Cluster</value>
@@ -462,5 +462,74 @@ Pole označená * je třeba vyplnit neboť se bez nich import neobejde.</value>
   </data>
   <data name="UDP" xml:space="preserve">
     <value>UDP</value>
+  </data>
+  <data name="Synchronize" xml:space="preserve">
+    <value>Synchronizovat</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Počkejte prosím</value>
+  </data>
+  <data name="RemoteMySQLDatabase" xml:space="preserve">
+    <value>Specifikace vzdálené databáze MySQL</value>
+  </data>
+  <data name="DatabaseName" xml:space="preserve">
+    <value>Jméno databáze</value>
+  </data>
+  <data name="Hostname" xml:space="preserve">
+    <value>Hostname</value>
+  </data>
+  <data name="DownloadDefaultColorsOnly" xml:space="preserve">
+    <value>Stáhnout pouze výchozí barvy.</value>
+  </data>
+  <data name="DownloadEntitiesOnly" xml:space="preserve">
+    <value>Stáhnout pouze vzdálené struktury.</value>
+  </data>
+  <data name="DownloadToFullSync" xml:space="preserve">
+    <value>Pouze plně synchronizovat.</value>
+  </data>
+  <data name="SendDataAndFullySynchronize" xml:space="preserve">
+    <value>Odeslat data a plně synchronizovat.</value>
+  </data>
+  <data name="SendDefaultColorsOnly" xml:space="preserve">
+    <value>Odeslat pouze výchozí barvy.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID Uživatele</value>
+  </data>
+  <data name="MySQLLoginData" xml:space="preserve">
+    <value>Přihlašovací údaje do MySQL databáze</value>
+  </data>
+  <data name="SynchronizationConflictResolutionWindowTitle" xml:space="preserve">
+    <value>Synchronizace - konflikty</value>
+  </data>
+  <data name="SynchronizationConnectionWindowTitle" xml:space="preserve">
+    <value>Synchronizace - připojení</value>
+  </data>
+  <data name="SynchronizationLoginPopupTitle" xml:space="preserve">
+    <value>Synchronizace - přihlášení</value>
+  </data>
+  <data name="SynchronizationFailed" xml:space="preserve">
+    <value>Synchronizace selhala, chyba:</value>
+  </data>
+  <data name="SynchronizationFailure" xml:space="preserve">
+    <value>Synchronizační Selhání</value>
+  </data>
+  <data name="SynchronizationSuccess" xml:space="preserve">
+    <value>Synchronizační Úspěch</value>
+  </data>
+  <data name="SynchronizationSuccessful" xml:space="preserve">
+    <value>Synchronizace byla úspěšná.</value>
+  </data>
+  <data name="Resolve" xml:space="preserve">
+    <value>Vyřešit</value>
+  </data>
+  <data name="Keep" xml:space="preserve">
+    <value>Ponechat</value>
+  </data>
+  <data name="ThrowAway" xml:space="preserve">
+    <value>Nahradit</value>
   </data>
 </root>

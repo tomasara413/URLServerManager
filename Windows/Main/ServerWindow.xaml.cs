@@ -197,12 +197,18 @@ namespace URLServerManagerModern.Windows.Main
                 }
             }
             else
+            {
                 original = new PseudoServer(ModificationDetector.New, new Server(FQDN.Text.Trim(), Categories.SelectedItem?.ToString(), Description.Text.Trim()));
+                edited.modDetect = ModificationDetector.New;
+            }
 
             original.server.fqdn = edited.server.fqdn;
             original.server.category = edited.server.category;
             original.server.desc = edited.server.desc;
             original.server.protocolAddresses = edited.server.protocolAddresses;
+
+            if(original.modDetect == ModificationDetector.Null)
+                original.modDetect = edited.modDetect;
 
             ProtocolAddress pa;
             for (int i = 0; i < original.server.protocolAddresses.Count; i++)

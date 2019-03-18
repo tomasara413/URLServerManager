@@ -269,12 +269,16 @@ namespace URLServerManagerModern.Windows.Main
             {
                 //Checking each child invidually is essentially waste of resources and time, it is easier to save it no matter the child elements
                 removedServers = null;
-                original = new PseudoWrappingEntity(ModificationDetector.Modified, new Server(FQDN.Text.Trim(), Categories.SelectedItem?.ToString(), Description.Text.Trim()), (ServersInCollection.ItemsSource as List<PseudoEntity>).ToArray());
+                original = new PseudoWrappingEntity(ModificationDetector.New, new Server(), (ServersInCollection.ItemsSource as List<PseudoEntity>).ToArray());
+                edited.modDetect = ModificationDetector.New;
             }
             original.server.fqdn = edited.server.fqdn;
             original.server.category = edited.server.category;
             original.server.desc = edited.server.desc;
             original.server.protocolAddresses = edited.server.protocolAddresses;
+
+            if (original.modDetect == ModificationDetector.Null)
+                original.modDetect = edited.modDetect;
 
             ProtocolAddress pa;
             for (int i = 0; i < original.server.protocolAddresses.Count; i++)

@@ -160,7 +160,7 @@ namespace URLServerManagerModern.Utilities.IO
             }
             catch (Exception e)
             {
-                throw;
+                //throw;
                 if (e is UnauthorizedAccessException)
                     Utilities.ShowElevationDialog();
                 else

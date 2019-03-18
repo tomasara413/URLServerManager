@@ -1,0 +1,44 @@
+﻿<Window x:Class="URLServerManagerModern.Windows.Main.SynchronizationLoginPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:URLServerManagerModern.Windows.Main"
+        xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static localization:Resources.SynchronizationLoginPopupTitle}" Height="300" Width="350">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="16" HorizontalAlignment="Center">
+            <Run Text="{x:Static localization:Resources.MySQLLoginData}"/><Run Text=":"/>
+        </TextBlock>
+        
+        
+        <TextBlock Grid.Row="1" FontSize="14" VerticalAlignment="Center">
+            <Run Text="{x:Static localization:Resources.UserID}"/><Run Text=":"/>
+        </TextBlock>
+        <TextBox x:Name="User" Grid.Row="2" Margin="0,10"/>
+
+        <TextBlock Grid.Row="3" FontSize="14" VerticalAlignment="Center">
+            <Run Text="{x:Static localization:Resources.Password}"/><Run Text=":"/>
+        </TextBlock>
+        <PasswordBox x:Name="Password" Grid.Row="4" Margin="0,10"/>
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <Button Click="Sync_Click" x:Name="Sync" Grid.Column="1" Margin="5,5,2.5,5" Content="{x:Static localization:Resources.Synchronize}"/>
+            <Button Click="Cancel" Grid.Column="2" Margin="2.5,5,5,5" Content="{x:Static localization:Resources.Cancel}"/>
+        </Grid>
+    </Grid>
+</Window>

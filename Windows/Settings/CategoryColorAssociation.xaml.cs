@@ -39,7 +39,7 @@ namespace URLServerManagerModern.Windows.Settings
             settings.Closed += closedEvent = (o, e) => Close();
 
             HashSet<string> validCategories = new HashSet<string>();
-            using (SQLiteConnection c = Utilities.Utilities.EstablishDatabaseConnection(Utilities.Utilities.GetPropertyValue("localfile")))
+            using (SQLiteConnection c = Utilities.Utilities.EstablishSQLiteDatabaseConnection(Utilities.Utilities.GetPropertyValue("locallocation")))
             {
                 if (c != null)
                 {

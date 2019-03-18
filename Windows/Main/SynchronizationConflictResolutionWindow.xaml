@@ -1,32 +1,31 @@
-﻿<Window x:Class="URLServerManagerModern.Windows.Main.MainWindow"
+﻿<Window x:Class="URLServerManagerModern.Windows.Main.SynchronizationConflictResolutionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:local="clr-namespace:URLServerManagerModern"
         xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
         xmlns:datatypes="clr-namespace:URLServerManagerModern.Data.DataTypes"
         xmlns:data="clr-namespace:URLServerManagerModern.Data"
+        xmlns:local="clr-namespace:URLServerManagerModern.Windows.Main"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:pseudo="clr-namespace:URLServerManagerModern.Data.DataTypes.Pseudo"
         xmlns:template="clr-namespace:URLServerManagerModern.Controls.TemplateSelectors" 
-        xmlns:utils="clr-namespace:URLServerManagerModern.Utilities"
+        xmlns:controls="clr-namespace:URLServerManagerModern.Controls"
         mc:Ignorable="d"
-        Title="URL Server Manager" Height="400" Width="620" WindowState="Maximized" WindowStartupLocation="CenterScreen" MinHeight="380" MinWidth="260" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" KeyDown="FormKeyListener">
+        Title="{x:Static localization:Resources.SynchronizationConflictResolutionWindowTitle}" Height="450" Width="650">
     <Window.Resources>
-        <utils:StatusConverter x:Key="statusConverter"/>
         <system:Double x:Key="fontSize">12</system:Double>
         <template:PseudoTemplateSelector x:Key="pseudoTemplateSelector"/>
 
         <ItemsPanelTemplate x:Key="elementWrap">
-            <WrapPanel ItemWidth="auto"/>
+            <WrapPanel Orientation="Vertical" ItemWidth="auto"/>
         </ItemsPanelTemplate>
+
         <DataTemplate x:Key="addressTemplate" DataType="{x:Type datatypes:ProtocolAddress}">
             <Grid Margin="0,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -41,7 +40,7 @@
                         <Setter Property="TextBlock.FontSize" Value="{DynamicResource fontSize}"/>
                     </Style>
                 </Grid.Resources>
-                <Button Content="{Binding protocol}" Click="OpenConnection" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                <TextBlock Text="{Binding protocol}" VerticalAlignment="Center" TextAlignment="Center" />
                 <Label Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
                     <Label.Content>
                         <TextBlock>
@@ -69,26 +68,11 @@
                     </TextBlock.Style>
                     <Run Text="{x:Static localization:Resources.AdditionalParameters}"/><Run Text=":&#10;"/><Run Text="{Binding parameters, TargetNullValue={x:Static system:String.Empty}}"/>
                 </TextBlock>
-                <!--Status should be hidden if it is disabled in config-->
-                <TextBlock Grid.Column="3" TextWrapping="Wrap" Text="!" ToolTip="{Binding status, Converter={StaticResource statusConverter}}">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource SpecialSnowFlakeStyle}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding status}" Value="0">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding status}" Value="-1">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
             </Grid>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type pseudo:PseudoServer}" x:Key="pseudoServerTemplate">
-            <Grid Margin="10">
+            <Grid>
                 <Grid.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="TextBlock.FontSize" Value="{DynamicResource fontSize}"/>
@@ -98,7 +82,6 @@
                     </Style>
                 </Grid.Resources>
                 <Border x:Name="customBG" BorderThickness="2" CornerRadius="4,4,4,4" IsHitTestVisible="False" Background="{Binding customBackgroundColor}" BorderBrush="{Binding customBorderColor}" />
-                <Button Click="SelectServer" Opacity="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Foreground="{x:Null}" ClickMode="Press"/>
                 <Grid Background="{x:Null}" HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Top" Width="400" MinWidth="200" Height="auto">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -167,7 +150,7 @@
                         </TextBlock.Style>
                                     <Run Text="{x:Static localization:Resources.Description}"/><Run Text=":"/>
                     </TextBlock>
-                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="4" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{x:Null}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="80">
+                    <ScrollViewer Grid.Row="4" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{x:Null}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="80">
                         <ScrollViewer.Style>
                             <Style TargetType="ScrollViewer">
                                 <Style.Triggers>
@@ -182,7 +165,7 @@
                         </ScrollViewer.Style>
                         <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" IsHitTestVisible="False" Text="{Binding server.desc, TargetNullValue={x:Static system:String.Empty}}"/>
                     </ScrollViewer>
-                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="addresses" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <ScrollViewer Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" x:Name="addresses" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <ItemsControl x:Name="addressTempl" ItemsSource="{Binding server.protocolAddresses}" ItemTemplate="{StaticResource addressTemplate}" />
                     </ScrollViewer>
                 </Grid>
@@ -191,7 +174,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type pseudo:PseudoWrappingEntity}" x:Key="pseudoWrappingEntityTemplate">
-            <Grid Margin="10">
+            <Grid>
                 <Grid.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="TextBlock.FontSize" Value="{DynamicResource fontSize}"/>
@@ -201,10 +184,8 @@
                     </Style>
                 </Grid.Resources>
                 <Border x:Name="customBG" BorderThickness="2" CornerRadius="4,4,4,4" IsHitTestVisible="False" Background="{Binding customBackgroundColor}" BorderBrush="{Binding customBorderColor}" />
-                <Button Click="SelectServer" Opacity="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Foreground="{x:Null}" ClickMode="Press"/>
                 <Grid Background="{x:Null}" HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Top" Width="400" MinWidth="200" Height="auto">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -230,7 +211,7 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
-                                <Run Text="{x:Static localization:Resources.FQDN}"/><Run Text=": "/>
+                                        <Run Text="{x:Static localization:Resources.FQDN}"/><Run Text=": "/>
                         </TextBlock>
                         <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" Grid.Column="1" x:Name="fqdnLabel" Text="{Binding server.fqdn, TargetNullValue={x:Static system:String.Empty}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}"/>
                     </Grid>
@@ -269,9 +250,9 @@
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
-                                    <Run Text="{x:Static localization:Resources.Description}"/><Run Text=":"/>
+                        <Run Text="{x:Static localization:Resources.Description}"/><Run Text=":"/>
                     </TextBlock>
-                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="4" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{x:Null}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="80">
+                    <ScrollViewer Grid.Row="4" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{x:Null}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="80">
                         <ScrollViewer.Style>
                             <Style TargetType="ScrollViewer">
                                 <Style.Triggers>
@@ -286,7 +267,7 @@
                         </ScrollViewer.Style>
                         <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" IsHitTestVisible="False" Text="{Binding server.desc, TargetNullValue={x:Static system:String.Empty}}"/>
                     </ScrollViewer>
-                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="addresses" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <ScrollViewer Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" x:Name="addresses" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <ScrollViewer.Style>
                             <Style TargetType="ScrollViewer">
                                 <Style.Triggers>
@@ -301,208 +282,70 @@
                         </ScrollViewer.Style>
                         <ItemsControl x:Name="addressTempl" ItemsSource="{Binding server.protocolAddresses}" ItemTemplate="{StaticResource addressTemplate}" />
                     </ScrollViewer>
-                    <ScrollViewer PreviewMouseDown="SelectParent" Grid.Row="6" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="servers" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <ScrollViewer Grid.Row="5" MaxHeight="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" x:Name="servers" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <ItemsControl x:Name="serverTempl" ItemsPanel="{StaticResource elementWrap}" ItemsSource="{Binding computersInCluster}" ItemTemplateSelector="{StaticResource pseudoTemplateSelector}" />
                     </ScrollViewer>
                 </Grid>
-                <Border x:Name="selectBG" BorderThickness="2" CornerRadius="4,4,4,4" IsHitTestVisible="False" Opacity="0" Background="#FF3977FD" BorderBrush="#FF003756" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="pairTemplate" DataType="{x:Type local:ConflictedPair}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <ContentPresenter ContentTemplateSelector="{StaticResource pseudoTemplateSelector}" Content="{Binding en1}"/>
+                <Button Grid.Column="1" Content="&lt;==&gt;" Click="Swap"/>
+                <ContentPresenter Grid.Column="2" ContentTemplateSelector="{StaticResource pseudoTemplateSelector}" Content="{Binding en2}"/>
             </Grid>
         </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="Auto" MaxWidth="550"/>
-        </Grid.ColumnDefinitions>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <DockPanel Height="auto" Grid.ColumnSpan="2">
-            <Rectangle Fill="#FFF4F4F5"/>
-            <Menu IsMainMenu="True">
-                <MenuItem Header="{x:Static localization:Resources.Application}" Height="30">
-                    <MenuItem InputGestureText="Ctrl+n" Click="NewServerStructure" Header="{x:Static localization:Resources.NewServerStructure}" />
-                    <MenuItem x:Name="local" Click="OpenServerStructure" Header="{x:Static localization:Resources.OpenLocal}" />
-                    <MenuItem x:Name="remote" Click="OpenServerStructure" Header="{x:Static localization:Resources.OpenRemote}" />
-                    <Separator />
-                    <MenuItem IsEnabled="False" x:Name="import" Click="OpenServerStructure" Header="{x:Static localization:Resources.Import}" />
-                    <MenuItem IsEnabled="False" x:Name="export" Click="ExportServerStructure" Header="{x:Static localization:Resources.Export}" />
-                    <MenuItem IsEnabled="False" x:Name="upSrvButt" Click="BeginSynchronizationProcess" Header="{x:Static localization:Resources.SyncRemote}"/>
-                    <Separator />
-                    <MenuItem Click="OpenSettings" Header="{x:Static localization:Resources.Settings}" />
-                    <Separator />
-                    <MenuItem Header="{x:Static localization:Resources.Exit}" Click="Exit"/>
-                </MenuItem>
-                <MenuItem x:Name="editSubmenu" IsEnabled="False" Header="{x:Static localization:Resources.Edit}">
-                    <MenuItem x:Name="newServer" Click="AddOrModifyServer" Header="{x:Static localization:Resources.NewServer}" />
-                    <MenuItem x:Name="newCluster" Click="AddOrModifyServer" Header="{x:Static localization:Resources.NewCluster}" />
-                    <MenuItem x:Name="newVirtualizationServer" Click="AddOrModifyServer" Header="{x:Static localization:Resources.NewVirtualizationServer}" />
-                    <Separator />
-                    <MenuItem x:Name="editServer" IsEnabled="False" Click="AddOrModifyServer" Header="{x:Static localization:Resources.Edit}"/>
-                    <MenuItem x:Name="removeServer" IsEnabled="False" Click="RemoveServer" Header="{x:Static localization:Resources.Remove}" />
-                    <Separator />
-                    <MenuItem x:Name="findEntity" InputGestureText="Ctrl+f" IsEnabled="False" Click="FindEntity" Header="{x:Static localization:Resources.FindHeader}"/>
-                </MenuItem>
-                <MenuItem x:Name="toolSubMenu" Header="{x:Static localization:Resources.Tools}">
-                    <MenuItem x:Name="openWatcher" Click="OpenWatcher" Header="{x:Static localization:Resources.OpenWatcher}" />
-                </MenuItem>
-            </Menu>
-        </DockPanel>
-        <DockPanel Grid.Row="1" x:Name="findPanel" Visibility="Collapsed">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="125*" MaxWidth="200"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="255*"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="5"/>
-                </Grid.ColumnDefinitions>
-                <TextBox x:Name="findSearchBar" Grid.Column="1" Margin="0,5,5,5" VerticalAlignment="Top" TextChanged="findSearchBar_TextChanged"/>
-                <Grid Grid.Column="2" Margin="0,5,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            <TextBlock VerticalAlignment="Center" FontSize="14" Text="{x:Static localization:Resources.Keep}"/>
 
-                    <TextBlock VerticalAlignment="Top" Margin="0,1,5,0">
-                        <Run Text="{x:Static localization:Resources.SearchFor}"/><Run Text=":"/>
-                    </TextBlock>
-                    <CheckBox x:Name="matchExactly" Grid.Row="1" Margin="0,2.5,0,0" Click="OnChecked">
-                        <CheckBox.Content>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static localization:Resources.MatchExactly}"/>
-                        </CheckBox.Content>
-                    </CheckBox>
-                </Grid>
-                <ComboBox Grid.Column="3" VerticalAlignment="Top" SelectionChanged="ComboBox_SelectionChanged" Margin="5,2.5,0,5" MinWidth="70" HorizontalAlignment="Left">
-                    <ComboBoxItem Content="{x:Static localization:Resources.FQDN}" x:Name="RBSR1" IsSelected="True"/>
-                    <ComboBoxItem Content="{x:Static localization:Resources.Address}" x:Name="RBSR2" />
-                    <ComboBoxItem Content="{x:Static localization:Resources.Description}" x:Name="RBSR3" />
-                    <ComboBoxItem Content="{x:Static localization:Resources.Category}" x:Name="RBSR4" />
-                </ComboBox>
-                <Button Grid.Column="4" Margin="5,0,0,0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click" Content="×"/>
-            </Grid>
-        </DockPanel>
-        <ScrollViewer ScrollChanged="ScrollChanged" HorizontalScrollBarVisibility="Disabled" Grid.Row="2">
-            <ItemsControl x:Name="mainServerWrapper" ItemsPanel="{StaticResource elementWrap}" ItemsSource="{Binding}" ItemTemplateSelector="{StaticResource pseudoTemplateSelector}"/>
-        </ScrollViewer>
-        <Grid Grid.Column="1" Grid.Row="2" x:Name="DetailsView" Margin="5" MaxWidth="550">
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-            <Grid.Resources>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="TextBlock.FontSize" Value="{DynamicResource fontSize}"/>
-                </Style>
-                <Style TargetType="{x:Type TextBlock}" x:Key="SpecialSnowFlakeStyle">
-                    <Setter Property="TextBlock.FontSize" Value="{DynamicResource fontSize}"/>
-                </Style>
-            </Grid.Resources>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="1" Width="auto" Orientation="Horizontal">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding server.fqdn}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding server.fqdn}" Value="">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
-                    <Run Text="{x:Static localization:Resources.FQDN}"/><Run Text=": "/>
-                </TextBlock>
-                <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" Grid.Column="1" x:Name="fqdnLabel" Text="{Binding server.fqdn, TargetNullValue={x:Static system:String.Empty}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}"/>
-            </StackPanel>
-            <StackPanel Grid.Row="2" Width="auto" Margin="0,10,0,0" Orientation="Horizontal">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding server.category}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding server.category}" Value="">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}">
-                    <Run Text="{x:Static localization:Resources.Category}"/><Run Text=": "/>
-                </TextBlock>
-                <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" Grid.Column="1" x:Name="catLabel" Text="{Binding server.category, TargetNullValue={x:Static system:String.Empty}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}"/>
-            </StackPanel>
-            <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" Margin="0,10,0,0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}">
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource SpecialSnowFlakeStyle}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding server.desc}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding server.desc}" Value="">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-                <Run Text="{x:Static localization:Resources.Description}"/><Run Text=":"/>
-            </TextBlock>
-            <ScrollViewer Grid.Row="4" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{x:Null}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="180" CanContentScroll="True">
-                <ScrollViewer.Style>
-                    <Style TargetType="ScrollViewer">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding server.desc}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding server.desc}" Value="">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ScrollViewer.Style>
-                <TextBlock Foreground="{Binding customTextColor, TargetNullValue='#FF000000'}" TextWrapping="Wrap" IsHitTestVisible="False" Text="{Binding server.desc, TargetNullValue={x:Static system:String.Empty}}"/>
-            </ScrollViewer>
-            <ScrollViewer Grid.Row="5" MaxHeight="200" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="addresses" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" CanContentScroll="True">
-                <ScrollViewer.Style>
-                    <Style TargetType="ScrollViewer">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding server.protocolAddresses}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding server.protocolAddresses.Count}" Value="0">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ScrollViewer.Style>
-                <ItemsControl x:Name="addressTempl" ItemsSource="{Binding server.protocolAddresses}" ItemTemplate="{StaticResource addressTemplate}" />
-            </ScrollViewer>
-            <ScrollViewer Grid.Row="6" MaxHeight="200" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" CanContentScroll="True">
-                <ItemsControl x:Name="datailServers" ItemsPanel="{StaticResource elementWrap}" ItemsSource="{Binding computersInCluster}" ItemTemplateSelector="{StaticResource pseudoTemplateSelector}" />
-            </ScrollViewer>
+            <TextBlock VerticalAlignment="Center" Grid.Column="1" FontSize="14" Text="{x:Static localization:Resources.ThrowAway}" HorizontalAlignment="Right"/>
         </Grid>
-        <StatusBar Grid.Row="3" Height="20"/>
+        
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="wrapper" ItemsPanel="{StaticResource elementWrap}" ItemTemplate="{StaticResource pairTemplate}"/>
+        </ScrollViewer>
+        <Grid Grid.RowSpan="3" x:Name="pleaseWait">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.Column="1" Grid.Row="1" Fill="#7FC9C9C9" RadiusX="5" RadiusY="5"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0"><Run Text="{x:Static localization:Resources.PleaseWait}"/><Run Text="..."/></TextBlock>
+            <controls:LoadingSpinner Grid.Column="1" Grid.Row="1" Width="50" Height="50" Margin="0,20,0,0"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="535*"/>
+                <ColumnDefinition Width="129*"/>
+                <ColumnDefinition Width="129*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="resolve" Grid.Column="1" Content="{x:Static localization:Resources.Resolve}" Click="Resolve" IsEnabled="False" Margin="0,5,5,5"/>
+            <Button Grid.Column="2" Content="{x:Static localization:Resources.Cancel}" Click="Cancel" Margin="0,5,5,5"/>
+        </Grid>
     </Grid>
 </Window>

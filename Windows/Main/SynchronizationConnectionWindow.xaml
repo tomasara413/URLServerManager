@@ -1,0 +1,69 @@
+﻿<Window x:Class="URLServerManagerModern.Windows.Main.SynchronizationConnectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localization="clr-namespace:URLServerManagerModern.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static localization:Resources.SynchronizationConnectionWindowTitle}" Height="285" Width="470">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="413*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="10"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock FontSize="14">
+                <Run Text="{x:Static localization:Resources.Hostname}"/><Run Text=":"/>
+            </TextBlock>
+            <TextBox x:Name="hostname" TextChanged="TextBox_TextChanged" Grid.Column="1" Margin="10,0,10,0"/>
+            <TextBlock FontSize="14" Grid.Column="2">
+                <Run Text="{x:Static localization:Resources.Port}"/><Run Text=":"/>
+            </TextBlock>
+            <TextBox x:Name="port" TextChanged="TextBox_TextChanged" Grid.Column="3" Margin="10,0,0,0"  PreviewTextInput="AllowOnlyInteger" />
+
+            <TextBlock FontSize="14" Grid.Row="2">
+                <Run Text="{x:Static localization:Resources.DatabaseName}"/><Run Text=":"/>
+            </TextBlock>
+            <TextBox x:Name="database" Grid.Column="1" Grid.Row="2" Margin="10,0,10,0" TextChanged="TextBox_TextChanged"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="5,0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <RadioButton x:Name="FullSync" IsChecked="True" VerticalAlignment="Center" FontSize="14" GroupName="syncType" Content="{x:Static localization:Resources.SendDataAndFullySynchronize}"/>
+            <RadioButton x:Name="DLAll" VerticalAlignment="Center" Grid.Row="1" FontSize="14" GroupName="syncType" Content="{x:Static localization:Resources.DownloadToFullSync}"/>
+            <RadioButton x:Name="DlEn" VerticalAlignment="Center" Grid.Row="2" FontSize="14" GroupName="syncType" Content="{x:Static localization:Resources.DownloadEntitiesOnly}"/>
+            <RadioButton x:Name="UDef" VerticalAlignment="Center" Grid.Row="3" FontSize="14" GroupName="syncType" Content="{x:Static localization:Resources.SendDefaultColorsOnly}"/>
+            <RadioButton x:Name="DlDef" VerticalAlignment="Center" Grid.Row="4" FontSize="14" GroupName="syncType" Content="{x:Static localization:Resources.DownloadDefaultColorsOnly}"/>
+        </Grid>
+
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <Button Click="Synchronize" x:Name="Sync" IsEnabled="False" Grid.Column="1" Margin="5,5,2.5,5" Content="{x:Static localization:Resources.Synchronize}"/>
+            <Button Click="Cancel" Grid.Column="2" Margin="2.5,5,5,5" Content="{x:Static localization:Resources.Cancel}"/>
+        </Grid>
+    </Grid>
+</Window>

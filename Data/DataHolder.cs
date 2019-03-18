@@ -56,8 +56,10 @@ namespace URLServerManagerModern.Data
 
         public static void InitializeConfigProperties()
         {
-            configProperties.Add("localfile", null);
-            configProperties.Add("remotefile", null);
+            configProperties.Add("locallocation", null);
+            configProperties.Add("remotelocation", null);
+            configProperties.Add("remoteport", "3306");
+            configProperties.Add("remotedatabase", null);
             configProperties.Add("fontsize", "8.5");
             configProperties.Add("showmodificationindicators", "false");
             configProperties.Add("allowportavailabilitydiagnostics", "false");
@@ -66,6 +68,7 @@ namespace URLServerManagerModern.Data
             configProperties.Add("associations", null);
             configProperties.Add("portassociations", null);
             configProperties.Add("language", null);
+            configProperties.Add("lastsynchronization", null);
         }
     }
 }

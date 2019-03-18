@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using URLServerManagerModern.Utilities;
 
 namespace URLServerManagerModern.Data.DataTypes
@@ -8,6 +9,7 @@ namespace URLServerManagerModern.Data.DataTypes
         public List<ProtocolAddress> protocolAddresses { get; set; }
 
         public long rowID = -1;
+
         public string fqdn { get; set; } //fully qualified domain name
         public string category { get; set; }
         public string desc { get; set; }

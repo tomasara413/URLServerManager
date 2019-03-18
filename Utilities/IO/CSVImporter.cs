@@ -59,7 +59,7 @@ namespace URLServerManagerModern.Utilities.IO
                             }
                             command.Append("INSERT INTO servers (FQDN, Category, Desc, Type) VALUES ").Append("('").Append(SecurityElement.Escape(s.server.fqdn)).Append("','").Append(SecurityElement.Escape(s.server.category)).Append("','").Append(SecurityElement.Escape(s.server.desc)).Append("',").Append((int)s.type).Append(");");
                             command.Append("INSERT INTO rowids (tempRowID, realRowID) VALUES ").Append("(").Append(tempRowID).Append(",(SELECT last_insert_rowid()));");
-                            pseudoServerInsert.Append("('").Append(s.modDetect).Append("', ").Append(s.usesFill ? "'" + s.customBackgroundColor + "'" : "NULL").Append(", ").Append(s.usesBorder ? "'" + s.customBorderColor + "'" : "NULL").Append(", ").Append(s.usesText ? "'" + s.customTextColor + "'" : "NULL").Append(", (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(tempRowID).Append(" LIMIT 1)),");
+                            pseudoServerInsert.Append("('").Append((int)s.modDetect).Append("', ").Append(s.usesFill ? "'" + s.customBackgroundColor + "'" : "NULL").Append(", ").Append(s.usesBorder ? "'" + s.customBorderColor + "'" : "NULL").Append(", ").Append(s.usesText ? "'" + s.customTextColor + "'" : "NULL").Append(", (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(tempRowID).Append(" LIMIT 1)),");
 
                             savedIDToTempRowID.Add(s.server.rowID, tempRowID);
 
@@ -82,7 +82,7 @@ namespace URLServerManagerModern.Utilities.IO
                         while ((entry = cr.ReadEntry()).Length > 0)
                         {
                             if (serverContentInsert.Length == 0)
-                                serverContentInsert.Append("INSERT INTO serverContents (ServerID, ParentServerID) VALUES ");
+                                serverContentInsert.Append("INSERT OR REPLACE INTO serverContents (ServerID, ParentServerID) VALUES ");
 
                             serverContentInsert.Append("((SELECT realRowID FROM rowids WHERE tempRowID = ").Append(savedIDToTempRowID[long.Parse(entry[0])]).Append(" LIMIT 1), (SELECT realRowID FROM rowids WHERE tempRowID = ").Append(savedIDToTempRowID[long.Parse(entry[1])]).Append(" LIMIT 1)),");
                         }
@@ -104,11 +104,17 @@ namespace URLServerManagerModern.Utilities.IO
                 }
 
                 if (pseudoServerInsert.Length > 0)
+                {
                     pseudoServerInsert.Length--;
+                    pseudoServerInsert.Append(";");
+                }
                 if (addressInsert.Length > 0)
+                {
                     addressInsert.Length--;
+                    addressInsert.Append(";");
+                }
 
-                command.Append(pseudoServerInsert.Append(";")).Append(addressInsert.Append(";"));
+                command.Append(pseudoServerInsert).Append(addressInsert);
 
                 if (defaultCategories.Length > 0)
                 {
@@ -126,7 +132,7 @@ namespace URLServerManagerModern.Utilities.IO
                 command.Append("COMMIT;");
 
 
-                using (SQLiteConnection connection = Utilities.EstablishDatabaseConnection(Utilities.GetPropertyValue("localfile")))
+                using (SQLiteConnection connection = Utilities.EstablishSQLiteDatabaseConnection(Utilities.GetPropertyValue("locallocation")))
                 {
                     if (connection != null)
                     {
@@ -139,7 +145,7 @@ namespace URLServerManagerModern.Utilities.IO
             }
             catch (Exception e)
             {
-                throw;
+               // throw;
                 if (e is UnauthorizedAccessException)
                     Utilities.ShowElevationDialog();
                 else

@@ -20,6 +20,7 @@ using URLServerManagerModern.Data;
 using URLServerManagerModern.Data.DataTypes;
 using URLServerManagerModern.Data.DataTypes.Pseudo;
 using URLServerManagerModern.Utilities;
+using URLServerManagerModern.Windows.Main;
 
 namespace URLServerManagerModern.Windows.Settings
 {
@@ -36,8 +37,9 @@ namespace URLServerManagerModern.Windows.Settings
             passiveBorder = protocolAssocB.BorderBrush;
             activeBG = generalB.Background;
 
-            localFileInput.Text = Utilities.Utilities.GetPropertyValue("localfile");
-            remoteFileInput.Text = Utilities.Utilities.GetPropertyValue("remotefile");
+            localFileInput.Text = Utilities.Utilities.GetPropertyValue("locallocation");
+            hostname.Text = Utilities.Utilities.GetPropertyValue("remotelocation");
+            database.Text = Utilities.Utilities.GetPropertyValue("remotedatabase");
 
             //Debug.WriteLine(DataHolder.protocolToPort.Count);
             foreach (KeyValuePair<string, int> pair in DataHolder.protocolToPort)
@@ -89,6 +91,13 @@ namespace URLServerManagerModern.Windows.Settings
             else
                 diagnosticsRenew.Text = "200000";
 
+            property = Utilities.Utilities.GetPropertyValue("remoteport");
+
+            if (property != null && int.TryParse(property, out parsedInt))
+                port.Text = property;
+            else
+                port.Text = "3306";
+
             ProgramBox.ItemsSource = DataHolder.programs.DeepCopy();
             PortAssociationsBox.ItemsSource = pna;
 
@@ -135,8 +144,8 @@ namespace URLServerManagerModern.Windows.Settings
 
         private void LoadCategoryColors()
         {
-            string localFile = Utilities.Utilities.GetPropertyValue("localfile");
-            categoryAssocB.IsEnabled = !string.IsNullOrEmpty(localFile) && !string.IsNullOrWhiteSpace(localFile) && File.Exists(localFile);
+            string locallocation = Utilities.Utilities.GetPropertyValue("locallocation");
+            categoryAssocB.IsEnabled = !string.IsNullOrEmpty(locallocation) && !string.IsNullOrWhiteSpace(locallocation) && File.Exists(locallocation);
             if (categoryAssocB.IsEnabled)
             {
                 if(DataHolder.categoryColors.Count == 0)
@@ -204,17 +213,8 @@ namespace URLServerManagerModern.Windows.Settings
 
                 string fileName = Utilities.Utilities.OpenServerStructure(false);
 
-                if (!string.IsNullOrEmpty(fileName) && !string.IsNullOrWhiteSpace(fileName))
-                {
-                    if (fe.Name == "addLocal")
-                    {
-                        localFileInput.Text = fileName;
-                    }
-                    else if (fe.Name == "addRemote")
-                    {
-                        remoteFileInput.Text = fileName;
-                    }
-                }
+                if (!string.IsNullOrEmpty(fileName?.Trim()))
+                    localFileInput.Text = fileName;
             }
         }
 
@@ -321,22 +321,34 @@ namespace URLServerManagerModern.Windows.Settings
 
         private void SaveSettings(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(localFileInput.Text.Trim()) && !string.IsNullOrWhiteSpace(localFileInput.Text.Trim())) {
+            if (!string.IsNullOrEmpty(localFileInput.Text.Trim())) {
                 if (File.Exists(localFileInput.Text.Trim()))
-                    Utilities.Utilities.SetPropertyValue("localfile", "\"" + localFileInput.Text + "\"");
+                    Utilities.Utilities.SetPropertyValue("locallocation", "\"" + localFileInput.Text + "\"");
             }
             else
-                Utilities.Utilities.SetPropertyValue("localfile", null);
+                Utilities.Utilities.SetPropertyValue("locallocation", null);
 
 
-            if (!string.IsNullOrEmpty(remoteFileInput.Text.Trim()) && !string.IsNullOrWhiteSpace(remoteFileInput.Text.Trim())) {
-                if(File.Exists(remoteFileInput.Text.Trim()))
-                    Utilities.Utilities.SetPropertyValue("remotefile", "\"" + remoteFileInput.Text + "\"");
+            if (!string.IsNullOrEmpty(hostname.Text.Trim())) 
+                Utilities.Utilities.SetPropertyValue("remotelocation", "\"" + hostname.Text + "\"");
+            else
+                Utilities.Utilities.SetPropertyValue("remotelocation", null);
+
+            if (!string.IsNullOrEmpty(port.Text.Trim()))
+            {
+                int p;
+                if(int.TryParse(port.Text, out p))
+                    Utilities.Utilities.SetPropertyValue("remoteport", "\"" + port.Text + "\"");
             }
             else
-                Utilities.Utilities.SetPropertyValue("remotefile", null);
+                Utilities.Utilities.SetPropertyValue("remoteport", null);
 
-            if (!string.IsNullOrEmpty(fontSize.Text) && !string.IsNullOrWhiteSpace(fontSize.Text))
+            if (!string.IsNullOrEmpty(database.Text.Trim()))
+                Utilities.Utilities.SetPropertyValue("remotedatabase", "\"" + database.Text + "\"");
+            else
+                Utilities.Utilities.SetPropertyValue("remotedatabase", null);
+
+            if (!string.IsNullOrEmpty(fontSize.Text.Trim()))
             {
                 double fontValue;
                 if (double.TryParse(fontSize.Text, NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture.NumberFormat, out fontValue))
@@ -361,7 +373,7 @@ namespace URLServerManagerModern.Windows.Settings
 
             if (allowPortDiagnostics.IsChecked == true)
             {
-                if (!string.IsNullOrEmpty(diagnosticsTimeout.Text) && !string.IsNullOrWhiteSpace(diagnosticsTimeout.Text))
+                if (!string.IsNullOrEmpty(diagnosticsTimeout.Text.Trim()))
                 {
                     int timeoutValue;
                     if (int.TryParse(diagnosticsTimeout.Text, out timeoutValue))
@@ -373,7 +385,7 @@ namespace URLServerManagerModern.Windows.Settings
                     }
                 }
 
-                if (!string.IsNullOrEmpty(diagnosticsRenew.Text) && !string.IsNullOrWhiteSpace(diagnosticsRenew.Text))
+                if (!string.IsNullOrEmpty(diagnosticsRenew.Text.Trim()))
                 {
                     int renewValue;
                     if (int.TryParse(diagnosticsRenew.Text, out renewValue))
@@ -638,6 +650,11 @@ namespace URLServerManagerModern.Windows.Settings
             newCultureInfo = availableLanguages.Where(x => AvailableLanguages.SelectedItem.ToString() == x.DisplayName).First();
         }
 
+        private void AllowOnlyvalidDBNames(object sender, TextCompositionEventArgs e)
+        {
+
+        }
+
         internal void CheckAllSettings()
         {
             bool atLeastOneError = false;
@@ -649,14 +666,16 @@ namespace URLServerManagerModern.Windows.Settings
                 atLeastOneError = !string.IsNullOrEmpty(localFileInput.Text.Trim());
             }
                
-
-            remoteFileErrors.Visibility = Visibility.Collapsed;
-            if (string.IsNullOrEmpty(remoteFileInput.Text.Trim()) || !File.Exists(remoteFileInput.Text.Trim()))
+            //Lets not test this for now
+            /*remoteFileErrors.Visibility = Visibility.Collapsed;
+            if (!string.IsNullOrEmpty(hostname.Text.Trim()) && !string.IsNullOrEmpty(port.Text.Trim()) && !string.IsNullOrEmpty(database.Text.Trim()))
             {
-                remoteFileErrors.Visibility = Visibility.Visible;
-                remoteFileErrors.ToolTip = Properties.Resources.ResourceManager.GetString("FileDoesNotExist");
-                atLeastOneError = !string.IsNullOrEmpty(remoteFileInput.Text.Trim());
-            }
+                if (WatcherWindow.GetStatus(new ProtocolAddress("MySQL Protocol", hostname.Text, int.Parse(port.Text))) != Status.Ok)
+                {
+                    remoteFileErrors.Visibility = Visibility.Visible;
+                    remoteFileErrors.ToolTip = Properties.Resources.ResourceManager.GetString("FileDoesNotExist");
+                }
+            }*/
 
             if (string.IsNullOrEmpty(fontSize.Text.Trim()))
             {

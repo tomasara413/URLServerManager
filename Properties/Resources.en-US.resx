@@ -195,10 +195,10 @@
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
-  <data name="LocalFile" xml:space="preserve">
+  <data name="LocalLocation" xml:space="preserve">
     <value>Path to local file</value>
   </data>
-  <data name="RemoteFile" xml:space="preserve">
+  <data name="RemoteLocation" xml:space="preserve">
     <value>Path to remote file</value>
   </data>
   <data name="Apply" xml:space="preserve">
@@ -379,7 +379,7 @@
     <value>New cluster</value>
   </data>
   <data name="OpenWatcher" xml:space="preserve">
-    <value>Open watcher</value>
+    <value>Open Watcher</value>
   </data>
   <data name="ClusterWindow" xml:space="preserve">
     <value>Cluster</value>
@@ -462,5 +462,74 @@ Fileds marked with * have to be filled in otherwise the import cannot proceed.</
   </data>
   <data name="UDP" xml:space="preserve">
     <value>UDP</value>
+  </data>
+  <data name="Synchronize" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Please wait</value>
+  </data>
+  <data name="RemoteMySQLDatabase" xml:space="preserve">
+    <value>Remote MySQL database specification</value>
+  </data>
+  <data name="DatabaseName" xml:space="preserve">
+    <value>Database name</value>
+  </data>
+  <data name="Hostname" xml:space="preserve">
+    <value>Hostname</value>
+  </data>
+  <data name="DownloadDefaultColorsOnly" xml:space="preserve">
+    <value>Download only remote default colors.</value>
+  </data>
+  <data name="DownloadEntitiesOnly" xml:space="preserve">
+    <value>Download only remote structures.</value>
+  </data>
+  <data name="DownloadToFullSync" xml:space="preserve">
+    <value>Do not send data, but fully synchronize.</value>
+  </data>
+  <data name="SendDataAndFullySynchronize" xml:space="preserve">
+    <value>Send data and fully synchronize.</value>
+  </data>
+  <data name="SendDefaultColorsOnly" xml:space="preserve">
+    <value>Send only default colors.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="MySQLLoginData" xml:space="preserve">
+    <value>MySQL Credentials</value>
+  </data>
+  <data name="SynchronizationConflictResolutionWindowTitle" xml:space="preserve">
+    <value>Synchronization - conflicts</value>
+  </data>
+  <data name="SynchronizationConnectionWindowTitle" xml:space="preserve">
+    <value>Synchronization - connection</value>
+  </data>
+  <data name="SynchronizationLoginPopupTitle" xml:space="preserve">
+    <value>Synchronization - login</value>
+  </data>
+  <data name="SynchronizationFailed" xml:space="preserve">
+    <value>Synchronization failed, error:</value>
+  </data>
+  <data name="SynchronizationFailure" xml:space="preserve">
+    <value>Synchronization Failure</value>
+  </data>
+  <data name="SynchronizationSuccess" xml:space="preserve">
+    <value>Synchronization Success</value>
+  </data>
+  <data name="SynchronizationSuccessful" xml:space="preserve">
+    <value>Synchronization was sucessful.</value>
+  </data>
+  <data name="Resolve" xml:space="preserve">
+    <value>Resolve</value>
+  </data>
+  <data name="Keep" xml:space="preserve">
+    <value>Keep</value>
+  </data>
+  <data name="ThrowAway" xml:space="preserve">
+    <value>Replace</value>
   </data>
 </root>

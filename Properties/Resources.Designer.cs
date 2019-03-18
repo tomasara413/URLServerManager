@@ -296,6 +296,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Database name.
+        /// </summary>
+        public static string DatabaseName {
+            get {
+                return ResourceManager.GetString("DatabaseName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Default protocol is already present. To proceed with this action edit the association or delete it. (Ports added by the application cannot be changed)..
         /// </summary>
         public static string DefaultProtocolAlreadyPresent {
@@ -319,6 +328,33 @@ namespace URLServerManagerModern.Properties {
         public static string DNSEntryNotFound {
             get {
                 return ResourceManager.GetString("DNSEntryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Download only remote default colors..
+        /// </summary>
+        public static string DownloadDefaultColorsOnly {
+            get {
+                return ResourceManager.GetString("DownloadDefaultColorsOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Download only remote structures..
+        /// </summary>
+        public static string DownloadEntitiesOnly {
+            get {
+                return ResourceManager.GetString("DownloadEntitiesOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Do not send data, but fully synchronize..
+        /// </summary>
+        public static string DownloadToFullSync {
+            get {
+                return ResourceManager.GetString("DownloadToFullSync", resourceCulture);
             }
         }
         
@@ -485,6 +521,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Hostname.
+        /// </summary>
+        public static string Hostname {
+            get {
+                return ResourceManager.GetString("Hostname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný HTML notation.
         /// </summary>
         public static string HTMLNotation {
@@ -530,6 +575,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Keep.
+        /// </summary>
+        public static string Keep {
+            get {
+                return ResourceManager.GetString("Keep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Language.
         /// </summary>
         public static string Language {
@@ -541,9 +595,9 @@ namespace URLServerManagerModern.Properties {
         /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Path to local file.
         /// </summary>
-        public static string LocalFile {
+        public static string LocalLocation {
             get {
-                return ResourceManager.GetString("LocalFile", resourceCulture);
+                return ResourceManager.GetString("LocalLocation", resourceCulture);
             }
         }
         
@@ -571,6 +625,15 @@ namespace URLServerManagerModern.Properties {
         public static string Ms {
             get {
                 return ResourceManager.GetString("Ms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný MySQL Credentials.
+        /// </summary>
+        public static string MySQLLoginData {
+            get {
+                return ResourceManager.GetString("MySQLLoginData", resourceCulture);
             }
         }
         
@@ -656,7 +719,7 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Open watcher.
+        ///   Vyhledá lokalizovaný řetězec podobný Open Watcher.
         /// </summary>
         public static string OpenWatcher {
             get {
@@ -688,6 +751,24 @@ namespace URLServerManagerModern.Properties {
         public static string OtherProtocolName {
             get {
                 return ResourceManager.GetString("OtherProtocolName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Please wait.
+        /// </summary>
+        public static string PleaseWait {
+            get {
+                return ResourceManager.GetString("PleaseWait", resourceCulture);
             }
         }
         
@@ -802,9 +883,18 @@ namespace URLServerManagerModern.Properties {
         /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Path to remote file.
         /// </summary>
-        public static string RemoteFile {
+        public static string RemoteLocation {
             get {
-                return ResourceManager.GetString("RemoteFile", resourceCulture);
+                return ResourceManager.GetString("RemoteLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Remote MySQL database specification.
+        /// </summary>
+        public static string RemoteMySQLDatabase {
+            get {
+                return ResourceManager.GetString("RemoteMySQLDatabase", resourceCulture);
             }
         }
         
@@ -863,6 +953,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Resolve.
+        /// </summary>
+        public static string Resolve {
+            get {
+                return ResourceManager.GetString("Resolve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Search for.
         /// </summary>
         public static string SearchFor {
@@ -877,6 +976,24 @@ namespace URLServerManagerModern.Properties {
         public static string Select {
             get {
                 return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Send data and fully synchronize..
+        /// </summary>
+        public static string SendDataAndFullySynchronize {
+            get {
+                return ResourceManager.GetString("SendDataAndFullySynchronize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Send only default colors..
+        /// </summary>
+        public static string SendDefaultColorsOnly {
+            get {
+                return ResourceManager.GetString("SendDefaultColorsOnly", resourceCulture);
             }
         }
         
@@ -944,6 +1061,78 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronization - conflicts.
+        /// </summary>
+        public static string SynchronizationConflictResolutionWindowTitle {
+            get {
+                return ResourceManager.GetString("SynchronizationConflictResolutionWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronization - connection.
+        /// </summary>
+        public static string SynchronizationConnectionWindowTitle {
+            get {
+                return ResourceManager.GetString("SynchronizationConnectionWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronization failed, error:.
+        /// </summary>
+        public static string SynchronizationFailed {
+            get {
+                return ResourceManager.GetString("SynchronizationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronization Failure.
+        /// </summary>
+        public static string SynchronizationFailure {
+            get {
+                return ResourceManager.GetString("SynchronizationFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronization - login.
+        /// </summary>
+        public static string SynchronizationLoginPopupTitle {
+            get {
+                return ResourceManager.GetString("SynchronizationLoginPopupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronization Success.
+        /// </summary>
+        public static string SynchronizationSuccess {
+            get {
+                return ResourceManager.GetString("SynchronizationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronization was sucessful..
+        /// </summary>
+        public static string SynchronizationSuccessful {
+            get {
+                return ResourceManager.GetString("SynchronizationSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronize.
+        /// </summary>
+        public static string Synchronize {
+            get {
+                return ResourceManager.GetString("Synchronize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Synchronize local with remote.
         /// </summary>
         public static string SyncRemote {
@@ -976,6 +1165,15 @@ namespace URLServerManagerModern.Properties {
         public static string TForTest {
             get {
                 return ResourceManager.GetString("TForTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Replace.
+        /// </summary>
+        public static string ThrowAway {
+            get {
+                return ResourceManager.GetString("ThrowAway", resourceCulture);
             }
         }
         
@@ -1048,6 +1246,15 @@ namespace URLServerManagerModern.Properties {
         public static string Use {
             get {
                 return ResourceManager.GetString("Use", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný User ID.
+        /// </summary>
+        public static string UserID {
+            get {
+                return ResourceManager.GetString("UserID", resourceCulture);
             }
         }
         

@@ -121,7 +121,7 @@ namespace URLServerManagerModern.Windows.Main
                 }
                 catch (PingException exe)
                 {
-                    throw;
+                    //throw;
                     Utilities.Utilities.Log("[ERROR] Testing ping", exe.ToString());
                 }
 
@@ -130,7 +130,7 @@ namespace URLServerManagerModern.Windows.Main
             }
             catch (Exception ex)
             {
-                throw;
+                //throw;
                 Utilities.Utilities.Log("[ERROR] Testing port availability", ex.ToString());
             }
 
