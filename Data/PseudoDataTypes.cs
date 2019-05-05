@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,16 +29,23 @@ namespace URLServerManagerModern.Data.DataTypes.Pseudo
         Cluster
     }
 
-    public abstract class PseudoEntity
+    public abstract class PseudoEntity : INotifyPropertyChanged
     {
-        public ModificationDetector modDetect { get; set; }
-        public Server server { get; set; }
+        private ModificationDetector _modDetect;
+        public ModificationDetector modDetect { get { return _modDetect; } set { _modDetect = value; OnPropertyChanged("modDetect"); } }
+        private Server _server;
+        //Maybe not this
+        public Server server { get { return _server; } set { _server = value; value.PropertyChanged += PropertyChanged; OnPropertyChanged("server"); } }
 
-        public string customBackgroundColor { get; set; }
-        public string customBorderColor { get; set; }
-        public string customTextColor { get; set; }
+        private string _customBackgroundColor, _customBorderColor, _customTextColor;
+        public string customBackgroundColor { get { return _customBackgroundColor; } set { _customBackgroundColor = value; OnPropertyChanged("customBackgroundColor"); } }
+        public string customBorderColor { get { return _customBorderColor; } set { _customBorderColor = value; OnPropertyChanged("customBorderColor"); } }
+        public string customTextColor { get { return _customTextColor; } set { _customTextColor = value; OnPropertyChanged("customTextColor"); } }
 
-        public bool usesFill = false, usesBorder = false, usesText = false;
+        private bool _usesFill = false, _usesBorder = false, _usesText = false;
+        public bool usesFill { get { return _usesFill; } set { _usesFill = value; OnPropertyChanged("usesFill"); } }
+        public bool usesBorder { get { return _usesBorder; } set { _usesBorder = value; OnPropertyChanged("usesBorder"); } }
+        public bool usesText { get { return _usesText; } set { _usesText = value; OnPropertyChanged("usesText"); } }
         public EntityType type = EntityType.Server;
 
         public PseudoEntity(ModificationDetector m, Server s)
@@ -50,6 +58,13 @@ namespace URLServerManagerModern.Data.DataTypes.Pseudo
         }
 
         public abstract PseudoEntity DeepCopy();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     public class PseudoServer : PseudoEntity

@@ -4,15 +4,19 @@ using URLServerManagerModern.Utilities;
 
 namespace URLServerManagerModern.Data.DataTypes
 {
-    public class Server
+    public class Server : INotifyPropertyChanged
     {
-        public List<ProtocolAddress> protocolAddresses { get; set; }
+        private List<ProtocolAddress> _protocolAddresses;
+        public List<ProtocolAddress> protocolAddresses { get { return _protocolAddresses; } set { _protocolAddresses = value; OnPropertyChanged("protocolAddress"); } }
 
         public long rowID = -1;
 
-        public string fqdn { get; set; } //fully qualified domain name
-        public string category { get; set; }
-        public string desc { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string _fqdn, _category, _desc;
+        public string fqdn { get { return _fqdn; } set { _fqdn = value; OnPropertyChanged("fqdn"); } } //fully qualified domain name
+        public string category { get { return _category; } set { _category = value; OnPropertyChanged("category"); } }
+        public string desc { get { return _desc; } set { _desc = value; OnPropertyChanged("desc"); } }
 
         public Server()
         {
@@ -66,6 +70,11 @@ namespace URLServerManagerModern.Data.DataTypes
             s.protocolAddresses = protocolAddresses.DeepCopy();
             s.rowID = rowID;
             return s;
+        }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

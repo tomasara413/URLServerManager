@@ -43,7 +43,7 @@ namespace URLServerManagerModern.Windows.Main
             InitializeComponent();
 
             //Utilities.Utilities.LoadServersBasedOnAdresses(0);
-            wrapper.ItemsSource = (loadedServers = Utilities.Utilities.LoadServers(offset, LIMIT, null, false)).Where(x => x.server.protocolAddresses.Count > 0).Select(x => x.server).ToList();
+            wrapper.ItemsSource = (loadedServers = Utilities.Utilities.LoadServers(offset, LIMIT, "WHERE ModificationDetector <> 2", false)).Where(x => x.server.protocolAddresses.Count > 0).Select(x => x.server).ToList();
             offset = loadedServers.Count;
             endOfContent = loadedServers.Count < LIMIT;
         }

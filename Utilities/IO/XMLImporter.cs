@@ -208,6 +208,8 @@ namespace URLServerManagerModern.Utilities.IO
                                     case "fqdn":
                                         pe.server.fqdn = xr.ReadElementContentAsString();
                                         break;
+                                    //There was a typo in the previous version and therefore it has to be here to allow legacy conversion 
+                                    case "cathegory":
                                     case "category":
                                         pe.server.category = xr.ReadElementContentAsString();
                                         break;

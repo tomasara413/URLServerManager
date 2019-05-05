@@ -1025,6 +1025,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Show details view.
+        /// </summary>
+        public static string ShowDetailsView {
+            get {
+                return ResourceManager.GetString("ShowDetailsView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Show modification indicators.
         /// </summary>
         public static string ShowLocalModifiers {

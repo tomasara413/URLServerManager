@@ -470,14 +470,19 @@ namespace URLServerManagerModern.Windows.Settings
 
             Utilities.Utilities.SaveSettings();
             //We need a deep copy in case we tamper with data inside the list while being saved
-            Utilities.Utilities.SaveDefaultCategoriesAsync(DefaultColorCategoryAssignment.ItemsSource as List<CategoryColorAssociation>).ConfigureAwait(false);
-
-            LoadCategoryColors();
+            SaveAndReload();
 
             DataHolder.programs = ProgramBox.ItemsSource as List<Program>;
             DataHolder.protocolToPort = (PortAssociationsBox.ItemsSource as List<ProtocolPortAssociation>).ToDictionary(x => x.protocol, y => y.port);
 
             //Utilities.Utilities.RefreshAllDynamicResources();
+        }
+
+        private async void SaveAndReload()
+        {
+            await Utilities.Utilities.SaveDefaultCategoriesAsync(DefaultColorCategoryAssignment.ItemsSource as List<CategoryColorAssociation>);
+
+            LoadCategoryColors();
         }
 
         private void SaveAndCloseSettings(object sender, RoutedEventArgs e)

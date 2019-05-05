@@ -532,4 +532,7 @@ Pole označená * je třeba vyplnit neboť se bez nich import neobejde.</value>
   <data name="ThrowAway" xml:space="preserve">
     <value>Nahradit</value>
   </data>
+  <data name="ShowDetailsView" xml:space="preserve">
+    <value>Zobrazit podokno detailů</value>
+  </data>
 </root>

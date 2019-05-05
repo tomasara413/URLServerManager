@@ -126,7 +126,7 @@ namespace URLServerManagerModern.Windows.Settings
         {
             if (!otherOpen)
             {
-                ibp = new InputBoxPopup(Properties.Resources.AddOtherProtocol, Properties.Resources.OtherProtocolName);
+                ibp = new InputBoxPopup(Properties.Resources.AddOtherCategory, Properties.Resources.OtherCategoryName);
                 ibp.OnOptionAccepted += AddOtherCategory;
                 ibp.Closed += UnregisterOther;
                 otherOpen = true;

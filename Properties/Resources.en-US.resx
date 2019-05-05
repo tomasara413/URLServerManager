@@ -532,4 +532,7 @@ Fileds marked with * have to be filled in otherwise the import cannot proceed.</
   <data name="ThrowAway" xml:space="preserve">
     <value>Replace</value>
   </data>
+  <data name="ShowDetailsView" xml:space="preserve">
+    <value>Show details view</value>
+  </data>
 </root>

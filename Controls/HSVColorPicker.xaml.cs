@@ -20,9 +20,7 @@ using URLServerManagerModern.Controls.Events;
 
 namespace URLServerManagerModern.Controls
 {
-    /// <summary>
-    /// Interaction logic for HSVColorPicker.xaml
-    /// </summary>
+    //TODO: Get position from color
     public partial class HSVColorPicker : UserControl
     {
         private MemoryStream ms;
@@ -30,7 +28,9 @@ namespace URLServerManagerModern.Controls
         private BitmapImage img;
         private System.Drawing.Color hue;
 
-        public HSVColorPicker()
+        public HSVColorPicker() : this(255, 0, 0) { }
+
+        public HSVColorPicker(int red, int green, int blue)
         {
             InitializeComponent();
             bmp = new Bitmap(255, 255);
@@ -38,13 +38,14 @@ namespace URLServerManagerModern.Controls
             //PickedDetector.Visibility = Visibility.Visible;
             //PickedDetector.Margin = new Thickness(0, PickColor.ActualHeight - PickedDetector.ActualHeight / 2, 0, 0);
 
-            ChangeHue(System.Drawing.Color.FromArgb(255, 0, 0));
+            ChangeHue(System.Drawing.Color.FromArgb(red, green, blue));
         }
 
         string activePicker = "H";
 
         private void ChangeHue(System.Drawing.Color hue)
         {
+            //Debug.WriteLine(hue.ToString());
             if (bmp == null)
                 return;
             double saturation, value, saturatedR, saturatedG, saturatedB;
@@ -985,6 +986,15 @@ namespace URLServerManagerModern.Controls
         {
             if (e.Key == Key.Enter)
                 HTMLLostFocus(sender, null);
+        }
+
+        public void SetRGB(int red, int green, int blue)
+        {
+            R.Value = red;
+            G.Value = green;
+            B.Value = blue;
+
+            ChangeHue(System.Drawing.Color.FromArgb(red, green, blue));
         }
 
         private void HTMLLostFocus(object sender, RoutedEventArgs e)

@@ -1899,9 +1899,9 @@ namespace URLServerManagerModern.Utilities
                 {
                     //throw;
                     if (e is UnauthorizedAccessException)
-                        Utilities.ShowElevationDialog();
+                        ShowElevationDialog();
                     else
-                        Utilities.Log("[ERROR] Synchronization", e.ToString());
+                        Log("[ERROR] Synchronization", e.ToString());
                 }
                 finally
                 {

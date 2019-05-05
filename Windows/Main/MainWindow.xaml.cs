@@ -219,7 +219,7 @@ namespace URLServerManagerModern.Windows.Main
                             selectedBackgrounds.Add(t);
                     }
 
-                    DetailsView.DataContext = selectedBackgrounds.Contains(t) ? t.DataContext : null;
+                    DetailsView.DataContext = selectedBackgrounds.Contains(t) ? showDetails.IsChecked ? t.DataContext : null : null;
                     break;
                 }
             }
@@ -300,7 +300,7 @@ namespace URLServerManagerModern.Windows.Main
 
         public void OnServerModified(PseudoServer s, List<ProtocolAddress> removed)
         {
-            mainServerWrapper.Items.Refresh();
+            //mainServerWrapper.Items.Refresh();
             Utilities.Utilities.SavePseudoEntityAsync(s, removed, null).ConfigureAwait(false);
         }
 
@@ -313,7 +313,7 @@ namespace URLServerManagerModern.Windows.Main
 
         public void OnWrapperModified(PseudoWrappingEntity s, List<ProtocolAddress> removed, List<PseudoEntity> removedEntities)
         {
-            mainServerWrapper.Items.Refresh();
+            //mainServerWrapper.Items.Refresh();
 
             Utilities.Utilities.SavePseudoEntityAsync(s, removed, removedEntities).ConfigureAwait(false);
         }
@@ -460,6 +460,15 @@ namespace URLServerManagerModern.Windows.Main
         {
             (sender as Window).Closed -= SyncWindowClosed;
             syncw = null;
+        }
+
+        private void ShowDetailsView(object sender, RoutedEventArgs e)
+        {
+            foreach (FrameworkElement fe in selectedBackgrounds)
+            {
+                DetailsView.DataContext = showDetails.IsChecked ? fe.DataContext : null;
+                break;
+            }
         }
 
         private async void ScrollChanged(object sender, ScrollChangedEventArgs e)
