@@ -51,31 +51,36 @@ namespace URLServerManagerModern.Controls
             double saturation, value, saturatedR, saturatedG, saturatedB;
             double saturationToThird;
             double hueValue = GetHueLogicValue();
+            int accountableHeight = bmp.Height - 1;
+            int accountableWidth = bmp.Width - 1;
             switch (activePicker)
             {
                 case "H":
+                    int leftover1 = 255 - hue.R;
+                    int leftover2 = 255 - hue.G;
+                    int leftover3 = 255 - hue.B;
                     for (int x = 0; x < bmp.Width; x++)
                     {
                         for (int y = 0; y < bmp.Height; y++)
                         {
-                            saturation = (double)y / (bmp.Height - 1);
-                            value = (double)x / (bmp.Width - 1);
-                            saturatedR = hue.R + saturation * (255 - hue.R);
-                            saturatedG = hue.G + saturation * (255 - hue.G);
-                            saturatedB = hue.B + saturation * (255 - hue.B);
+                            saturation = (double)y / accountableHeight;
+                            value = (double)x / accountableWidth;
+                            saturatedR = hue.R + saturation * leftover1;
+                            saturatedG = hue.G + saturation * leftover2;
+                            saturatedB = hue.B + saturation * leftover3;
 
                             bmp.SetPixel(x, y, System.Drawing.Color.FromArgb((byte)(saturatedR - saturatedR * (1 - value)), (byte)(saturatedG - saturatedG * (1 - value)), (byte)(saturatedB - saturatedB * (1 - value))));
                         }
                     }
                     break;
                 case "S":
-                    double highliestSaturated;
+                    double highestSaturated;
                     for (int x = 0; x < bmp.Width; x++)
                     {
                         for (int y = 0; y < bmp.Height; y++)
                         {
-                            saturation = (double)y / (bmp.Height - 1);
-                            value = (double)x / (bmp.Width - 1);
+                            saturation = (double)y / accountableHeight;
+                            value = (double)x / accountableWidth;
                             if (saturation <= oneThird)
                             {
                                 saturationToThird = saturation / oneThird;
@@ -133,11 +138,11 @@ namespace URLServerManagerModern.Controls
                                 saturatedB = 0;
                             }
 
-                            highliestSaturated = saturatedR > saturatedB ? (saturatedR > saturatedG ? saturatedR : saturatedG) : (saturatedB > saturatedG ? saturatedB : saturatedG);
+                            highestSaturated = saturatedR > saturatedB ? (saturatedR > saturatedG ? saturatedR : saturatedG) : (saturatedB > saturatedG ? saturatedB : saturatedG);
 
-                            saturatedR += (highliestSaturated - saturatedR) * hueValue;
-                            saturatedG += (highliestSaturated - saturatedG) * hueValue;
-                            saturatedB += (highliestSaturated - saturatedB) * hueValue;
+                            saturatedR += (highestSaturated - saturatedR) * hueValue;
+                            saturatedG += (highestSaturated - saturatedG) * hueValue;
+                            saturatedB += (highestSaturated - saturatedB) * hueValue;
 
 
 
@@ -151,8 +156,8 @@ namespace URLServerManagerModern.Controls
                     {
                         for (int y = 0; y < bmp.Height; y++)
                         {
-                            saturation = (double)y / (bmp.Height - 1);
-                            value = (double)x / (bmp.Width - 1);
+                            saturation = (double)y / accountableHeight;
+                            value = (double)x / accountableWidth;
                             if (saturation <= oneThird)
                             {
                                 saturationToThird = saturation / oneThird;
@@ -223,8 +228,8 @@ namespace URLServerManagerModern.Controls
                     {
                         for (int y = 0; y < bmp.Height; y++)
                         {
-                            saturation = (double)y / (bmp.Height - 1);
-                            value = (double)x / (bmp.Width - 1);
+                            saturation = (double)y / accountableHeight;
+                            value = (double)x / accountableWidth;
 
                             saturatedR = hue.R;
                             saturatedG = 255 * (1 - saturation);//hue.G + saturation * (255 - hue.G);
@@ -239,8 +244,8 @@ namespace URLServerManagerModern.Controls
                     {
                         for (int y = 0; y < bmp.Height; y++)
                         {
-                            saturation = (double)y / (bmp.Height - 1);
-                            value = (double)x / (bmp.Width - 1);
+                            saturation = (double)y / accountableHeight;
+                            value = (double)x / accountableWidth;
                             saturatedR = 255 * (1 - saturation);
                             saturatedG = hue.G;
                             saturatedB = 255 * value;
@@ -254,8 +259,8 @@ namespace URLServerManagerModern.Controls
                     {
                         for (int y = 0; y < bmp.Height; y++)
                         {
-                            saturation = (double)y / (bmp.Height - 1);
-                            value = (double)x / (bmp.Width - 1);
+                            saturation = (double)y / (accountableHeight);
+                            value = (double)x / (accountableWidth);
                             saturatedR = 255 * (1 - saturation);
                             saturatedG = 255 * value;
                             saturatedB = hue.B;

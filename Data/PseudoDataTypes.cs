@@ -105,7 +105,8 @@ namespace URLServerManagerModern.Data.DataTypes.Pseudo
 
     public class PseudoWrappingEntity : PseudoEntity
     {
-        public List<PseudoEntity> computersInCluster { get; set; }
+        private List<PseudoEntity> _computersInCluster;
+        public List<PseudoEntity> computersInCluster { get { return _computersInCluster; } set { _computersInCluster = value; OnPropertyChanged("computersInCluster"); } }
         public PseudoWrappingEntity(ModificationDetector m, Server s) : base(m, s)
         {
             computersInCluster = new List<PseudoEntity>();

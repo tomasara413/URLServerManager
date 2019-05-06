@@ -535,4 +535,7 @@ Pole označená * je třeba vyplnit neboť se bez nich import neobejde.</value>
   <data name="ShowDetailsView" xml:space="preserve">
     <value>Zobrazit podokno detailů</value>
   </data>
+  <data name="HideVirtuals" xml:space="preserve">
+    <value>Skrýt vituální stroje</value>
+  </data>
 </root>

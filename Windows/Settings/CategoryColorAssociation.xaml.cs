@@ -34,8 +34,6 @@ namespace URLServerManagerModern.Windows.Settings
             if (!string.IsNullOrEmpty(additionalTitle) && !string.IsNullOrWhiteSpace(additionalTitle))
                 Title += " - " + additionalTitle;
 
-            PendingCancelation = false;
-            
             settings.Closed += closedEvent = (o, e) => Close();
 
             HashSet<string> validCategories = new HashSet<string>();
@@ -86,7 +84,6 @@ namespace URLServerManagerModern.Windows.Settings
 
                 Categories.Items.Add(cca.category);
                 Categories.SelectedItem = cca.category;
-                Categories.IsEnabled = false;
 
                 BorderColor.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(cca.borderColor);
                 BackgroundColor.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(cca.fillColor);
@@ -94,7 +91,6 @@ namespace URLServerManagerModern.Windows.Settings
             }
         }
 
-        public bool PendingCancelation { get; set; }
         private void SaveChanges(object sender, RoutedEventArgs e)
         {
             if (cca != null)
@@ -130,6 +126,7 @@ namespace URLServerManagerModern.Windows.Settings
                 ibp.OnOptionAccepted += AddOtherCategory;
                 ibp.Closed += UnregisterOther;
                 otherOpen = true;
+                ibp.ShowActivated = true;
                 ibp.Show();
             }
             else
@@ -195,7 +192,7 @@ namespace URLServerManagerModern.Windows.Settings
 
         private void CheckValidSelection(object sender, SelectionChangedEventArgs e)
         {
-            Ok.IsEnabled = Categories.SelectedIndex > -1;
+            Ok.IsEnabled = Categories.SelectedIndex > 0;
         }
     }
 }

@@ -521,6 +521,15 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Hide virtual machines.
+        /// </summary>
+        public static string HideVirtuals {
+            get {
+                return ResourceManager.GetString("HideVirtuals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Hostname.
         /// </summary>
         public static string Hostname {

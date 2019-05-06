@@ -1,12 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -29,14 +23,10 @@ namespace URLServerManagerModern.Windows.Settings
         public ProtocolAssociation(string additionalTitle, Window window)
         {
             InitializeComponent();
-
-            if (window == null)
-                throw new Exception("Program association property cannot be null");
-
-            if (!string.IsNullOrEmpty(additionalTitle) && !string.IsNullOrWhiteSpace(additionalTitle))
+            if (!string.IsNullOrEmpty(additionalTitle?.Trim()))
                 Title += " - " + additionalTitle;
 
-            parentWindow = window;
+            parentWindow = window ?? throw new Exception("Program association property cannot be null");
 
             window.Closed += closedEvent = (o, e) => Close();
 

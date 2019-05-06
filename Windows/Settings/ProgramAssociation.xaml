@@ -15,7 +15,6 @@
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <!--TODO: add a method to select parent on click-->
                 <ScrollViewer PreviewMouseDown="SelectParent" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
                     <TextBlock Text="{Binding protocol}" TextAlignment="Center"/>
                 </ScrollViewer>

@@ -483,6 +483,8 @@ namespace URLServerManagerModern.Windows.Settings
             await Utilities.Utilities.SaveDefaultCategoriesAsync(DefaultColorCategoryAssignment.ItemsSource as List<CategoryColorAssociation>);
 
             LoadCategoryColors();
+
+            Utilities.Utilities.UpdateCachedServers();
         }
 
         private void SaveAndCloseSettings(object sender, RoutedEventArgs e)

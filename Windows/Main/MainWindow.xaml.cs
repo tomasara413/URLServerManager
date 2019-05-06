@@ -33,9 +33,9 @@ namespace URLServerManagerModern.Windows.Main
             Utilities.Utilities.RefreshAllDynamicResources(this);
             mainServerWrapper.ItemsSource = servers;
 
-            OnLocalServerFileChanged();
-
             Utilities.Utilities.LoadCategoryColors();
+
+            OnLocalServerFileChanged();
 
             autoTest = new Timer(new TimerCallback(Utilities.Utilities.TestAllAddresses), null, 0, 1);
             //Utilities.Utilities.SynchronizeWithServer("root", "", "URLManagerDatabase", "127.0.0.1");
@@ -402,6 +402,8 @@ namespace URLServerManagerModern.Windows.Main
 
                 sb.Append("'");
 
+                if ((bool)hideVirtuals.IsChecked)
+                    sb.Append(" AND Type <> " + EntityType.VirtualServer);
                 /*Stopwatch sw = new Stopwatch();
                 sw.Start();*/
                 List<PseudoEntity> pes;

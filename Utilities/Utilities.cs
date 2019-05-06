@@ -471,6 +471,16 @@ namespace URLServerManagerModern.Utilities
             }
         }
 
+        public static void UpdateCachedServers()
+        {
+            Array.ForEach(cachedServers.Where(x => DataHolder.categoryColors.ContainsKey(x.Value.server.category)).ToArray(), x => {
+                PseudoEntity s = x.Value;
+                x.Value.customBackgroundColor = s.usesFill ? x.Value.customBackgroundColor : DataHolder.categoryColors[s.server.category].fillColor;
+                x.Value.customBorderColor = s.usesBorder ? x.Value.customBorderColor : DataHolder.categoryColors[s.server.category].borderColor;
+                x.Value.customTextColor = s.usesText ? x.Value.customTextColor : DataHolder.categoryColors[s.server.category].textColor;
+            });
+        }
+
 
         private static bool addressTestFinished = true, shouldTestingOccur = false;
         private static DateTime finishedAt;

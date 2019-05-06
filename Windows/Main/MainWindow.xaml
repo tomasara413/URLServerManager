@@ -357,6 +357,10 @@
         </DockPanel>
         <DockPanel Grid.Row="1" x:Name="findPanel" Visibility="Collapsed">
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="125*" MaxWidth="200"/>
@@ -365,29 +369,42 @@
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="5"/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="findSearchBar" Grid.Column="1" Margin="0,5,5,5" VerticalAlignment="Top" TextChanged="findSearchBar_TextChanged"/>
-                <Grid Grid.Column="2" Margin="0,5,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <TextBox x:Name="findSearchBar" Grid.Column="1" Margin="0,5,5,0" VerticalAlignment="Center" TextChanged="findSearchBar_TextChanged"/>
+                <Grid Grid.Column="2" Margin="0,5,0,0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                    <TextBlock VerticalAlignment="Top" Margin="0,1,5,0">
+                    <TextBlock VerticalAlignment="Center" Margin="0">
                         <Run Text="{x:Static localization:Resources.SearchFor}"/><Run Text=":"/>
                     </TextBlock>
-                    <CheckBox x:Name="matchExactly" Grid.Row="1" Margin="0,2.5,0,0" Click="OnChecked">
+                    <ComboBox Grid.Column="1" VerticalAlignment="Top" SelectionChanged="ComboBox_SelectionChanged" Margin="5,0,0,0" MinWidth="70" HorizontalAlignment="Left">
+                        <ComboBoxItem Content="{x:Static localization:Resources.FQDN}" x:Name="RBSR1" IsSelected="True"/>
+                        <ComboBoxItem Content="{x:Static localization:Resources.Address}" x:Name="RBSR2" />
+                        <ComboBoxItem Content="{x:Static localization:Resources.Description}" x:Name="RBSR3" />
+                        <ComboBoxItem Content="{x:Static localization:Resources.Category}" x:Name="RBSR4" />
+                    </ComboBox>
+
+                </Grid>
+                <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Margin="0,5,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox x:Name="matchExactly" Click="OnChecked">
                         <CheckBox.Content>
                             <TextBlock TextWrapping="Wrap" Text="{x:Static localization:Resources.MatchExactly}"/>
                         </CheckBox.Content>
                     </CheckBox>
+
+                    <CheckBox x:Name="hideVirtuals" Grid.Column="1" Margin="5,0,0,0" Click="OnChecked">
+                        <CheckBox.Content>
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static localization:Resources.HideVirtuals}"/>
+                        </CheckBox.Content>
+                    </CheckBox>
                 </Grid>
-                <ComboBox Grid.Column="3" VerticalAlignment="Top" SelectionChanged="ComboBox_SelectionChanged" Margin="5,2.5,0,5" MinWidth="70" HorizontalAlignment="Left">
-                    <ComboBoxItem Content="{x:Static localization:Resources.FQDN}" x:Name="RBSR1" IsSelected="True"/>
-                    <ComboBoxItem Content="{x:Static localization:Resources.Address}" x:Name="RBSR2" />
-                    <ComboBoxItem Content="{x:Static localization:Resources.Description}" x:Name="RBSR3" />
-                    <ComboBoxItem Content="{x:Static localization:Resources.Category}" x:Name="RBSR4" />
-                </ComboBox>
-                <Button Grid.Column="4" Margin="5,0,0,0" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click" Content="×"/>
+                <Button Grid.Column="4" Margin="5,2,0,2" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click" Content="×" Grid.RowSpan="2"/>
             </Grid>
         </DockPanel>
         <ScrollViewer ScrollChanged="ScrollChanged" HorizontalScrollBarVisibility="Disabled" Grid.Row="2">
