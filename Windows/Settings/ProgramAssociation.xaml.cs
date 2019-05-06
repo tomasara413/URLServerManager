@@ -178,5 +178,11 @@ namespace URLServerManagerModern.Windows.Settings
         {
             Remove.IsEnabled = Edit.IsEnabled = (sender as ListBox).SelectedItem != null;
         }
+
+        private void SelectParent(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement sw = sender as FrameworkElement;
+            Associations.SelectedItem = sw.DataContext;
+        }
     }
 }

@@ -229,7 +229,7 @@
     <value>Allow diagnostics of port availability</value>
   </data>
   <data name="AssociationsTip" xml:space="preserve">
-    <value>While adding an association, write the startup argument into input field and replace the ip and port variable with {ip} and {port}. This is commonly in this form: "&lt;command/protocol&gt; &lt;remote IP endpoint&gt;:&lt;port&gt;". An example for a program Putty: -ssh {ip}:{port}</value>
+    <value>While adding an association, write the startup argument into the input field and replace the ip and port variable with {address} and {port}. This is usually follows this format: "&lt;command/protocol&gt; &lt;remote IP endpoint&gt;:&lt;port&gt;". An example for a program Putty: -ssh {address} -P {port}</value>
   </data>
   <data name="Miliseconds" xml:space="preserve">
     <value>Time in miliseconds (ms)</value>

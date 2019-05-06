@@ -235,7 +235,7 @@
     <value>Časový limit</value>
   </data>
   <data name="AssociationsTip" xml:space="preserve">
-    <value>Při přidávání asociace do kolonky spouštěcí parametr vpište příkaz a proměnné ip a port nahraďte značením {ip} a {port}. Tento paramter je obyčejně ve tvaru: "&lt;příkaz/protokol&gt; &lt;IP vzdáleného uzlu&gt;:&lt;port&gt;". Příklad parametru pro program putty: -ssh {ip}:{port}</value>
+    <value>Při přidávání asociace do kolonky spouštěcí parametr vpište příkaz a adresu s portem nahraďte značením {address} a {port}. Tento paramter je obyčejně ve tvaru: "&lt;příkaz/protokol&gt; &lt;IP vzdáleného uzlu&gt;:&lt;port&gt;". Příklad parametru pro program putty: -ssh {address} -P {port}</value>
   </data>
   <data name="Renew" xml:space="preserve">
     <value>Čas obnovení</value>

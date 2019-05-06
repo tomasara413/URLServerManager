@@ -15,10 +15,11 @@
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                <!--TODO: add a method to select parent on click-->
+                <ScrollViewer PreviewMouseDown="SelectParent" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
                     <TextBlock Text="{Binding protocol}" TextAlignment="Center"/>
                 </ScrollViewer>
-                <ScrollViewer Grid.Column="1" Margin="5,0" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                <ScrollViewer PreviewMouseDown="SelectParent" Grid.Column="1" Margin="5,0" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
                     <TextBlock Text="{Binding cmdArguments}"/>
                 </ScrollViewer>
             </Grid>

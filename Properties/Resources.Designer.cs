@@ -169,7 +169,7 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný While adding an association, write the startup argument into input field and replace the ip and port variable with {ip} and {port}. This is commonly in this form: &quot;&lt;command/protocol&gt; &lt;remote IP endpoint&gt;:&lt;port&gt;&quot;. An example for a program Putty: -ssh {ip}:{port}.
+        ///   Vyhledá lokalizovaný řetězec podobný While adding an association, write the startup argument into the input field and replace the ip and port variable with {address} and {port}. This is usually follows this format: &quot;&lt;command/protocol&gt; &lt;remote IP endpoint&gt;:&lt;port&gt;&quot;. An example for a program Putty: -ssh {address} -P {port}.
         /// </summary>
         public static string AssociationsTip {
             get {
