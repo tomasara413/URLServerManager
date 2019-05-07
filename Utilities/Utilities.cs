@@ -368,6 +368,17 @@ namespace URLServerManagerModern.Utilities
                         cid.Closed += OnImportClosed;
                         cid.ShowActivated = true;
                         cid.Show();
+                        TaskCompletionSource<bool> completion = new TaskCompletionSource<bool>();
+
+                        EventHandler handler = null;
+                        handler = (sender, args) => {
+                            completion.SetResult(true);
+                            (sender as Window).Closed -= handler;
+                        };
+
+                        cid.Closed += handler;
+
+                        t = completion.Task;
                     }
                     else
                         cid.Activate();

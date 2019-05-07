@@ -186,7 +186,7 @@ namespace URLServerManagerModern.Utilities.IO
 
         private ProtocolAddress ReadAddress(string[] entryData)
         {
-            if (entryData.Length == 5)
+            if (entryData.Length == 6)
             {
                 ProtocolAddress a = new ProtocolAddress(entryData[0],entryData[2],int.Parse(entryData[3]));
                 a.parameters = entryData[4];

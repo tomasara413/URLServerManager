@@ -117,7 +117,11 @@ namespace URLServerManagerModern.Windows.Main
         private async void OnImportAccepted(object sender, RoutedEventArgs e)
         {
             Hide();
-            await queue.Enqueue(() => Task.Run(() => importer.Import(servers.Text.Trim(), addresses.Text.Trim(), serverContents.Text.Trim(), defaultCategories.Text.Trim())));
+            string serversLoc = servers.Text.Trim();
+            string addressLoc = addresses.Text.Trim();
+            string serverContentsLoc = serverContents.Text.Trim();
+            string defaultCategoriesLoc = defaultCategories.Text.Trim();
+            await queue.Enqueue(() => Task.Run(() => importer.Import(serversLoc, addressLoc, serverContentsLoc, defaultCategoriesLoc)));
             Close();
         }
     }

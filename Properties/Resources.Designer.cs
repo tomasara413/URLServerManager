@@ -268,8 +268,8 @@ namespace URLServerManagerModern.Properties {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný For a valid import from csv files thre are 4 files required, after an export from this application these files are called: *-servers.csv; *-addresses.csv; *-serverContents.csv and *-defaultCategories. If the import is to be proceed with without any issues, all required files need to be specified.
-        ///Fileds marked with * have to be filled in otherwise the import cannot proceed..
+        ///   Vyhledá lokalizovaný řetězec podobný For a valid import from csv files there are 4 files required, after an export from this application these files are called: *-servers.csv; *-addresses.csv; *-serverContents.csv and *-defaultCategories. In order to proceed with import without any issues, all required files need to be specified.
+        ///Fields marked with * have to be filled in, otherwise the import cannot continue..
         /// </summary>
         public static string CSVImportDialogMessage {
             get {

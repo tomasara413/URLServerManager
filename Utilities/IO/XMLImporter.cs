@@ -53,10 +53,10 @@ namespace URLServerManagerModern.Utilities.IO
                     bool defaultColors = false;
                     while (xr.ReadState == ReadState.Interactive)
                     {
-                        if (xr.IsStartElement() && !xr.IsEmptyElement)
-                            defaultColors = xr.Name?.ToLower() == "defaultcategories";
-                        else if (defaultColors)
+                        if (defaultColors)
                             defaultColors = xr.Name?.ToLower() != "defaultcategories";
+                        else if (xr.IsStartElement() && !xr.IsEmptyElement)
+                            defaultColors = xr.Name?.ToLower() == "defaultcategories";
 
                         if (!defaultColors)
                         {
@@ -373,7 +373,8 @@ namespace URLServerManagerModern.Utilities.IO
             string category = null, BCC = null, BC = null, TC = null;
             CategoryColorAssociation cca = null;
 
-            xr.Read();
+            if(xr.Name?.ToLower() != "categorycolorassociation")
+                xr.Read();
             if (xr.IsStartElement())
             {
                 switch (xr.Name?.ToLower())
